@@ -17,5 +17,5 @@ production:
   database: heard
   pool: 25
   username: hearddev
-  password: isthisit99
+  password: isthatit99
   socket: /tmp/mysql.sock
