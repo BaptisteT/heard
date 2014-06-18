@@ -10,8 +10,6 @@ GEM
       erubis (~> 2.7.0)
       rack (~> 1.5.2)
       rack-test (~> 0.6.2)
-    actionpack-page_caching (1.0.2)
-      actionpack (>= 4.0.0, < 5)
     activemodel (4.0.2)
       activesupport (= 4.0.2)
       builder (~> 3.1.0)
@@ -34,12 +32,7 @@ GEM
     aws-sdk (1.43.3)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
-    bcrypt (3.1.7)
-    bcrypt-ruby (3.1.5)
-      bcrypt (>= 3.1.3)
     builder (3.1.4)
-    celluloid (0.15.2)
-      timers (~> 1.1.0)
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cocaine (0.5.4)
@@ -51,19 +44,8 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.0)
-    connection_pool (2.0.0)
-    devise (3.0.0.rc)
-      bcrypt-ruby (~> 3.0)
-      orm_adapter (~> 0.1)
-      railties (>= 3.2.6, < 5)
-      warden (~> 1.2.1)
     erubis (2.7.0)
     execjs (2.2.0)
-    geokit (1.8.5)
-      multi_json (>= 1.3.2)
-    geokit-rails (2.0.1)
-      geokit (~> 1.5)
-      rails (>= 3.0)
     hike (1.2.3)
     i18n (0.6.9)
     jquery-rails (3.0.4)
@@ -83,7 +65,6 @@ GEM
     nokogiri (1.6.2.1)
       mini_portile (= 0.6.0)
     open_uri_redirections (0.1.4)
-    orm_adapter (0.5.0)
     paperclip (4.1.1)
       activemodel (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -115,19 +96,11 @@ GEM
       thor (>= 0.18.1, < 2.0)
     raindrops (0.13.0)
     rake (10.3.2)
-    redis (3.1.0)
-    redis-namespace (0.4.3)
     sass (3.3.8)
     sass-rails (4.0.1)
       railties (>= 4.0.0, < 5.0)
       sass (>= 3.1.10)
       sprockets-rails (~> 2.0.0)
-    sidekiq (2.14.0)
-      celluloid (>= 0.14.1)
-      connection_pool (>= 1.0.0)
-      json
-      redis (>= 3.0.4)
-      redis-namespace
     sinatra (1.4.5)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -148,7 +121,6 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.4)
     tilt (1.4.1)
-    timers (1.1.0)
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
@@ -160,22 +132,14 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
-    urbanairship (2.3.3)
-      json
-    warden (1.2.3)
-      rack (>= 1.0)
-    will_paginate (3.0.5)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  actionpack-page_caching
   airbrake
   aws-sdk
   coffee-rails (= 4.0.1)
-  devise (= 3.0.0rc)
-  geokit-rails
   jquery-rails (= 3.0.4)
   mysql2
   newrelic_rpm
@@ -183,12 +147,8 @@ DEPENDENCIES
   paperclip
   rails (= 4.0.2)
   rails_12factor
-  redis
   sass-rails (= 4.0.1)
-  sidekiq
   sinatra
   slim
   uglifier (= 2.1.1)
   unicorn
-  urbanairship
-  will_paginate (~> 3.0)
