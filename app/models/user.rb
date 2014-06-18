@@ -5,8 +5,11 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true
   validates :last_name, presence: true
 
-  # This method associates the attribute ":avatar" with a file attachment
-  has_attached_file :avatar, styles: { thumb: '100x100#' }, path: ":style/:file_name"
-  validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
+  #Interpolation 
+  Paperclip.interpolates :file_name do |attachment, style|
+    attachment.instance.id.to_s + "_" + attachment.name.to_s
+  end
 
+  has_attached_file :profile_picture, path: ":style/:file_name", , bucket: PROFILE_PICTURE_BUCKET
+  validates_attachment_content_type :profile_picture, :content_type => /\Aimage\/.*\Z/
 end

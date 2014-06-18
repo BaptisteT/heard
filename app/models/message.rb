@@ -1,10 +1,16 @@
 class Message < ActiveRecord::Base
+  belongs_to :sender, class_name: "User"
+  belongs_to :receiver, class_name: "User"
+
+  validates :sender_id, presence: true
+  validates :receiver_id, presence: true
+  validates :url, presence: true
+
   #Interpolation 
   Paperclip.interpolates :file_name do |attachment, style|
-    "image_#{attachment.instance.id.to_s}"
+    attachment.instance.id.to_s + "_" + attachment.name.to_s
   end
 
-  # This method associates the attribute ":avatar" with a file attachment
-  has_attached_file :record, path: "record/:file_name"
-  validates_attachment_content_type :record, :content_type => /\Aimage\/.*\Z/
+  has_attached_file :url, path: ":style/:file_name", , bucket: MESSAGE_BUCKET
+  validates_attachment_content_type :profile_picture, :content_type => /\Aimage\/.*\Z/
 end
