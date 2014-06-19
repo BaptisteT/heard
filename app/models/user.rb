@@ -10,6 +10,6 @@ class User < ActiveRecord::Base
     attachment.instance.id.to_s + "_" + attachment.name.to_s
   end
 
-  has_attached_file :profile_picture, path: ":style/:file_name", , bucket: PROFILE_PICTURE_BUCKET
+  has_attached_file :profile_picture, path: ":style/:file_name", bucket: PROFILE_PICTURE_BUCKET
   validates_attachment_content_type :profile_picture, :content_type => /\Aimage\/.*\Z/
 end

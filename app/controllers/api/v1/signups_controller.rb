@@ -7,10 +7,10 @@ class Api::V1::SignupsController < Api::V1::ApiController
     signup.code = (rand(9) + 1)*10**(SIGNUP_CODE_DIGITS-1) + rand(10**(SIGNUP_CODE_DIGITS-1))
 
     begin
-      client = Twilio::REST::Client.new account_sid, auth_token
+      client = Twilio::REST::Client.new(TWILIO_SID, TWILIO_TOKEN)
       client.account.messages.create(
         from: TWILIO_PHONE_NUMBER,
-        to:   signup.phone_number,
+        to:   params[:phone_number],#signup.phone_number,
         body: "Heard code #{signup.code}"
       )
     rescue Twilio::REST::RequestError => e

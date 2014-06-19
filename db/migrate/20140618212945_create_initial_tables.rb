@@ -1,7 +1,7 @@
 class CreateInitialTables < ActiveRecord::Migration
   def change
     create_table :users do |t|
-    	t.integer :phone_number
+    	t.string :phone_number
     	t.string :first_name
     	t.string :last_name
     	t.string :app_version
@@ -23,7 +23,7 @@ class CreateInitialTables < ActiveRecord::Migration
     end
 
     create_table :signups do |t|
-    	t.integer :phone_number
+    	t.string :phone_number
     	t.integer :code
 
     	t.timestamps
