@@ -1,14 +1,15 @@
 class Api::V1::MessagesController < Api::V1::ApiController
 
   def create
+    Rails.logger.debug "TRUCHOV create message"
+
     message = Message.new(message_params)
 
-    #j'ai fait une gourde, j'ai fait une migration ou j'ai mis url (pour l'url du record). Mais si tu te sers de Paperclip, il faut refaire une migration et supprimer url.
     message.record = StringIO.new(params[:record])
     message.opened = false
 
     if message.save
-      render json: { result: { message: message } }, status: 201
+      render json: { result: { message: ["Record successfully saved"] } }, status: 201
     else 
       render json: { errors: { internal: message.errors } }, :status => 500
     end
