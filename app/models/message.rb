@@ -11,6 +11,6 @@ class Message < ActiveRecord::Base
     attachment.instance.id.to_s + "_" + attachment.name.to_s
   end
 
-  has_attached_file :url, path: ":style/:file_name", , bucket: MESSAGE_BUCKET
+  has_attached_file :url, path: ":style/:file_name", bucket: MESSAGE_BUCKET
   validates_attachment_content_type :profile_picture, :content_type => /\Aimage\/.*\Z/
 end
