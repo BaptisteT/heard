@@ -4,12 +4,12 @@ class Message < ActiveRecord::Base
 
   validates :sender_id, presence: true
   validates :receiver_id, presence: true
-  validates :url, presence: true
 
-  # Paperclip.interpolates :file_name do |attachment, style|
-  #   attachment.instance.id.to_s + "_" + attachment.name.to_s
-  # end
+  Paperclip.interpolates :file_name do |attachment, style|
+    "record_#{attachment.instance.id.to_s}"
+  end
 
-  # has_attached_file :url, path: ":style/:file_name", bucket: MESSAGE_BUCKET
-  # validates_attachment_content_type :record, :content_type => /\Aimage\/.*\Z/
+  has_attached_file :record, path: ":style/:file_name", bucket: MESSAGE_BUCKET
+  validates_attachment_content_type :record,
+    :content_type => [ 'record/mpeg', 'record/x-mpeg', 'record/mp3', 'record/x-mp3', 'record/mpeg3', 'record/x-mpeg3', 'record/mpg', 'record/x-mpg', 'record/x-mpegaudio' ]
 end
