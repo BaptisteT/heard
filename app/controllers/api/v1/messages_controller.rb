@@ -5,7 +5,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
 
     message = Message.new(message_params)
 
-    message.record = StringIO.new(params[:record].read)
+    # message.record = StringIO.new(params[:record].read)
     message.opened = false
 
     if message.save
@@ -18,6 +18,6 @@ class Api::V1::MessagesController < Api::V1::ApiController
   private
 
     def message_params
-      params.permit(:sender_id, :receiver_id)
+      params.permit(:sender_id, :receiver_id, :record)
     end 
 end
