@@ -5,10 +5,15 @@ class Api::V1::MessagesController < Api::V1::ApiController
 
     message = Message.new(message_params)
 
-    # message.record = StringIO.new(params[:record].read)
     message.opened = false
 
     if message.save
+      #check that we have token for receiver
+      receiver = User.find(params[:receiver_id])
+      if (receiver.push_token)
+        #send notif
+      end
+
       render json: { result: { message: ["Record successfully saved"] } }, status: 201
     else 
       render json: { errors: { internal: message.errors } }, :status => 500
