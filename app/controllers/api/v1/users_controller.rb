@@ -17,4 +17,9 @@ class Api::V1::UsersController < Api::V1::ApiController
       render json: { errors: { internal: user.errors } }, :status => 500
     end
   end
+
+  def update_token
+    user = User.find(params[:user_id])
+    user.update_attributes(:push_token => params[:push_token])
+  end
 end
