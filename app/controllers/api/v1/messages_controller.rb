@@ -5,7 +5,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
 
     message = Message.new(message_params)
 
-    message.record = StringIO.new(params[:record])
+    message.record = StringIO.new(params[:record].read)
     message.opened = false
 
     if message.save
