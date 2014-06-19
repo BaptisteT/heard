@@ -12,6 +12,7 @@ gem 'sinatra', require: false
 gem 'slim'
 gem 'unicorn'
 gem 'newrelic_rpm'
+gem 'twilio-ruby'
 
 gem 'sass-rails', '4.0.1'
 gem 'uglifier', '2.1.1'
