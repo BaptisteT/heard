@@ -6,11 +6,10 @@ class Message < ActiveRecord::Base
   validates :receiver_id, presence: true
   validates :url, presence: true
 
-  #Interpolation 
-  Paperclip.interpolates :file_name do |attachment, style|
-    attachment.instance.id.to_s + "_" + attachment.name.to_s
-  end
+  # Paperclip.interpolates :file_name do |attachment, style|
+  #   attachment.instance.id.to_s + "_" + attachment.name.to_s
+  # end
 
-  has_attached_file :url, path: ":style/:file_name", bucket: MESSAGE_BUCKET
-  validates_attachment_content_type :profile_picture, :content_type => /\Aimage\/.*\Z/
+  # has_attached_file :url, path: ":style/:file_name", bucket: MESSAGE_BUCKET
+  # validates_attachment_content_type :record, :content_type => /\Aimage\/.*\Z/
 end
