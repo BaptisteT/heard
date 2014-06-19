@@ -10,6 +10,6 @@ class Message < ActiveRecord::Base
   end
 
   has_attached_file :record, path: ":style/:file_name", bucket: MESSAGE_BUCKET
-  # validates_attachment_content_type :record,
-  #   :content_type => [ 'record/mpeg', 'record/x-mpeg', 'record/mp3', 'record/x-mp3', 'record/mpeg3', 'record/x-mpeg3', 'record/mpg', 'record/x-mpg', 'record/x-mpegaudio', 'record/m4a' ]
+  validates_attachment_content_type :record,
+    :content_type => [ 'record/mpeg', 'record/x-mpeg', 'record/mp3', 'record/x-mp3', 'record/mpeg3', 'record/x-mpeg3', 'record/mpg', 'record/x-mpg', 'record/x-mpegaudio', 'record/m4a' ]
 end
