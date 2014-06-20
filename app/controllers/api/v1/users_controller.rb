@@ -7,7 +7,7 @@ class Api::V1::UsersController < Api::V1::ApiController
       render json: { errors: { unauthorized: "No code has been sent for this phone number" } }, :status => 401 and return 
     end
 
-    if code_request.code != params[:code]
+    if code_request.code.to_i != params[:code].to_i
       render json: { errors: { unauthorized: "Wrong SMS code" } }, :status => 401 and return 
     end
 
