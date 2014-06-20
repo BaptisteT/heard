@@ -35,7 +35,7 @@ class Api::V1::SessionsController < Api::V1::ApiController
       render json: { errors: { unauthorized: "No SMS code has been sent to this number" } }, :status => 401 and return 
     end
 
-    if (params[:code] == code_request.code)
+    if (params[:code].to_i == code_request.code.to_i)
       existing_user = User.find_by(phone_number: params[:phone_number])
 
       if existing_user.nil?
