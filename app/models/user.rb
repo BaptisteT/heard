@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
-  include Tokenable
+  before_create :generate_token
+
   has_many :messages
 
   validates :phone_number, presence: true, uniqueness: true
@@ -13,4 +14,11 @@ class User < ActiveRecord::Base
 
   has_attached_file :profile_picture, path: ":style/:file_name", bucket: PROFILE_PICTURE_BUCKET
   validates_attachment_content_type :profile_picture, :content_type => /\Aimage\/.*\Z/
+
+  def generate_token
+    self.auth_token = loop do
+      random_token = SecureRandom.urlsafe_base64(nil, false)
+      break random_token unless self.class.exists?(auth_token: random_token)
+    end
+  end
 end
