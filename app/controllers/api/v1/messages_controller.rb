@@ -24,10 +24,16 @@ class Api::V1::MessagesController < Api::V1::ApiController
         APNS.send_notification(receiver.push_token , :alert => message, :badge => badge_number)
       end
 
-      render json: { result: { message: ["Record successfully saved"] } }, status: 201
+      render json: { result: { message: ["Message successfully saved"] } }, status: 201
     else 
       render json: { errors: { internal: message.errors } }, :status => 500
     end
+  end
+
+  def mark_as_opened
+    message = Message.find(params[:message_id])
+    message.update_attributes(:opened => true)
+    render json: { result: { message: ["Message successfully updated"] } }, status: 201
   end
 
   private

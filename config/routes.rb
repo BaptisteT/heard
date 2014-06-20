@@ -9,6 +9,7 @@ Heard::Application.routes.draw do
       patch "users/update_push_token" => "users#update_push_token"
       get "sessions/confirm_sms_code" => "sessions#confirm_sms_code"
       get "users/unread_messages" => "users#unread_messages"
+      patch "messages/mark_as_opened" => "messages#mark_as_opened"
     end
   end
 end

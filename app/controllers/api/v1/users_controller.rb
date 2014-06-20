@@ -32,6 +32,7 @@ class Api::V1::UsersController < Api::V1::ApiController
   def update_push_token
     user = User.find(params[:user_id])
     user.update_attributes(:push_token => params[:push_token])
+    render json: { result: { message: ["Push token successfully updated"] } }, status: 201
   end
 
   def unread_messages
