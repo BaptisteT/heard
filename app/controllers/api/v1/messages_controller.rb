@@ -10,14 +10,18 @@ class Api::V1::MessagesController < Api::V1::ApiController
     if message.save
       receiver = User.find(params[:receiver_id])
       if (receiver.push_token)
-        #send notif
+        #notif params
         sender  = User.find(params[:sender_id])
         message = 'New message from @' + sender.first_name
+        badge_number = receiver.unread_messages.count
+
+        #notif config
         APNS.pem = 'app/assets/cert.pem'
         APNS.port = 2195
         APNS.pass = "djibril"
         APNS.host = 'gateway.push.apple.com' 
-        APNS.send_notification(receiver.push_token , :alert => message, :badge => 1)
+
+        APNS.send_notification(receiver.push_token , :alert => message, :badge => badge_number)
       end
 
       render json: { result: { message: ["Record successfully saved"] } }, status: 201

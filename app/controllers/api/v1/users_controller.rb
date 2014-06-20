@@ -33,4 +33,10 @@ class Api::V1::UsersController < Api::V1::ApiController
     user = User.find(params[:user_id])
     user.update_attributes(:push_token => params[:push_token])
   end
+
+  def unread_messages
+    messages = []
+    messages += Message.where(":receiver_id = ? AND :opened = FALSE", params[:user_id])
+    render json: { result: { messages: messages } }, status: 201
+  end
 end

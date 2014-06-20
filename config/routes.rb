@@ -8,6 +8,7 @@ Heard::Application.routes.draw do
 
       patch "users/update_push_token" => "users#update_push_token"
       get "sessions/confirm_sms_code" => "sessions#confirm_sms_code"
+      get "users/unread_messages" => "users#unread_messages"
     end
   end
 end
