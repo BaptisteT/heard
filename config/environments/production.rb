@@ -86,4 +86,6 @@ Heard::Application.configure do
       :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
     }
   }
+
+  config.APNS.pem = 'app/assets/HeardCert.pem'
 end
