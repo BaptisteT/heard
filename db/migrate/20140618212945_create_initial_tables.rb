@@ -7,6 +7,7 @@ class CreateInitialTables < ActiveRecord::Migration
     	t.string :app_version
     	t.string :api_version
     	t.string :push_token
+        t.string :auth_token
 
 		t.attachment :profile_picture
 
@@ -16,8 +17,9 @@ class CreateInitialTables < ActiveRecord::Migration
     create_table :messages do |t|
     	t.integer :sender_id
     	t.integer :receiver_id
-    	t.string :url
     	t.boolean :opened
+        
+        t.attachment :record
 
     	t.timestamps
     end

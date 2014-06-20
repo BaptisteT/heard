@@ -12,7 +12,7 @@ class Api::V1::UsersController < Api::V1::ApiController
     end
 
     if user.save
-      render json: { result: { user: user } }, status: 201
+      render json: { result: { auth_token: user.auth_token } }, status: 201
     else 
       render json: { errors: { internal: user.errors } }, :status => 500
     end
