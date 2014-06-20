@@ -1,4 +1,5 @@
 class Api::V1::SessionsController < Api::V1::ApiController
+  skip_before_action :authenticate_user, only: [:create, :confirm_sms_code]
 
   def create
     code_request = CodeRequest.find_by(phone_number: params[:phone_number])

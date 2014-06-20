@@ -11,7 +11,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
       receiver = User.find(params[:receiver_id])
       if (receiver.push_token)
         #notif params
-        sender  = User.find(params[:sender_id])
+        sender  = current_user
         message = 'New message from @' + sender.first_name
         badge_number = receiver.unread_messages.count
 

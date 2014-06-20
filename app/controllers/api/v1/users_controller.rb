@@ -1,4 +1,5 @@
 class Api::V1::UsersController < Api::V1::ApiController
+  skip_before_action :authenticate_user, only: :create
 
   def create
     code_request = CodeRequest.find_by(phone_number: params[:phone_number])
@@ -30,13 +31,12 @@ class Api::V1::UsersController < Api::V1::ApiController
   end
 
   def update_push_token
-    user = User.find(params[:user_id])
-    user.update_attributes(:push_token => params[:push_token])
+    current_user.update_attributes(:push_token => params[:push_token])
     render json: { result: { message: ["Push token successfully updated"] } }, status: 201
   end
 
+  #BB: Should go in messages_controller?
   def unread_messages
-    user = User.find(params[:user_id])
-    render json: { result: { messages: Message.response_messages(user.unread_messages) } }, status: 201
+    render json: { result: { messages: Message.response_messages(current_user.unread_messages) } }, status: 201
   end
 end
