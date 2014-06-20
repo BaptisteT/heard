@@ -8,4 +8,14 @@ class Message < ActiveRecord::Base
   has_attached_file :record, path: ":file_name", bucket: MESSAGE_BUCKET
   validates_attachment_content_type :record,
     :content_type => [ 'audio/mpeg', 'audio/x-mpeg', 'audio/mp3', 'audio/x-mp3', 'audio/mpeg3', 'audio/x-mpeg3', 'audio/mpg', 'audio/x-mpg', 'audio/x-mpegaudio', 'audio/m4a' ]
+  
+  def response_message
+    { id: self.id,
+      receiver_id: self.receiver_id,
+      sender_id: self.sender_id }
+  end
+
+  def self.response_messages(messages)
+    messages.map { |message| message.response_message }
+  end
 end

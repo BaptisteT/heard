@@ -36,6 +36,6 @@ class Api::V1::UsersController < Api::V1::ApiController
 
   def unread_messages
     user = User.find(params[:user_id])
-    render json: { result: { messages: user.unread_messages } }, status: 201
+    render json: { result: { messages: Message.reponse_messages(user.unread_messages) } }, status: 201
   end
 end
