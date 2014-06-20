@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
   before_create :generate_token
 
-  has_many :messages_received, class_name: "message", foreign_key: "receiver_id"
-  has_many :messages_sent, class_name: "message", foreign_key: "sender_id"
+  has_many :messages_received, class_name: "Message", foreign_key: "receiver_id"
+  has_many :messages_sent, class_name: "Message", foreign_key: "sender_id"
 
   validates :phone_number, presence: true, uniqueness: true
   validates :first_name, presence: true
