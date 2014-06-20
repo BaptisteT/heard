@@ -15,6 +15,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
         message = 'New message from @' + sender.first_name
         APNS.pem = 'app/assets/cert.pem'
         APNS.port = 2195
+        APNS.pass = "djibril"
         APNS.host = 'gateway.push.apple.com' 
         APNS.send_notification(receiver.push_token , :alert => message, :badge => 1)
       end
