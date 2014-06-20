@@ -6,7 +6,7 @@ Heard::Application.routes.draw do
       resources :users, only: [:create]
       resources :sessions, only: [:create]
 
-      put "users/update_token" => "users#update_token"
+      put "users/update_push_token" => "users#update_push_token"
       get "sessions/confirm_sms_code" => "sessions#confirm_sms_code"
     end
   end
