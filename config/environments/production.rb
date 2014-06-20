@@ -87,5 +87,4 @@ Heard::Application.configure do
     }
   }
 
-  config.APNS.pem = 'app/assets/HeardCert.pem'
 end
