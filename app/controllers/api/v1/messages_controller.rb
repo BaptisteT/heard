@@ -13,7 +13,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
         #send notif
         sender  = User.find(params[:sender_id])
         message = 'New message from @' + sender.first_name
-        APNS.send_notification(receiver.push_token, , :alert => message, :badge => 1)
+        APNS.send_notification(receiver.push_token , :alert => message, :badge => 1)
       end
 
       render json: { result: { message: ["Record successfully saved"] } }, status: 201
