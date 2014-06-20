@@ -35,8 +35,7 @@ class Api::V1::UsersController < Api::V1::ApiController
   end
 
   def unread_messages
-    messages = []
-    messages += Message.where(":receiver_id = ? AND :opened = FALSE", params[:user_id])
-    render json: { result: { messages: messages } }, status: 201
+    user = User.find(params[:user_id])
+    render json: { result: { messages: user.unread_messages } }, status: 201
   end
 end

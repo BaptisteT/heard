@@ -1,7 +1,8 @@
 class User < ActiveRecord::Base
   before_create :generate_token
 
-  has_many :messages
+  has_many :messages_received, class_name: "message", foreign_key: "receiver_id"
+  has_many :messages_sent, class_name: "message", foreign_key: "sender_id"
 
   validates :phone_number, presence: true, uniqueness: true
   validates :first_name, presence: true
@@ -20,5 +21,9 @@ class User < ActiveRecord::Base
       random_token = SecureRandom.urlsafe_base64(nil, false)
       break random_token unless self.class.exists?(auth_token: random_token)
     end
+  end
+
+  def unread_messages
+    self.messages_received.where(opened: false)
   end
 end
