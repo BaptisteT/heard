@@ -23,5 +23,12 @@ class CreateInitialTables < ActiveRecord::Migration
 
     	t.timestamps
     end
+
+    create_table :code_request do |t|
+        t.string :phone_number
+        t.integer :code
+
+        t.timestamps
+    end
   end
 end

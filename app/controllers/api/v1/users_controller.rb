@@ -1,6 +1,16 @@
 class Api::V1::UsersController < Api::V1::ApiController
 
   def create
+    code_request = CodeRequest.find_by(phone_number: params[:phone_number])
+
+    if code_request.nil?
+      render json: { errors: { unauthorized: "No code has been sent for this phone number" } }, :status => 401 and return 
+    end
+
+    if code_request.code != params[:code]
+      render json: { errors: { unauthorized: "Wrong SMS code" } }, :status => 401 and return 
+    end
+
     user = User.new
 
     user.phone_number = params[:phone_number]
@@ -18,6 +28,7 @@ class Api::V1::UsersController < Api::V1::ApiController
     end
   end
 
+  #Maybe call it push_token, not to be confused with auth_token
   def update_token
     user = User.find(params[:user_id])
     user.update_attributes(:push_token => params[:push_token])

@@ -1,4 +1,4 @@
-SIGNUP_CODE_DIGITS = 5
+SESSION_CODE_DIGITS = 5
 
 #3rd parties
 PROFILE_PICTURE_BUCKET = "heard_profile_pictures"
