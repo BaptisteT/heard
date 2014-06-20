@@ -14,6 +14,8 @@ class Api::V1::SignupsController < Api::V1::ApiController
       render json: { errors: { twilio: e.message } }, :status => 500 and return
     end
 
-    render json: { result: { code: code } }, status: 201
+    existing_user = User.find_by(phone_number: params[:phone_number]) != nil
+
+    render json: { result: { code: code, existing_user: existing_user } }, status: 201
   end
 end
