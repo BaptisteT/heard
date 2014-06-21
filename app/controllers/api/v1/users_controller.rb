@@ -39,4 +39,17 @@ class Api::V1::UsersController < Api::V1::ApiController
   def unread_messages
     render json: { result: { messages: Message.response_messages(current_user.unread_messages) } }, status: 201
   end
+
+  def get_my_contact
+    params[:contact_numbers]
+
+    #Android sends a String that we have to parse
+    if params[:contact_numbers].is_a? String
+      params[:contact_numbers] = friend_ids[1..-2].split(", ")
+    end
+
+    users = User.where(phone_number: params[:contact_numbers])
+
+    render json: { result: { contacts: User.contact_info(users) } }, status: 201
+  end
 end

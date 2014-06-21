@@ -26,4 +26,13 @@ class User < ActiveRecord::Base
   def unread_messages
     self.messages_received.where(opened: false)
   end
+
+  def contact_info
+    { id: self.id,
+      phone_number: self.phone_number}
+  end
+
+  def self.contact_info(users)
+    users.map { |user| user.contact_info }
+  end
 end

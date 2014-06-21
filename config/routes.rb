@@ -10,6 +10,7 @@ Heard::Application.routes.draw do
       get "sessions/confirm_sms_code" => "sessions#confirm_sms_code"
       get "users/unread_messages" => "users#unread_messages"
       patch "messages/mark_as_opened" => "messages#mark_as_opened"
+      get "user/get_my_contact" => "users#get_my_contact"
     end
   end
 end
