@@ -43,6 +43,8 @@ class Api::V1::SessionsController < Api::V1::ApiController
         render json: { result: {} }, status: 201  
       else 
         existing_user.generate_token
+        existing_user.save
+        
         code_request.destroy
 
         render json: { result: { auth_token: existing_user.auth_token } }, status: 201 
