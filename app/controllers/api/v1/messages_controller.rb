@@ -4,7 +4,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
     Rails.logger.debug "TRUCHOV create message"
 
     message = Message.new(message_params)
-
+    message.sender_id = current_user.id
     message.opened = false
 
     if message.save
@@ -39,6 +39,6 @@ class Api::V1::MessagesController < Api::V1::ApiController
   private
 
     def message_params
-      params.permit(:sender_id, :receiver_id, :record)
+      params.permit(:receiver_id, :record)
     end 
 end
