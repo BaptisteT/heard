@@ -21,7 +21,8 @@ class Api::V1::MessagesController < Api::V1::ApiController
         APNS.pass = "djibril"
         APNS.host = 'gateway.push.apple.com' 
 
-        APNS.send_notification(receiver.push_token , :alert => message, :badge => badge_number)
+        APNS.send_notification(receiver.push_token , :alert => message, :badge => badge_number, :sound => 'default',
+                                                     :other => {:message => message.response_message})
       end
 
       render json: { result: { message: ["Message successfully saved"] } }, status: 201
