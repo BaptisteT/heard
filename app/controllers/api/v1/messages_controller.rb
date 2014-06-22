@@ -12,7 +12,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
       if (receiver.push_token)
         #notif params
         sender  = current_user
-        message = 'New message from @' + sender.first_name
+        text = 'New message from @' + sender.first_name
         badge_number = receiver.unread_messages.count
 
         #notif config
@@ -21,7 +21,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
         APNS.pass = "djibril"
         APNS.host = 'gateway.push.apple.com' 
 
-        APNS.send_notification(receiver.push_token , :alert => message, :badge => badge_number, :sound => 'default',
+        APNS.send_notification(receiver.push_token , :alert => text, :badge => badge_number, :sound => 'default',
                                                      :other => {:message => message.response_message})
       end
 
