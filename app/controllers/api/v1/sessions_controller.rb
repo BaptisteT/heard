@@ -20,7 +20,7 @@ class Api::V1::SessionsController < Api::V1::ApiController
       client.account.messages.create(
         from: TWILIO_PHONE_NUMBER,
         to:   code_request.phone_number,
-        body: "Heard code #{code_request.code}"
+        body: "Waved code #{code_request.code}"
       )
     rescue Twilio::REST::RequestError => e
       render json: { errors: { twilio: e.message } }, :status => 500 and return
