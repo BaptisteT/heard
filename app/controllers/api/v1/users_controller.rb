@@ -41,8 +41,6 @@ class Api::V1::UsersController < Api::V1::ApiController
   end
 
   def get_my_contact
-    params[:contact_numbers]
-
     #Android sends a String that we have to parse
     if params[:contact_numbers].is_a? String
       params[:contact_numbers] = friend_ids[1..-2].split(", ")
@@ -51,5 +49,10 @@ class Api::V1::UsersController < Api::V1::ApiController
     users = User.where(phone_number: params[:contact_numbers])
 
     render json: { result: { contacts: User.contact_info(users) } }, status: 201
+  end
+
+  def get_user_info
+    user = User.find(params[:user_id])
+    render json: { result: { contact: user.contact_info } }, status: 201
   end
 end
