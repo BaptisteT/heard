@@ -24,12 +24,15 @@ class User < ActiveRecord::Base
   end
 
   def unread_messages
-    self.messages_received.where(opened: false)
+    blocked_ids = Blockade.where(blocker_id: self.id).select(:blocked_id)
+    self.messages_received.where(opened: false).where.not(sender_id: blocked_ids)
   end
 
   def contact_info
     { id: self.id,
-      phone_number: self.phone_number}
+      phone_number: self.phone_number,
+      first_name: self.first_name,
+      last_name: self.last_name }
   end
 
   def self.contact_info(users)
