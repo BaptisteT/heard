@@ -1,5 +1,5 @@
 Heard::Application.routes.draw do
- 
+  root :to => "home#index"
   get "/beta" => "home#beta"
 
   namespace :api do
