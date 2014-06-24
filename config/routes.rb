@@ -1,5 +1,7 @@
 Heard::Application.routes.draw do
  
+  get "/beta" => "home#beta"
+
   namespace :api do
     namespace :v1  do
       resources :messages, only: [:create]
