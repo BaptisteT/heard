@@ -29,7 +29,9 @@ class User < ActiveRecord::Base
 
   def contact_info
     { id: self.id,
-      phone_number: self.phone_number}
+      phone_number: self.phone_number,
+      first_name: self.first_name,
+      last_name: self.last_name }
   end
 
   def self.contact_info(users)

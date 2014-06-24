@@ -12,9 +12,7 @@ class Message < ActiveRecord::Base
   def response_message
     { id: self.id,
       receiver_id: self.receiver_id,
-      sender_id: self.sender_id,
-      first_name: self.first_name,
-      last_name: self.last_name }
+      sender_id: self.sender_id }
   end
 
   def self.response_messages(messages)
