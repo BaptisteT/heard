@@ -24,7 +24,7 @@ class Api::V1::UsersController < Api::V1::ApiController
 
     if user.save
       code_request.destroy
-      render json: { result: { auth_token: user.auth_token, user_id: user.id } }, status: 201
+      render json: { result: { auth_token: user.auth_token, user_id: user.id, user: user.contact_info } }, status: 201
     else 
       render json: { errors: { internal: user.errors } }, :status => 500
     end

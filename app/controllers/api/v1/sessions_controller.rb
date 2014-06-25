@@ -47,7 +47,7 @@ class Api::V1::SessionsController < Api::V1::ApiController
         
         code_request.destroy
 
-        render json: { result: { auth_token: existing_user.auth_token, user_id: existing_user.id } }, status: 201 
+        render json: { result: { auth_token: existing_user.auth_token, user_id: existing_user.id, user: existing_user.contact_info } }, status: 201 
       end
     else
       render json: { errors: { unauthorized: "Wrong SMS code" } }, :status => 401
