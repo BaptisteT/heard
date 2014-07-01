@@ -37,6 +37,10 @@ class Api::V1::MessagesController < Api::V1::ApiController
     render json: { result: { message: ["Message successfully updated"] } }, status: 201
   end
 
+  def unread_messages
+    render json: { result: { messages: Message.response_messages(current_user.unread_messages) } }, status: 201
+  end
+  
   private
 
     def message_params
