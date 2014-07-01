@@ -28,6 +28,10 @@ class User < ActiveRecord::Base
     self.messages_received.where(opened: false).where.not(sender_id: blocked_ids)
   end
 
+  def blocked_by_user(blocker_id)
+    Blockade.where(:blocker_id => blocker_id, :blocked_id => self.id).any?
+  end
+
   def contact_info
     { id: self.id,
       phone_number: self.phone_number,

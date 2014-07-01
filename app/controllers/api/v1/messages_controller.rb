@@ -9,7 +9,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
 
     if message.save
       receiver = User.find(params[:receiver_id])
-      if (receiver.push_token)
+      if (receiver.push_token AND ! current_user.blocked_by_user(:receiver_id))
         #notif params
         sender  = current_user
         text = 'New message from @' + sender.first_name
@@ -40,7 +40,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
   def unread_messages
     render json: { result: { messages: Message.response_messages(current_user.unread_messages) } }, status: 201
   end
-  
+
   private
 
     def message_params
