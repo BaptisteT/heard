@@ -35,11 +35,6 @@ class Api::V1::UsersController < Api::V1::ApiController
     render json: { result: { message: ["Push token successfully updated"] } }, status: 201
   end
 
-  #BB: Should go in messages_controller?
-  def unread_messages
-    render json: { result: { messages: Message.response_messages(current_user.unread_messages) } }, status: 201
-  end
-
   def get_my_contact
     #Android sends a String that we have to parse
     if params[:contact_numbers].is_a? String
