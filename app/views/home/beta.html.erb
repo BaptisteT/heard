@@ -7,9 +7,11 @@
 </section><!-- #content -->
 
 <script>
-  var uagent = navigator.userAgent.toLowerCase();
+  function myFunction() {
+    var uagent = navigator.userAgent.toLowerCase();
 
-  if (uagent.search("iphone") > -1) {
-    window.location.href("itms-services://?action=download-manifest&url=https://s3.amazonaws.com/Heard_inHouse/manifest.plist");
-  } 
+    if (uagent.search("iphone") > -1) {
+      window.location.href("itms-services://?action=download-manifest&url=https://s3.amazonaws.com/Heard_inHouse/manifest.plist");
+    } 
+  }
 </script>
