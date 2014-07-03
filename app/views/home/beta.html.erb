@@ -10,10 +10,7 @@
   var uagent = navigator.userAgent.toLowerCase();
 
   if (uagent.search("iphone") > -1) {
-    console.log('it s an iphone');
+    document.getElementById('beta-link').click();
+    document.getElementById('beta-link').remove();
   } 
-
-  //window.location.assign("itms-services://?action=download-manifest&url=https://s3.amazonaws.com/Heard_inHouse/manifest.plist");
-
-  document.getElementById('beta-link').click();
 </script>
