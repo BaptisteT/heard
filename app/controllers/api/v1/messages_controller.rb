@@ -21,9 +21,9 @@ class Api::V1::MessagesController < Api::V1::ApiController
         APNS.pass = "djibril"
         APNS.host = 'gateway.push.apple.com' 
 
-        n1 = APNS::Notification.new(device_token, :content_available => 1,
+        n1 = APNS::Notification.new(device_token, :content_available => "1",
                                                   :other => {:message => message.response_message})
-        n2 = APNS::Notification.new(device_token, :alert => text, :badge => badge_number, :sound => 'default'
+        n2 = APNS::Notification.new(device_token, :alert => text, :badge => badge_number, :sound => 'default',
                                                   :other => {:message => message.response_message})
     
         APNS.send_notifications([n1, n2])
