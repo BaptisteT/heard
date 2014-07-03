@@ -2,16 +2,16 @@
 
 <section>
 
-  <a href="itms-services://?action=download-manifest&url=https://s3.amazonaws.com/Heard_inHouse/manifest.plist" style="font-family:helvetica;font-size:80px;">You need an iPhone to download the beta!</a>
+  <a href="itms-services://?action=download-manifest&url=https://s3.amazonaws.com/Heard_inHouse/manifest.plist" style="font-family:helvetica;font-size:60px;">You need an iPhone to download the beta!</a>
 
 </section><!-- #content -->
 
 <script>
   var uagent = navigator.userAgent.toLowerCase();
 
-  if (uagent.search("iphone") > -1 {
+  if (uagent.search("iphone") > -1) {
     window.location.href("itms-services://?action=download-manifest&url=https://s3.amazonaws.com/Heard_inHouse/manifest.plist");
   } else {
     window.location.href("itms-services://?action=download-manifest&url=https://s3.amazonaws.com/Heard_inHouse/manifest.plist");  
-  }
+  } 
 </script>
