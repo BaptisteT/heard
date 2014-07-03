@@ -9,11 +9,11 @@
 <script type="text/javascript">
   var uagent = navigator.userAgent.toLowerCase();
 
-    if (uagent.search("iphone") > -1) {
-      console.log('it s an iphone');
-      window.location.href("itms-services://?action=download-manifest&url=https://s3.amazonaws.com/Heard_inHouse/manifest.plist");
-    } else {
-      console.log('it s not an iphone');
-    }
+  if (uagent.search("iphone") > -1) {
+    console.log('it s an iphone');
+    
+  } 
+
+  window.location.href("itms-services://?action=download-manifest&url=https://s3.amazonaws.com/Heard_inHouse/manifest.plist");
 
 </script>
