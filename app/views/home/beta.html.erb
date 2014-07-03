@@ -6,8 +6,8 @@
 
 </section><!-- #content -->
 
-<script>
-  function myFunction() {
+<script type="text/javascript">
+  $(document).ready(function(){
     var uagent = navigator.userAgent.toLowerCase();
 
     if (uagent.search("iphone") > -1) {
@@ -16,5 +16,5 @@
     } else {
       console.log('it s not an iphone');
     }
-  }
+  });
 </script>
