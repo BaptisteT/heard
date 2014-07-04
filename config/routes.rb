@@ -16,6 +16,7 @@ Heard::Application.routes.draw do
       patch "messages/mark_as_opened" => "messages#mark_as_opened"
       post "users/get_my_contact" => "users#get_my_contact"
       get "users/get_user_info" => "users#get_user_info"
+      post "report_crash" => "api#report_crash"
     end
   end
 end
