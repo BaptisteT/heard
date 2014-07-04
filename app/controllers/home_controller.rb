@@ -3,6 +3,5 @@ class HomeController < ActionController::Base
   end
 
   def index
-  	redirect_to "http://beta.waved.io"
   end
 end
