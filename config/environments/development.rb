@@ -27,6 +27,20 @@ Heard::Application.configure do
   # number of complex assets.
   config.assets.debug = true
 
+  # Mailer
+  config.action_mailer.default_url_options = { :host => 'heard.herokuapp.com' }
+  ActionMailer::Base.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  ActionMailer::Base.smtp_settings = {
+      :address        => 'smtp.gmail.com',
+      :domain         => 'http://www.waved.io',
+      :port           => 587,
+      :user_name      => SENDER_EMAIL_,
+      :password       => ENV['INFO_MAIL_PASS'],
+      :authentication => :plain
+  }
+  
   # config for Paperclip
   config.paperclip_defaults = {
     :storage => :s3, :s3_credentials => {
