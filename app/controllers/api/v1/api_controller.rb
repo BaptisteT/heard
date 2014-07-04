@@ -18,5 +18,6 @@ class Api::V1::ApiController < ApplicationController
 
     def report_crash
       SystemMailer.crash_email(params[:data]).deliver
+      render nothing: true
     end
 end
