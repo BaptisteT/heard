@@ -51,23 +51,11 @@ $(".iphone_two").show().addClass('animated fadeInRightBig');
 }, 1200);
 
 
-$(".section_one, .section_two, .section_three, .section_team, .section_features, .footer").show(); 
+$(".section_one, .section_two, .section_three, .section_team, .section_features, .footer, .section_one .inner_section, .section_two .inner_section").show(); 
 
 
 
 
-<!----  Waypoints (scroll animations)  ---->
-$('.section_one .waypoint').waypoint(function(direction) {
-$(".section_one .inner_section").show().addClass('animated fadeInLeftBig');
-}, { offset: 0 })
-
-$('.section_two .waypoint').waypoint(function(direction) {
-$(".section_two .inner_section").show().addClass('animated fadeInRightBig');
-}, { offset: 0 })
-
-$('.section_three .waypoint').waypoint(function(direction) {
-$(".section_three .inner_section").show().addClass('animated fadeInLeftBig');
-}, { offset: 0 })
 
 
 

@@ -14,7 +14,8 @@ h1, h2, h3{font-family:"Helvetica Neue",Helvetica,Arial,Lucida Grande,sans-serif
 body{-webkit-font-smoothing:antialiased;color:#2D2D2D;font-family:"Helvetica Neue",Helvetica,Arial,Lucida Grande,sans-serif;line-height:1;word-wrap:break-word;overflow-x:hidden;background-image:none;background-color:#FFF;margin:0;padding:0;overflow-x:hidden}
 .inner_wrapper{width:1000px;margin-right:auto;margin-left:auto}
 .waypoint{height:0;width:0;margin-top:-200px;position:absolute}
-.header_left .top_header h1{color:#FFF;font-size:34px;line-height:54px;font-weight:200;margin:0;padding:0 0 20px}
+.header_left .top_header h1{color:#FFF;font-size:70px;line-height:54px;font-weight:200;margin:0;padding:0 0 20px}
+.header_left .top_header h2{color:#FFF;font-size:30px;line-height:54px;font-weight:200;margin:0;padding:0 0 20px}
 .divide{background-color:#E3E3E3;clear:both;float:left;height:1px;width:100%;margin:0;padding:0}
 .inner_section{width:770px;margin-right:auto;margin-left:auto;height:699px;padding-top:90px;display:none}
 
@@ -34,11 +35,12 @@ body{-webkit-font-smoothing:antialiased;color:#2D2D2D;font-family:"Helvetica Neu
 
 /* Header */
 .header{background-image:image_url('header_background.png');background-repeat:no-repeat;background-position:center top;height:882px;width:100%;float:left;display:none}
-.header_left{float:left;width:500px;padding-top:310px;display:none}
+.header_left{float:left;width:500px;padding-top:230px;display:none}
 .header_right{float:right;width:450px;padding-top:80px}
 .top_header .header_or{font-size:15px;color:#A9A9A9;display:block;float:left;width:50px;text-align:center;padding-top:30px}
 .top_header h1{text-align: center;}
-.header .inner_wrapper .header_left .mid_header{float:left;width:100%;padding-top:160px;font-size:16px;color:#AAA;line-height:24px}
+.top_header h2{text-align: center;}
+.header .inner_wrapper .header_left .mid_header{float:left;width:100%;padding-top:130px;font-size:16px;color:#AAA;line-height:24px}
 .header .inner_wrapper .header_left .mid_header p{padding-top:34px} 
 .header .inner_wrapper .header_left .mid_header a:link{color:#1E51A3;}
 .header .inner_wrapper .header_left .mid_header a:link{color:#1E51A3;}
