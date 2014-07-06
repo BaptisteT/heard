@@ -23,9 +23,9 @@ class Api::V1::ApiController < ApplicationController
 
   def obsolete_api
     Rails.logger.debug "TRUCHOV API_Version params: #{params}"
-    if params[:api_version] == 11
+    if params[:api_version].to_i == 11
       render json: {result: { message_type: "Informative alert", message_content: "Download the new version", redirect_url: "http://itunes.apple.com/app/id734887535?mt=8" } }, status: 200
-    elsif params[:api_version] == 12
+    elsif params[:api_version].to_i == 12
       render json: {result: { message_type: "Blocking alert", message_content: "blabla", redirect_url: "http://itunes.apple.com/app/id734887535?mt=8" } }, status: 200
     else
       render json: {result: { message: "Ok"} }, status: 200
