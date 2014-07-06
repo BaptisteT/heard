@@ -2,7 +2,7 @@ class Api::V1::ApiController < ApplicationController
 	respond_to :json
 	skip_before_action :verify_authenticity_token
 	before_action :authenticate_user
-  skip_before_action :authenticate_user, only: :report_crash, :obsolete_api
+  skip_before_action :authenticate_user, only: [:report_crash, :obsolete_api]
 
 	def authenticate_user
 		@current_user = User.find_by(auth_token: params[:auth_token])
