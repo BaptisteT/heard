@@ -2,7 +2,9 @@
 
 <section>
 
-  <a href="itms-services://?action=download-manifest&url=https://s3.amazonaws.com/Heard_inHouse/manifest.plist" style="font-family:helvetica;font-size:60px;" id="beta-link">You need an iPhone to download the beta!</a>
+  <a href="itms-services://?action=download-manifest&url=https://s3.amazonaws.com/Heard_inHouse/manifest.plist" id="beta-link"></a>
+
+  <p style="font-family:helvetica;font-size:60px;" id="beta-label">You need an iPhone to download the beta!</p>
 
 </section><!-- #content -->
 
@@ -11,6 +13,8 @@
 
   if (uagent.search("iphone") > -1) {
     document.getElementById('beta-link').click();
-    document.getElementById('beta-link').remove();
+    document.getElementById('beta-label').remove();
   } 
+
+  document.getElementById('beta-link').remove();
 </script>
