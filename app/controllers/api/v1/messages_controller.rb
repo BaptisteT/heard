@@ -9,7 +9,6 @@ class Api::V1::MessagesController < Api::V1::ApiController
 
     if message.save
       receiver = User.find(params[:receiver_id])
-      Rails.logger.debug "TRUCHOV temp: #{current_user.blocked_by_user(:receiver_id)}"
       if (receiver.push_token and not current_user.blocked_by_user(:receiver_id))
         #notif params
         sender  = current_user
