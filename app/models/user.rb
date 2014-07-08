@@ -31,8 +31,8 @@ class User < ActiveRecord::Base
   def blocked_by_user(blocker_id)
     Rails.logger.debug "TRUCHOV temp: #{Blockade.where(:blocker_id => blocker_id)}"
     Rails.logger.debug "TRUCHOV temp: #{Blockade.where(:blocked_id => self.id)}"
-    Rails.logger.debug "TRUCHOV temp: #{Blockade.where(:blocker_id => blocker_id, :blocked_id => self.id)}"
-    Blockade.where(:blocker_id => blocker_id, :blocked_id => self.id).any?
+    Rails.logger.debug "TRUCHOV temp: #{Blockade.where(:blocker_id => blocker_id, :blocked_id => self.id).any?}"
+    Blockade.where(:blocker_id => blocker_id, :blocked_id => self.id).exists?
   end
 
   def contact_info
