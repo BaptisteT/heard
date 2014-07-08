@@ -29,9 +29,6 @@ class User < ActiveRecord::Base
   end
 
   def blocked_by_user(blocker_id)
-    Rails.logger.debug "TRUCHOV 1: #{blocker_id}"
-    Rails.logger.debug "TRUCHOV 2: #{self.id}"
-    Rails.logger.debug "TRUCHOV 2: #{Blockade.where(:blocker_id => blocker_id, :blocked_id => self.id).count}"
     Blockade.where(:blocker_id => blocker_id, :blocked_id => self.id).exists?
   end
 
