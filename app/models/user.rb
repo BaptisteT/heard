@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
     attachment.instance.id.to_s + "_" + attachment.name.to_s
   end
 
-  has_attached_file :profile_picture, path: ":style/:file_name", bucket: proc { |attachment| Rails.env.staging? ? PROFILE_PICTURE_BUCKET_STAGING : PROFILE_PICTURE_BUCKET}
+  has_attached_file :profile_picture, path: ":style/:file_name", bucket: proc { |attachment| Rails.env.production? ? PROFILE_PICTURE_BUCKET : PROFILE_PICTURE_BUCKET_STAGING}
   validates_attachment_content_type :profile_picture, :content_type => /\Aimage\/.*\Z/
 
   def generate_token
