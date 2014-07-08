@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
   end
 
   def blocked_by_user(blocker_id)
-    Blockade.where(:blocker_id => blocker_id, :blocked_id => self.id).any?
+    Blockade.where(:blocker_id => blocker_id, :blocked_id => self.id).exists?
   end
 
   def contact_info
