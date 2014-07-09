@@ -39,7 +39,13 @@ class Api::V1::MessagesController < Api::V1::ApiController
   end
 
   def unread_messages
-    render json: { result: { messages: Message.response_messages(current_user.unread_messages), retrieve_contacts:current_user.retrieve_contacts } }, status: 201
+    if current_user.retrieve_contacts
+      retrieve = true
+      current_user.update_attributes(:retrieve_contacts => false)
+    else
+      retrieve = false
+    end
+    render json: { result: { messages: Message.response_messages(current_user.unread_messages), retrieve_contacts:retrieve} }, status: 201
   end
 
   private
