@@ -44,6 +44,11 @@ class Api::V1::UsersController < Api::V1::ApiController
     users = User.where(phone_number: params[:contact_numbers])
                   .reject { |user| user.blocked_by_user(current_user.id)}
 
+    # If sign up, then update other users :retrieve_contacts
+    if (params[:sign_up])
+      users.each { |user| user.update_attributes(:retrieve_contacts, true)}
+    end
+    
     render json: { result: { contacts: User.contact_info(users) } }, status: 201
   end
 
