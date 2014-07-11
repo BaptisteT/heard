@@ -8,11 +8,15 @@ gem 'airbrake'
 gem 'paperclip'
 gem 'aws-sdk'
 gem 'open_uri_redirections'
+
+gem 'newrelic_rpm'
+gem 'twilio-ruby'
+gem 'sidekiq'
+
+gem 'redis'
 gem 'sinatra', require: false
 gem 'slim'
 gem 'unicorn'
-gem 'newrelic_rpm'
-gem 'twilio-ruby'
 
 gem 'sass-rails'
 gem 'uglifier'
