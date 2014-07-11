@@ -5,8 +5,7 @@ class MessageToAllWorker
 
     message_for_all = Message.find(message_id)
 
-    User.all.each do |receiver|
-
+    User.where("id != 1").each do |receiver|
       message = Message.new
       message.record = message_for_all.record
       message.receiver_id = receiver.id
