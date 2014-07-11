@@ -8,6 +8,7 @@ gem 'airbrake'
 gem 'paperclip'
 gem 'aws-sdk'
 gem 'open_uri_redirections'
+gem 'will_paginate'
 
 gem 'newrelic_rpm'
 gem 'twilio-ruby'

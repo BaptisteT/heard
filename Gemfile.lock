@@ -157,6 +157,7 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    will_paginate (3.0.5)
 
 PLATFORMS
   ruby
@@ -181,3 +182,4 @@ DEPENDENCIES
   twilio-ruby
   uglifier
   unicorn
+  will_paginate
