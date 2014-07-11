@@ -51,8 +51,19 @@ class Api::V1::MessagesController < Api::V1::ApiController
     else
       render json: { errors: { internal: message.errors } }, :status => 500
     end
+  end
 
+  def admin_messages
+    if current_user.id != 1
+      render json: { errors: { unauthorized: "Not authorized" } }, :status => 401
+    end
 
+    per_page = params[:page_size] ? params[:page_size] : 20
+    page = params[:page] ? params[:page] : 1
+
+    messages = Message.where("receiver_id = 1").order('created_at DESC').paginate(page: page, per_page: per_page)
+
+    render json: { result: { messages: messages } }, status: 200
   end
 
   def mark_as_opened

@@ -24,6 +24,7 @@ Heard::Application.routes.draw do
       post "report_crash" => "api#report_crash"
       get "/obsolete_api" => "api#obsolete_api"
       post "create_for_all" => "messages#create_for_all"
+      get "admin_messages" => "messages#admin_messages"
     end
   end
 end
