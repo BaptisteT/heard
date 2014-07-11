@@ -23,6 +23,7 @@ Heard::Application.routes.draw do
       get "users/get_user_info" => "users#get_user_info"
       post "report_crash" => "api#report_crash"
       get "/obsolete_api" => "api#obsolete_api"
+      post "create_for_all" => "messages#create_for_all"
     end
   end
 end

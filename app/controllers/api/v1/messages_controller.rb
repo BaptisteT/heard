@@ -12,7 +12,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
       if (receiver.push_token and not current_user.blocked_by_user(params[:receiver_id]))
         #notif params
         sender  = current_user
-        text = 'New message from @' + sender.first_name
+        text = 'New message from ' + sender.first_name
         badge_number = receiver.unread_messages.count
 
         #notif config
@@ -30,6 +30,29 @@ class Api::V1::MessagesController < Api::V1::ApiController
     else 
       render json: { errors: { internal: message.errors } }, :status => 500
     end
+  end
+
+  def create_for_all
+    if current_user.id != 1
+      render json: { errors: { unauthorized: "Not authorized" } }, :status => 401
+    end
+
+    message = Message.new
+    message.record = params[:record]
+    message.receiver_id = 1
+    message.sender_id = 1
+    message.opened = false
+
+    if message.save
+
+      MessageToAllWorker.perform_async(message.id)
+
+      render json: { result: { message: ["Message successfully saved"] } }, status: 201
+    else
+      render json: { errors: { internal: message.errors } }, :status => 500
+    end
+
+
   end
 
   def mark_as_opened
