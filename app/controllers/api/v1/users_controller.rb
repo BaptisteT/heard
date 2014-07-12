@@ -43,7 +43,7 @@ class Api::V1::UsersController < Api::V1::ApiController
 
     #include Waved contact
     users = User.where(phone_number: params[:contact_numbers])
-                  .reject { |user| user.blocked_by_user(current_user.id)}
+                  .reject { |user| user.blocked_by_user(current_user.id) || user.id == current_user.id}
 
     users << User.find(1)
 
