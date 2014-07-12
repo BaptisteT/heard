@@ -23,7 +23,7 @@ staging:
   collation: utf8_general_ci
   reconnect: false
   database: heardstaging
-  pool: 5
+  pool: 25
   username: hearddev
   password: isthatit99
   socket: /tmp/mysql.sock
