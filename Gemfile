@@ -17,7 +17,6 @@ gem 'sidekiq'
 gem 'redis'
 gem 'sinatra', require: false
 gem 'slim'
-gem 'unicorn'
 
 gem 'sass-rails'
 gem 'uglifier'
