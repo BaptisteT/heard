@@ -1,4 +1,5 @@
 class Api::V1::UsersController < Api::V1::ApiController
+  include ApplicationHelper
   skip_before_action :authenticate_user, only: :create
 
   def create
@@ -24,6 +25,15 @@ class Api::V1::UsersController < Api::V1::ApiController
 
     if user.save
       code_request.destroy
+
+      #Create welcome message
+      message = Message.new
+      message.receiver_id = user.id
+      message.sender_id = 1
+      message.opened = false
+      message.record = open(URI.parse(process_uri("https://s3.amazonaws.com/heard_resources/welcome_message")))
+      message.save
+
       render json: { result: { auth_token: user.auth_token, user_id: user.id, user: user.contact_info } }, status: 201
     else 
       render json: { errors: { internal: user.errors } }, :status => 500
