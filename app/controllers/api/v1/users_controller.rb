@@ -28,6 +28,8 @@ class Api::V1::UsersController < Api::V1::ApiController
 
       #Create welcome message
 
+      aefw
+
       message = Message.new
       message.receiver_id = user.id
       message.sender_id = 1
