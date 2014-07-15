@@ -23,13 +23,13 @@ class Api::V1::ApiController < ApplicationController
 
   # app_version related message
   def obsolete_api
-    # render json: {result: { message: "Ok"} }, status: 200
-    if params[:api_version] == "1.1"
-      render json: {result: { message_type: "Informative alert", message_content: "Download the new version", redirect_url: "http://itunes.apple.com/app/id734887535?mt=8" } }, status: 200
-    elsif params[:api_version] == "1.2"
-      render json: {result: { message_type: "Blocking alert", message_content: "blabla", redirect_url: "http://itunes.apple.com/app/id734887535?mt=8" } }, status: 200
-    else
-      render json: {result: { message: "Ok"} }, status: 200
-    end
+    render json: {result: { message: "Ok"} }, status: 200
+    # if params[:api_version] == "1.1"
+    #   render json: {result: { message_type: "Informative alert", message_content: "Download the new version", redirect_url: "http://itunes.apple.com/app/id734887535?mt=8" } }, status: 200
+    # elsif params[:api_version] == "1.2"
+    #   render json: {result: { message_type: "Blocking alert", message_content: "blabla", redirect_url: "http://itunes.apple.com/app/id734887535?mt=8" } }, status: 200
+    # else
+    #   render json: {result: { message: "Ok"} }, status: 200
+    # end
   end
 end
