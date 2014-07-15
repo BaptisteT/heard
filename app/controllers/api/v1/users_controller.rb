@@ -49,7 +49,7 @@ class Api::V1::UsersController < Api::V1::ApiController
   def get_my_contact
     # update app / api version
     if params[:api_version] && params[:app_version] 
-      current_user.update_attributes(:app_version => params[:api_version], :api_version => params[:api_version].to_i)
+      current_user.update_attributes(:app_version => params[:app_version], :api_version => params[:api_version])
     end
 
     #Android sends a String that we have to parse
