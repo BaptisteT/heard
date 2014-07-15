@@ -47,6 +47,11 @@ class Api::V1::UsersController < Api::V1::ApiController
   end
 
   def get_my_contact
+    # update app / api version
+    if params[:api_version] && params[:app_version] 
+      current_user.update_attributes(:app_version => params[:api_version], :api_version => params[:api_version].to_i)
+    end
+
     #Android sends a String that we have to parse
     if params[:contact_numbers].is_a? String
       params[:contact_numbers] = friend_ids[1..-2].split(", ")
