@@ -16,6 +16,7 @@ Heard::Application.configure do
   config.active_support.deprecation = :log
 
   # See everything in the log (default is :info)
+  config.logger = Logger.new(STDOUT) 
   config.log_level = :debug
 
   # Expands the lines which load the assets
