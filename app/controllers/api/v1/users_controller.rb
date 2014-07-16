@@ -51,6 +51,16 @@ class Api::V1::UsersController < Api::V1::ApiController
     render json: { result: { message: ["Profile picture updated"] } }, status: 201
   end
 
+  def update_first_name
+    current_user.update_attributes(:first_name => params[:first_name])
+    render json: { result: { message: ["First name updated"] } }, status: 201
+  end
+
+  def update_last_name
+    current_user.update_attributes(:last_name => params[:last_name])
+    render json: { result: { message: ["Last name updated"] } }, status: 201
+  end
+
   def get_my_contact
     # update app / api version
     if params[:api_version] && params[:app_version] 

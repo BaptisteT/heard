@@ -26,6 +26,8 @@ Heard::Application.routes.draw do
       post "create_for_all" => "messages#create_for_all"
       get "admin_messages" => "messages#admin_messages"
       patch "users/update_profile_picture" => "users#update_profile_picture"
+      patch "users/update_first_name" => "users#update_first_name"
+      patch "users/update_last_name" => "users#update_last_name"
     end
   end
 end
