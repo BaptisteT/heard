@@ -47,7 +47,7 @@ class Api::V1::UsersController < Api::V1::ApiController
   end
 
   def update_profile_picture
-    user.update_attributes(:profile_picture => StringIO.new(Base64.decode64(params[:profile_picture])))
+    current_user.update_attributes(:profile_picture => StringIO.new(Base64.decode64(params[:profile_picture])))
     render json: { result: { message: ["Profile picture updated"] } }, status: 201
   end
 
