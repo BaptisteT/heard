@@ -9,7 +9,9 @@ class Api::V1::SessionsController < Api::V1::ApiController
       code_request.phone_number = params[:phone_number]
     end
     
-    code_request.code = (rand(9) + 1)*10**(SESSION_CODE_DIGITS-1) + rand(10**(SESSION_CODE_DIGITS-1))
+    if params[:retry].nil? || code_request.code.nil?
+      code_request.code = (rand(9) + 1)*10**(SESSION_CODE_DIGITS-1) + rand(10**(SESSION_CODE_DIGITS-1))
+    end
 
     if !code_request.save
       render json: { errors: { internal: code_request.errors } }, :status => 500 and return
