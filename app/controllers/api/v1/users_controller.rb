@@ -46,6 +46,11 @@ class Api::V1::UsersController < Api::V1::ApiController
     render json: { result: { message: ["Push token successfully updated"] } }, status: 201
   end
 
+  def update_profile_picture
+    user.update_attributes(:profile_picture => StringIO.new(Base64.decode64(params[:profile_picture])))
+    render json: { result: { message: ["Profile picture updated"] } }, status: 201
+  end
+
   def get_my_contact
     # update app / api version
     if params[:api_version] && params[:app_version] 
