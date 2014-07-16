@@ -43,22 +43,22 @@ class Api::V1::UsersController < Api::V1::ApiController
 
   def update_push_token
     current_user.update_attributes(:push_token => params[:push_token])
-    render json: { result: { message: ["Push token successfully updated"] } }, status: 201
+    render json: { result: { user: current_user.contact_info } }, status: 201
   end
 
   def update_profile_picture
     current_user.update_attributes(:profile_picture => StringIO.new(Base64.decode64(params[:profile_picture])))
-    render json: { result: { message: ["Profile picture updated"] } }, status: 201
+    render json: { result: { user: current_user.contact_info } }, status: 201
   end
 
   def update_first_name
     current_user.update_attributes(:first_name => params[:first_name])
-    render json: { result: { message: ["First name updated"] } }, status: 201
+    render json: { result: { user: current_user.contact_info } }, status: 201
   end
 
   def update_last_name
     current_user.update_attributes(:last_name => params[:last_name])
-    render json: { result: { message: ["Last name updated"] } }, status: 201
+    render json: { result: { user: current_user.contact_info } }, status: 201
   end
 
   def get_my_contact
