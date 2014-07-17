@@ -90,4 +90,14 @@ class Api::V1::UsersController < Api::V1::ApiController
     user = User.find(params[:user_id])
     render json: { result: { contact: user.contact_info } }, status: 201
   end
+
+  def user_presence
+    user = User.where(phone_number: params[:phone_number])
+
+    if user.any?
+      render json: { result: { presence: true } }, status: 201
+    else 
+      render json: { result: { presence: false } }, status: 201
+    end
+  end
 end

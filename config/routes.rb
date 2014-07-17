@@ -28,6 +28,7 @@ Heard::Application.routes.draw do
       patch "users/update_profile_picture" => "users#update_profile_picture"
       patch "users/update_first_name" => "users#update_first_name"
       patch "users/update_last_name" => "users#update_last_name"
+      get "users/user_presence" => "users#user_presence"
     end
   end
 end
