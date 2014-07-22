@@ -23,7 +23,13 @@ class Api::V1::ApiController < ApplicationController
 
   # app_version related message
   def obsolete_api
-    render json: {result: { message: "Ok"} }, status: 200
+    
+
+    if params[:app_version] && params[:app_version] == "1.1.1"
+      render json: {result: { message: "Ok"} }, status: 200
+    else
+      render json: {result: { message_type: "Blocking alert", message_content: "Please download the latest version at www.waved.io/beta.", redirect_url: "http://www.waved.io/beta" } }, status: 200 
+    end
     # if params[:app_version] == "1.1"
     #   render json: {result: { message_type: "Informative alert", message_content: "Download the new version", redirect_url: "http://itunes.apple.com/app/id734887535?mt=8" } }, status: 200
     # elsif params[:app_version] == "1.2"
