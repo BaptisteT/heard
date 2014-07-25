@@ -82,6 +82,12 @@ class Api::V1::MessagesController < Api::V1::ApiController
     render json: { result: { messages: Message.response_messages(current_user.unread_messages), retrieve_contacts:retrieve} }, status: 201
   end
 
+  def last_message
+    last_message = Message.where(sender_id: params[:sender_id], receiver_id: current_user.id).order('id DESC').limit(1)
+
+    render json: { result: { message: Message.response_message(last_message)} }, status: 201
+  end
+
   private
 
     def message_params
