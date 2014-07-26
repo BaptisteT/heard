@@ -25,7 +25,7 @@ class Api::V1::ApiController < ApplicationController
   def obsolete_api
     
 
-    if params[:app_version] && ["1.1.1", "1.1.2"].include? params[:app_version]
+    if params[:app_version] && ["1.1.1", "1.1.2"].include?(params[:app_version])
       render json: {result: { message: "Ok"} }, status: 200
     else
       render json: {result: { message_type: "Blocking alert", message_content: "Please download the latest version at www.waved.io/beta.", redirect_url: "http://www.waved.io/beta" } }, status: 200 
