@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
 
   def unread_messages
     blocked_ids = Blockade.where(blocker_id: self.id).select(:blocked_id)
-    self.messages_received.where(opened: false).where.not(sender_id: blocked_ids).where.not(sender_id: self.id)
+    self.messages_received.where(opened: false).where.not(sender_id: blocked_ids)
   end
 
   def blocked_by_user(blocker_id)
