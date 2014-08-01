@@ -72,10 +72,10 @@ class Api::V1::UsersController < Api::V1::ApiController
       params[:contact_numbers] = friend_ids[1..-2].split(", ")
     end
 
-    #include Waved contact
+    # Get contacts (except blocked)
     users = User.where(phone_number: params[:contact_numbers])
-                  .reject { |user| user.blocked_by_user(current_user.id) || user.id == current_user.id}
-
+                  .reject { |user| user.blocked_by_user(current_user.id) }
+    #include Waved contact
     users << User.find(1)
 
     # If sign up, then update other users :retrieve_contacts
