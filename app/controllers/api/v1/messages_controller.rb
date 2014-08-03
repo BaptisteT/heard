@@ -21,9 +21,14 @@ class Api::V1::MessagesController < Api::V1::ApiController
         APNS.pass = "djibril"
         APNS.host = 'gateway.push.apple.com' 
 
-        APNS.send_notification(receiver.push_token , :alert => text, :badge => badge_number, :sound => 'default',
-                                                     :content_available => 1,
-                                                     :other => {:message => message.response_message})
+        if receiver.unread_messages.where(:sender_id => current_user.id).count == 1
+          APNS.send_notification(receiver.push_token , :alert => text, :badge => badge_number, :sound => 'default',
+                                                       :other => {:message => message.response_message})
+        else
+          #no sound
+          APNS.send_notification(receiver.push_token , :alert => text, :badge => badge_number,
+                                                       :other => {:message => message.response_message})
+        end
       end
 
       render json: { result: { message: ["Message successfully saved"] } }, status: 201
