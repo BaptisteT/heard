@@ -42,10 +42,10 @@ class Api::V1::ApiController < ApplicationController
     def is_below_threshold(app_version,threshold)
       threshold_array = threshold.split(".").map { |s| s.to_i }
       version_array = app_version.split(".").map { |s| s.to_i }
-      (0..version_array.count).each do |i|
-        if threshold_array.count < i || threshold_array[i] < version_array[i]
+      (1..version_array.count).each do |i|
+        if threshold_array.count < i || threshold_array[i-1] < version_array[i-1]
           return false
-        elsif threshold_array[i] > version_array[i]
+        elsif threshold_array[i-1] > version_array[i-1]
           return true
         end
       end
