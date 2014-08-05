@@ -45,7 +45,7 @@ class Api::V1::ApiController < ApplicationController
       (0..version_array.count).each do |i|
         if threshold_array.count < i || threshold_array[i] < version_array[i]
           return false
-        else if threshold_array[i] > version_array[i]
+        elsif threshold_array[i] > version_array[i]
           return true
         end
       end
