@@ -24,7 +24,7 @@ class Api::V1::ApiController < ApplicationController
   # app_version related message
   def obsolete_api
     
-    if !params[:app_version] || self.is_below_threshold(params[:app_version],THRESHOLD)
+    if !params[:app_version] || is_below_threshold(params[:app_version],THRESHOLD)
       render json: {result: { message_type: "Blocking alert", message_content: "Please download the latest version at www.waved.io/beta.", redirect_url: "http://www.waved.io/beta" } }, status: 200 
     else
       render json: {result: { message: "Ok"} }, status: 200
@@ -44,15 +44,15 @@ class Api::V1::ApiController < ApplicationController
       version_array = app_version.split(".").map { |s| s.to_i }
       (0..version_array.count).each do |i|
         if threshold_array.count < i || threshold_array[i] < version_array[i]
-          return NO
+          return false
         else if threshold_array[i] > version_array[i]
-          return YES
+          return true
         end
       end
       if threshold_array.count > version_array.count
-        return YES
+        return true
       else
-        return NO
+        return false
       end
     end
 end
