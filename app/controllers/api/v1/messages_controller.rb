@@ -101,7 +101,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
     end
 
     #todo BT put this somewhere else
-    unread_users = Message.where(sender_id:current_user.id, opened:false).uniq.pluck(:receiver_id)
+    unread_users = Message.where(sender_id:current_user.id, opened:false).pluck(:receiver_id).uniq
     render json: { result: { messages: Message.response_messages(current_user.unread_messages), 
                                 retrieve_contacts:retrieve,
                                 unread_users:unread_users} }, status: 201
