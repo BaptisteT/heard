@@ -74,6 +74,21 @@ class Api::V1::MessagesController < Api::V1::ApiController
   def mark_as_opened
     message = Message.find(params[:message_id])
     message.update_attributes(:opened => true)
+
+    #todo BT
+    # if last message unread from this user (can be a param of the request), send silent notif
+    # Send this notif only to new versions
+
+    # receiver = User.find(message.sender_id)
+    # if (receiver.push_token)
+    #   #notif config
+    #   APNS.pem = 'app/assets/cert.pem'
+    #   APNS.port = 2195
+    #   APNS.pass = "djibril"
+    #   APNS.host = 'gateway.push.apple.com' 
+    #   APNS.send_notification(receiver.push_token , :other => {:message => message.response_message})
+    # end
+
     render json: { result: { message: ["Message successfully updated"] } }, status: 201
   end
 
@@ -84,7 +99,12 @@ class Api::V1::MessagesController < Api::V1::ApiController
     else
       retrieve = false
     end
-    render json: { result: { messages: Message.response_messages(current_user.unread_messages), retrieve_contacts:retrieve} }, status: 201
+
+    #todo BT put this somewhere else
+    unread_users = Message.where(sender_id:current_user.id, opened:false).select(:id)
+    render json: { result: { messages: Message.response_messages(current_user.unread_messages), 
+                                retrieve_contacts:retrieve,
+                                unread_users:unread_users} }, status: 201
   end
 
   def last_message
