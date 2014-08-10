@@ -22,11 +22,11 @@ class Api::V1::MessagesController < Api::V1::ApiController
         APNS.host = 'gateway.push.apple.com' 
 
         if receiver.unread_messages.where(:sender_id => current_user.id).count == 1
-          APNS.send_notification(receiver.push_token , :alert => text, :badge => badge_number, :sound => 'default',
+          APNS.send_notification(receiver.push_token , :alert => text, :badge => badge_number, :sound => 'received_sound.aif',
                                                        :other => {:message => message.response_message})
         else
           #no sound
-          APNS.send_notification(receiver.push_token , :alert => text, :badge => badge_number,
+          APNS.send_notification(receiver.push_token , :alert => text, :badge => badge_number, 
                                                        :other => {:message => message.response_message})
         end
       end
