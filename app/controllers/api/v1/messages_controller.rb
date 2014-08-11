@@ -79,15 +79,15 @@ class Api::V1::MessagesController < Api::V1::ApiController
     # if last message unread from this user (can be a param of the request), send silent notif
     # Send this notif only to new versions
 
-    # receiver = User.find(message.sender_id)
-    # if (receiver.push_token)
-    #   #notif config
-    #   APNS.pem = 'app/assets/cert.pem'
-    #   APNS.port = 2195
-    #   APNS.pass = "djibril"
-    #   APNS.host = 'gateway.push.apple.com' 
-    #   APNS.send_notification(receiver.push_token , :other => {:message => message.response_message})
-    # end
+    receiver = User.find(message.receiver_id)
+    if (receiver.push_token && receiver.unread_messages.where(sender_id: message.sender_id)).count == 0)
+      #notif config
+      APNS.pem = 'app/assets/cert.pem'
+      APNS.port = 2195
+      APNS.pass = "djibril"
+      APNS.host = 'gateway.push.apple.com' 
+      APNS.send_notification(receiver.push_token , :other => {:message_id => message.id, :receiver_id => receiver.id})
+    end
 
     render json: { result: { message: ["Message successfully updated"] } }, status: 201
   end
