@@ -80,7 +80,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
     # Send this notif only to new versions
 
     receiver = User.find(message.receiver_id)
-    if (receiver.push_token && receiver.unread_messages.where(sender_id: message.sender_id)).count == 0)
+    if (receiver.push_token && receiver.unread_messages.where(sender_id: message.sender_id).count == 0)
       #notif config
       APNS.pem = 'app/assets/cert.pem'
       APNS.port = 2195
