@@ -11,4 +11,4 @@ TWILIO_PHONE_NUMBER = "+14159443667"
 
 SENDER_EMAIL = SENDER_EMAIL_
 DOWNLOAD_LINK = "www.waved.io/beta"
-VERSION_THRESHOLD= "1.1.1"        #first authorized version
+VERSION_THRESHOLD= "1.1.2"        #first authorized version

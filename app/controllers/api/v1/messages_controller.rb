@@ -75,10 +75,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
     message = Message.find(params[:message_id])
     message.update_attributes(:opened => true)
 
-    #todo BT
-    # if last message unread from this user (can be a param of the request), send silent notif
-    # Send this notif only to new versions
-
+    # if this is last message unread from this user, send silent notif
     receiver = User.find(message.receiver_id)
     sender = User.find(message.sender_id)
     if (sender.push_token && ! is_below_threshold(sender.app_version,"1.1.2") && receiver.unread_messages.where(sender_id: sender.id).count == 0)
