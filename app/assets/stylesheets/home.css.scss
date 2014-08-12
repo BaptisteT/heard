@@ -59,13 +59,13 @@ a.google_play_button{background-image:image_url('store_buttons.png');background-
 
 
 /* Header iPhones */
-.header_right .iphone_one{background-image:image_url('iphone-screen2.png');background-repeat:no-repeat;height:699px;width:330px;position:absolute;z-index:0;display:none}
-.header_right .iphone_two{background-image:image_url('iphone-screen1.png');background-repeat:no-repeat;height:699px;width:330px;position:absolute;margin-left:120px;z-index:5;display:none}
+.header_right .iphone_one{background-image:image_url('iphone-screen1.png');background-repeat:no-repeat;height:699px;width:361px;position:absolute;z-index:0;display:none}
+.header_right .iphone_two{background-image:image_url('iphone-screen1.png');background-repeat:no-repeat;height:699px;width:361px;position:absolute;margin-left:120px;z-index:5;display:none}
 
 
 /* Section one */
 .section_one{height:882px;width:100%;float:left;display:none;margin:0;padding:0}
-.section_one .iphone_section_one{background-image:image_url('iphone-screen2.png');height:699px;width:330px;float:left}
+.section_one .iphone_section_one{background-image:image_url('iphone-screen2.png');height:699px;width:361px;float:left}
 .section_one .inner_section h2{float:left;margin-left:40px;font-size:28px;color:#1E51A3;font-weight:200;padding-top:280px;margin-bottom:10px;}
 .section_one .inner_section p{float:left;margin-left:40px;font-size:21px;line-height:36px;color:#8D8D8D;font-weight:400;width:400px}
 .section_one .inner_section .section_text_wrapper{float:left;width:400px}
@@ -73,7 +73,7 @@ a.google_play_button{background-image:image_url('store_buttons.png');background-
 
 /* Section two */
 .section_two{background-image:image_url('blue_background.png');background-repeat:repeat;height:882px;width:100%;float:left;display:none}
-.section_two .iphone_section_two{background-image:image_url('iphone-screen3.png');height:699px;width:330px;float:right}
+.section_two .iphone_section_two{background-image:image_url('iphone-screen3.png');height:699px;width:361px;float:right}
 .section_two .inner_section .section_text_wrapper h2{float:left;margin-left:0;font-size:28px;color:#FFF;font-weight:400;padding-top:280px;text-align:right;width:400px;margin-bottom:10px;}
 .section_two .inner_section .section_text_wrapper p{float:left;margin-left:0;font-size:21px;line-height:36px;color:#A5A5A5;font-weight:300;width:400px;text-align:right}
 .section_two .inner_section .section_text_wrapper{float:left;width:400px}
