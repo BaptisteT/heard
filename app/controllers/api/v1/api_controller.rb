@@ -40,6 +40,10 @@ class Api::V1::ApiController < ApplicationController
 
   private
     def is_below_threshold(app_version,threshold)
+      if !app_version
+        return false
+      end
+      
       threshold_array = threshold.split(".").map { |s| s.to_i }
       version_array = app_version.split(".").map { |s| s.to_i }
       (1..version_array.count).each do |i|
