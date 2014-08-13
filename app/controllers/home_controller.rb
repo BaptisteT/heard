@@ -26,6 +26,6 @@ class HomeController < ApplicationController
       end
     end
 
-    redirect_to action:index
+    render :index
   end
 end

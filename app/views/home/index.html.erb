@@ -19,11 +19,13 @@
 
 <a href="http://beta.waved.io" class="beta_button"></a>
 
+<div class="text_invite">
 <% if @result_message %>
-  <a <%= @result_message %> </a>
+  <p> <%= @result_message %> </p>
+  <h2></h2>
+  <h2></h2>
 <% else %>
-  <div class="text_invite">
-  <%= form_tag("/text_link", method: "post") do %>
+  <%= form_tag("/", method: "post") do %>
     <input id="mobile_number" type="tel" placeholder="Type your phone number" name="number">
     <button type="submit">Text me the link</button>
   <% end %>
@@ -35,9 +37,8 @@
       });
     }, "jsonp");
   </script>
-  </div>
 <% end %>
-
+</div>
 </div>
 
 <div class="mid_header">
