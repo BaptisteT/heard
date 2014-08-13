@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140709123936) do
+ActiveRecord::Schema.define(version: 20140813100117) do
 
   create_table "blockades", force: true do |t|
     t.integer  "blocker_id"
@@ -25,6 +25,10 @@ ActiveRecord::Schema.define(version: 20140709123936) do
     t.integer  "code"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "invited_numbers", force: true do |t|
+    t.string "phone_number"
   end
 
   create_table "messages", force: true do |t|
