@@ -1,10 +1,13 @@
-input, .beta_invite button {
-height: 35px;
-  margin: 0;
-  padding: 6px 12px;
-  border-radius: 2px;
+.text_invite {
+  padding-left:25px;
+}
+.text_invite input, .text_invite button {
+height: 60px;
+  padding: 6px 12px 8px 4px;
+  border-radius: 8px;
   font-family: inherit;
-  font-size: 100%;
+  font-size: 110%;
+  vertical-align:middle;
   color: inherit; }
   input[disabled], button[disabled] {
     background-color: #eee; }
@@ -17,9 +20,9 @@ height: 35px;
 .token.variable {
   background: none; }
 
-input, select {
+.text_invite input, select {
   border: 1px solid #CCC;
-  width: 250px; }
+  width: 300px; }
 
 ::-webkit-input-placeholder {
   color: #BBB; }
@@ -32,10 +35,10 @@ input, select {
 :-ms-input-placeholder {
   color: #BBB; }
 
-.beta_invite button {
+.text_invite button {
   color: #FFF;
   background-color: #2655A1;
-  border: 1px solid #2655A1; }
+  border: 1px solid #2655A1;}
   button:hover {
     background-color: #2655A1;
     border-color: #2655A1;

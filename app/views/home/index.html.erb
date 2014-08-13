@@ -16,7 +16,23 @@
 <h2></h2>
 <h2></h2>
 <h2></h2>
+
 <a href="http://beta.waved.io" class="beta_button"></a>
+
+<div class="text_invite">
+<%= form_tag("/text_link", method: "post") do %>
+  <input id="mobile_number" type="tel" placeholder="Type your phone number" name="number">
+  <button type="submit">Text me the link</button>
+<% end %>
+<script>
+  $.get("http://ipinfo.io", function(response) {
+    $("#mobile_number").intlTelInput({
+      defaultCountry: response.country.toLowerCase(),
+      responsiveDropdown: true
+    });
+  }, "jsonp");
+</script>
+</div>
 </div>
 
 <div class="mid_header">
