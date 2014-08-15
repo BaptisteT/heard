@@ -17,11 +17,6 @@ module ApplicationHelper
 
     if message.save
       if receiver.push_token
-          # APNS config
-  APNS.pem = 'app/assets/cert.pem'
-  APNS.port = 2195
-  APNS.pass = "djibril"
-  APNS.host = 'gateway.push.apple.com' 
 
           text = 'New message from Waved'
           badge_number = receiver.unread_messages.count

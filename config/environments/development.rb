@@ -52,4 +52,10 @@ Heard::Application.configure do
       :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
     }
   }
+
+  # APNS config
+  APNS.pem = 'app/assets/cert.pem'
+  APNS.port = 2195
+  APNS.pass = "djibril"
+  APNS.host = 'gateway.push.apple.com' 
 end
