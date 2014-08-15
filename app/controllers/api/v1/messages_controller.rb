@@ -91,8 +91,8 @@ class Api::V1::MessagesController < Api::V1::ApiController
     end
 
     # if this is 5th message read, send tips message
-    if receiver.messages_received.where(opened:true).count == 5
-      TipsMessagesWorker.perform_async(receiver,1)
+    if receiver.messages_received.where(opened:true).count == 5 && receiver.push_token
+      TipsMessagesWorker.perform_async(receiver.id,receiver.push_token,receiver.unread_messages.count,1)
     end
 
     render json: { result: { message: ["Message successfully updated"] } }, status: 201

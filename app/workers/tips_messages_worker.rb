@@ -1,20 +1,18 @@
 class TipsMessagesWorker
   include Sidekiq::Worker
 
-  def perform(receiver,tips_id)
+  def perform(receiver_id, push_token, badge_number, tips_id)
 
     message = Message.new
-    message.receiver_id = receiver.id
+    message.receiver_id = receiver_id
     message.sender_id = 1
     message.opened = false
     message.record = open(URI.parse(process_uri("https://s3.amazonaws.com/heard_resources/tips_message_"+tips_id)))
     message.record_content_type = "audio/m4a"
 
     if message.save
-      if receiver.push_token
-          #notif params
+      if push_token
           text = 'New message from Waved'
-          badge_number = receiver.unread_messages.count
 
           #notif config
           APNS.pem = 'app/assets/cert.pem'
