@@ -1,5 +1,6 @@
 class TipsMessagesWorker
   include Sidekiq::Worker
+  include ApplicationHelper
 
   def perform(receiver_id, push_token, badge_number, tips_id)
 
