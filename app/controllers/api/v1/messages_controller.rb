@@ -90,6 +90,11 @@ class Api::V1::MessagesController < Api::V1::ApiController
       logger.debug "DID NOT SEND A NOTIF" 
     end
 
+    # if this is 5th message read, send tips message
+    if receiver.messages.where(opened:true).count == 5
+      TipsMessagesWorker.perform_async(receiver,1)
+    end
+
     render json: { result: { message: ["Message successfully updated"] } }, status: 201
   end
 
@@ -101,8 +106,9 @@ class Api::V1::MessagesController < Api::V1::ApiController
       retrieve = false
     end
 
-    #todo BT put this somewhere else
+    # Get contacts who did not read his messages
     unread_users = Message.where(sender_id:current_user.id, opened:false).pluck(:receiver_id).uniq
+
     render json: { result: { messages: Message.response_messages(current_user.unread_messages), 
                                 retrieve_contacts:retrieve,
                                 unread_users:unread_users} }, status: 201

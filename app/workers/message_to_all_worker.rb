@@ -16,7 +16,6 @@ class MessageToAllWorker
         if receiver.push_token
 
             #notif params
-            sender  = current_user
             text = 'New message from Waved'
             badge_number = receiver.unread_messages.count
 

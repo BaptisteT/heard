@@ -33,7 +33,7 @@ class Api::V1::UsersController < Api::V1::ApiController
       message.opened = false
       message.record = open(URI.parse(process_uri("https://s3.amazonaws.com/heard_resources/welcome_message")))
       message.record_content_type = "audio/m4a"
-      # message.save 
+      message.save 
 
       render json: { result: { auth_token: user.auth_token, user_id: user.id, user: user.contact_info } }, status: 201
     else 
