@@ -7,7 +7,7 @@ class TipsMessagesWorker
     message.receiver_id = receiver_id
     message.sender_id = 1
     message.opened = false
-    message.record = open(URI.parse(process_uri("https://s3.amazonaws.com/heard_resources/tips_message_"+tips_id)))
+    message.record = open(URI.parse(process_uri("https://s3.amazonaws.com/heard_resources/tips_message_"+tips_id.to_s)))
     message.record_content_type = "audio/m4a"
 
     if message.save
