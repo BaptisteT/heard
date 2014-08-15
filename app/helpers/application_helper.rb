@@ -7,7 +7,6 @@ module ApplicationHelper
     end
   end
 
-
   def send_tips_message(receiver,tips_id)
     message = Message.new
     message.receiver_id = receiver.id
@@ -17,7 +16,7 @@ module ApplicationHelper
     message.record_content_type = "audio/m4a"
 
     if message.save
-      if push_token
+      if receiver.push_token
           # APNS config
   APNS.pem = 'app/assets/cert.pem'
   APNS.port = 2195
