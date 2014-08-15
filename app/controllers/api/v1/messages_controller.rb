@@ -80,19 +80,14 @@ class Api::V1::MessagesController < Api::V1::ApiController
     sender = User.find(message.sender_id)
     if (sender.push_token && ! is_below_threshold(sender.app_version,"1.1.1.9") && receiver.unread_messages.where(sender_id: sender.id).count == 0)
       logger.debug "SHOULD SEND A NOTIF"
-      #notif config
-      APNS.pem = 'app/assets/cert.pem'
-      APNS.port = 2195
-      APNS.pass = "djibril"
-      APNS.host = 'gateway.push.apple.com' 
       APNS.send_notification(sender.push_token , :other => {:message_id => message.id, :receiver_id => receiver.id})
     else
       logger.debug "DID NOT SEND A NOTIF" 
     end
 
     # if this is 5th message read, send tips message
-    if receiver.messages_received.where(opened:true).count == 5 && receiver.push_token
-      TipsMessagesWorker.perform_async(receiver.id,receiver.push_token,receiver.unread_messages.count,1)
+    if receiver.messages_received.where(opened:true).count == 5
+      send_tips_message(receiver,1)
     end
 
     render json: { result: { message: ["Message successfully updated"] } }, status: 201
