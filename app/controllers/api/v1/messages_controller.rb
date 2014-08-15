@@ -91,7 +91,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
     end
 
     # if this is 5th message read, send tips message
-    if receiver.messages.where(opened:true).count == 5
+    if receiver.messages_received.where(opened:true).count == 5
       TipsMessagesWorker.perform_async(receiver,1)
     end
 
