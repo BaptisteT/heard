@@ -78,7 +78,6 @@ class Api::V1::MessagesController < Api::V1::ApiController
     # if this is last message unread from this user, send silent notif
     receiver = User.find(message.receiver_id)
     sender = User.find(message.sender_id)
-    if (sender.push_token && ! is_below_threshold(sender.app_version,"1.1.2") && receiver.unread_messages.where(sender_id: sender.id).count == 0)
     if (sender.push_token && ! is_below_threshold(sender.app_version,"1.1.1.9") && receiver.unread_messages.where(sender_id: sender.id).count == 0)
       logger.debug "SHOULD SEND A NOTIF"
       #notif config
