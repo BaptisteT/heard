@@ -1,5 +1,5 @@
 class Api::V1::MessagesController < Api::V1::ApiController
-
+  include ApplicationHelper
   def create
     Rails.logger.debug "TRUCHOV create message"
 
