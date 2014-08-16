@@ -27,13 +27,17 @@ class Api::V1::UsersController < Api::V1::ApiController
       code_request.destroy
 
       #Create welcome message
-      message = Message.new
-      message.receiver_id = user.id
-      message.sender_id = 1
-      message.opened = false
-      message.record = open(URI.parse(process_uri("https://s3.amazonaws.com/heard_resources/welcome_message")))
-      message.record_content_type = "audio/m4a"
-      # message.save 
+      begin
+        message = Message.new
+        message.receiver_id = user.id
+        message.sender_id = 1
+        message.opened = false
+        message.record = open(URI.parse(process_uri("https://s3.amazonaws.com/heard_resources/welcome_message")))
+        message.record_content_type = "audio/m4a"
+        # message.save 
+      rescue
+        # better to be safe than sorry !
+      end
 
       render json: { result: { auth_token: user.auth_token, user_id: user.id, user: user.contact_info } }, status: 201
     else 
