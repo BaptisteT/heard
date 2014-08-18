@@ -26,6 +26,7 @@ module ApplicationHelper
         end
       end
     rescue
+      
     end
   end
 end

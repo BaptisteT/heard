@@ -109,6 +109,12 @@ class Api::V1::MessagesController < Api::V1::ApiController
     render json: { result: { message: Message.response_message(last_message)} }, status: 201
   end
 
+  def retrieve_conversation
+    messages = Messages.where(sender_id:params[:first_user_id], receiver_id:params[:second_user_id])
+    messages += Messages.where(sender_id:params[:second_user_id], receiver_id:params[:first_user_id])
+    render json: { result: { messages: messages} }, status: 201
+  end
+
   private
 
     def message_params

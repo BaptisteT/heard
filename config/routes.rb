@@ -31,6 +31,8 @@ Heard::Application.routes.draw do
       patch "users/update_last_name" => "users#update_last_name"
       get "users/user_presence" => "users#user_presence"
       get "messages/last_message" => "messages#last_message"
+      get "users/active_contacts" => "users#get_user_active_contacts"
+      get "messages/retrieve_conversation" => "messages#retrieve_conversation"
     end
   end
 end
