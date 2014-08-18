@@ -110,7 +110,7 @@ class Api::V1::UsersController < Api::V1::ApiController
     user = User.find(params[:user_id])
     active_contacts_id = user.messages_received.pluck(:sender_id)
     active_contacts_id += user.messages_sent.pluck(:receiver_id)
-    active_contacts = User.find(active_contacts_id)
+    active_contacts = User.where(id:active_contacts_id)
     render json: { result: { active_contacts: User.contact_info(active_contacts) } }, status: 201
   end
 end
