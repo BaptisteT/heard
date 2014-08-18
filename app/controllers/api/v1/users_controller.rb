@@ -108,8 +108,9 @@ class Api::V1::UsersController < Api::V1::ApiController
   # Contacts that exchanged waved with current user
   def get_user_active_contacts
     user = User.find(params[:user_id])
-    active_contacts = user.messages_received.pluck(:sender_id)
-    active_contacts += user.messages_sent.pluck(:receiver_id)
-    render json: { result: { active_contacts: active_contacts.uniq } }, status: 201
+    active_contacts_id = user.messages_received.pluck(:sender_id)
+    active_contacts_id += user.messages_sent.pluck(:receiver_id)
+    active_contacts = User.where(:id in active_contacts_id)
+    render json: { result: { active_contacts: User.contact_info(active_contacts) } }, status: 201
   end
 end
