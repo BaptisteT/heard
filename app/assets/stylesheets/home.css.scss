@@ -40,7 +40,7 @@ body{-webkit-font-smoothing:antialiased;color:#2D2D2D;font-family:"Helvetica Neu
 .top_header .header_or{font-size:15px;color:#A9A9A9;display:block;float:left;width:50px;text-align:center;padding-top:30px}
 .top_header h1{text-align: center;}
 .top_header h2{text-align: center;}
-.header .inner_wrapper .header_left .mid_header{float:left;width:100%;padding-top:130px;padding-left:25px;font-size:16px;color:#AAA;line-height:24px}
+.header .inner_wrapper .header_left .mid_header{float:left;width:100%;padding-top:30px;padding-left:25px;font-size:16px;color:#AAA;line-height:24px}
 .header .inner_wrapper .header_left .mid_header p{padding-top:34px} 
 .header .inner_wrapper .header_left .mid_header a:link{color:#1E51A3;}
 .header .inner_wrapper .header_left .mid_header a:link{color:#1E51A3;}
@@ -51,8 +51,8 @@ body{-webkit-font-smoothing:antialiased;color:#2D2D2D;font-family:"Helvetica Neu
 a.beta_button{background-image:image_url('iphone_beta.png');display:none;margin:0 auto;height:76px;width:227px}
 
 /* Appstore Button */
-a.appstore_button{background-image:image_url('store_buttons.png');display:block;float:left;height:76px;width:222px}
-
+a.appstore_button{background-image:image_url('AppStore.png');background-size: contain;background-repeat:no-repeat;display:block;height:76px;width:230px}
+a.appstore_button{margin:0 auto}
 
 /* Google Play Button */
 a.google_play_button{background-image:image_url('store_buttons.png');background-repeat:no-repeat;float:left;height:76px;width:220px;background-position:-260px 0;display:block}
@@ -134,9 +134,9 @@ a.email_icon{background-image:image_url('email_icon.png');float:left;height:34px
 	
 body{overflow-x:hidden}
 .inner_wrapper{width:100%;margin-right:0;margin-left:0}
-.header .inner_wrapper .header_left .mid_header {float: left;width: 80%;padding: 10%;padding-top: 15px;font-size: 16px;color: #AAA;line-height: 24px}
+.header .inner_wrapper .header_left .mid_header {float: left;width: 80%;padding: 10%;padding-top: 0px;font-size: 16px;color: #AAA;line-height: 24px}
 .header_wrapper{background-image: image_url('loading_icon.gif');background-position: center 200px}
-.top_header{padding: 30px;height:490px}
+.top_header{padding: 30px;height:480px}
 .header_left{float: left;width: 60%;padding-top: 90px;margin-right: 0%;margin-left: 0%}
 .header_right{width: 50%;right: 0px;height: 700px;position: absolute;overflow-x: hidden}
 .header_right .iphone_one{background-image:image_url('iphone-screen1.png');background-repeat:no-repeat;height:699px;width:361px;position:absolute;z-index:0;display:none; margin-left:60px}
@@ -167,7 +167,7 @@ a.beta_button{display:block}
 .header_right{display:none}
 .header_left{float: left;width: 100%;padding-top: 90px;margin-right: 0px;margin-left: 0px}
 .section_team .inner_wrapper .team_member_wrapper{display: block;float: none;clear: both;height: 170px;width: 300px;margin-left: auto;margin-right: auto}
-.header .inner_wrapper .header_left .mid_header {float: left;width: 80%;padding: 10%;padding-top: 30px;font-size: 16px;color: #AAA;line-height: 24px}
+.header .inner_wrapper .header_left .mid_header {float: left;width: 80%;padding: 10%;padding-top: 20px;font-size: 16px;color: #AAA;line-height: 24px}
 .header_left {float: left;width: 90%;padding-left: 5%;padding-right: 5%;padding-top: 70px;margin-right: 0px;margin-left: 0px}
 a.beta_button{display:block}
 .text_invite{display:none}
