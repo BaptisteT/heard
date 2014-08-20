@@ -14,10 +14,18 @@ class MessageToAllWorker
 
       if message.save
         if receiver.push_token
-            text = 'New message from Waved'
-            badge_number = receiver.unread_messages.count
+          text = 'New message from Waved'
+          badge_number = receiver.unread_messages.count
 
-            APNS.send_notification(receiver.push_token , :alert => text, :badge => badge_number, :sound => 'default',
+          if is_below_threshold(receiver.app_version,FIRST_PRODUCTION_VERSION)
+            APNS.pem = 'app/assets/cert.pem'
+            APNS.pass = "djibril"
+          else
+            APNS.pem = 'app/assets/WavedProdCert&Key.pem'
+            APNS.pass = ENV['CERT_PASS']
+          end
+          
+          APNS.send_notification(receiver.push_token , :alert => text, :badge => badge_number, :sound => 'default',
                                                          :other => {:message => message.response_message})
         end
       end

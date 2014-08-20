@@ -15,6 +15,14 @@ class Api::V1::MessagesController < Api::V1::ApiController
         text = 'New message from ' + sender.first_name
         badge_number = receiver.unread_messages.count
 
+        if is_below_threshold(receiver.app_version,FIRST_PRODUCTION_VERSION)
+          APNS.pem = 'app/assets/cert.pem'
+          APNS.pass = "djibril"
+        else
+          APNS.pem = 'app/assets/WavedProdCert&Key.pem'
+          APNS.pass = ENV['CERT_PASS']
+        end
+
         if receiver.unread_messages.where(:sender_id => current_user.id).count == 1
           APNS.send_notification(receiver.push_token , :alert => text, :badge => badge_number, :sound => 'received_sound.aif',
                                                        :other => {:message => message.response_message})
@@ -74,6 +82,13 @@ class Api::V1::MessagesController < Api::V1::ApiController
     sender = User.find(message.sender_id)
     if (sender.push_token && ! is_below_threshold(sender.app_version,"1.1.1.9") && receiver.unread_messages.where(sender_id: sender.id).count == 0)
       logger.debug "SHOULD SEND A NOTIF"
+      if is_below_threshold(sender.app_version,FIRST_PRODUCTION_VERSION)
+        APNS.pem = 'app/assets/cert.pem'
+        APNS.pass = "djibril"
+      else
+        APNS.pem = 'app/assets/WavedProdCert&Key.pem'
+        APNS.pass = ENV['CERT_PASS']
+      end
       APNS.send_notification(sender.push_token , :other => {:message_id => message.id, :receiver_id => receiver.id})
     else
       logger.debug "DID NOT SEND A NOTIF" 

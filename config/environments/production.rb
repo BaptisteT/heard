@@ -102,14 +102,8 @@ Heard::Application.configure do
   }
 
   # APNS config
-  APNS.pem = 'app/assets/cert.pem'
   APNS.port = 2195
-  APNS.pass = "djibril"
   APNS.host = 'gateway.push.apple.com' 
 
-  # APNS.pem = 'app/assets/WavedProdCert&Key.pem'
-  # APNS.port = 2195
-  # APNS.pass = ENV['CERT_PASS']
-  # APNS.host = 'gateway.push.apple.com' 
 
 end
