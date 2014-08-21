@@ -2,7 +2,7 @@ require 'sidekiq/web'
 
 Heard::Application.routes.draw do
   root :to => "home#index"
-  get "/beta" => "home"
+  get "/beta" => "home#beta"
   post "/" => "home#text_link"
 
   #Sinatra app to monitor queues provided by sidekiq/web
