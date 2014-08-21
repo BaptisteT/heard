@@ -10,6 +10,7 @@ TWILIO_TOKEN = "a615daff695125d456ce7075ca7de5bd"
 TWILIO_PHONE_NUMBER = "+14159443667"
 
 SENDER_EMAIL = SENDER_EMAIL_
-DOWNLOAD_LINK = "www.waved.io/beta"
-VERSION_THRESHOLD = "1.1.1.9"        # Minimum authorized version
+DOWNLOAD_LINK = "http://bit.ly/1mnNZ0g"
+APP_STORE_LINK = "https://itunes.apple.com/us/app/waved/id891201506?ls=1&mt=8"
+VERSION_THRESHOLD = "1.1.2"        # Minimum authorized version
 FIRST_PRODUCTION_VERSION = "1.1.2"   # First app store version

@@ -18,7 +18,7 @@ class HomeController < ApplicationController
         client.account.messages.create(
           from: TWILIO_PHONE_NUMBER,
           to:   params[:number],
-          body: "Hey. To download Waved for iPhone, tap here: " + DOWNLOAD_LINK
+          body: "Download Waved for iPhone at " + DOWNLOAD_LINK + "."
         )
         @result_message = "Thanks. We sent a download link to your phone."
       rescue Twilio::REST::RequestError => e

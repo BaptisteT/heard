@@ -25,7 +25,7 @@ class Api::V1::ApiController < ApplicationController
   def obsolete_api
     
     if !params[:app_version] || is_below_threshold(params[:app_version],VERSION_THRESHOLD)
-      render json: {result: { message_type: "Blocking alert", message_content: "Please download the latest version at www.waved.io/beta.", redirect_url: "http://www.waved.io/beta" } }, status: 200 
+      render json: {result: { message_type: "Blocking alert", message_content: "The beta is over! Please download the latest version on the App Store.", redirect_url: APP_STORE_LINK } }, status: 200 
     else
       render json: {result: { message: "Ok"} }, status: 200
     end

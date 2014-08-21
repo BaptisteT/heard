@@ -39,7 +39,7 @@
 
 <h2></h2>
 <h2></h2>
-<a href= "beta" class="appstore_button"></a>
+<a href=<%= APP_STORE_LINK %> class="appstore_button"></a>
 
 </div>
 
@@ -111,65 +111,6 @@
 </div>
 
 
-
-
-
-
-
-
-
-
-<!----  Section - the team  ---->
-<!-- 
-<div class="section_team">
-<div class="inner_wrapper">
-<div class="team_title">
-<h3>The Team</h3>
-<p>Feeling some users are overwhelmed by intrusive communication tools, we want to develop more balanced and controlled social interactions.</p>
-</div>
-
-
-
-
-
-Team member one
-
-<div class="team_member_wrapper">
-<div class="team_user_icon team_member_one"></div>
-<div class="team_member_info">
-<h4>Bastien Beurier</h4>
-<p>Co-Founder</p>
-<a href="https://twitter.com/bastienbeurier" class="team_social_icon_twitter" title="Follow on Twitter"></a>
-</div>
-</div>
-
-
-
-
-
-
-Team member two
-
-<div class="team_member_wrapper">
-<div class="team_user_icon team_member_two"></div>
-<div class="team_member_info">
-<h4>Baptiste Truchot</h4>
-<p>Co-founder</p>
-<a href="https://twitter.com/TruchotBaptiste" class="team_social_icon_twitter" title="Follow on Twitter"></a>
-</div>
-</div>
-
-
-
-
-</div>
-</div> -->
-
-
-
-
-
-
 <!----  Section features  ---->
 
 
@@ -208,7 +149,13 @@ Team member two
 </div>
 
 
+<script type="text/javascript">
+  var uagent = navigator.userAgent.toLowerCase();
 
+  if (uagent.search("iphone") > -1 || uagent.search("ipad") > -1) {
+    window.location = "<%= APP_STORE_LINK %>";
+  } 
+</script>
 
 
 <!----  Preload Images  ---->
