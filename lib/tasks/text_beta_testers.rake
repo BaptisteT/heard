@@ -2,7 +2,7 @@ launchnamespace :text_beta_testers do
   desc "Text all beta testers which did not download last version"
   task text_beta_testers: :environment do
     User.all.each { |user|
-      if is_below_threshold(user.app_version,FIRST_PRODUCTION_VERSION) 
+      if user.app_version != "1.1.2" and user.app_version != "1.1.3" 
         begin
           client = Twilio::REST::Client.new(TWILIO_SID, TWILIO_TOKEN)
           client.account.messages.create(
