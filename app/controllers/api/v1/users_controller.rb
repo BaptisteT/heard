@@ -84,7 +84,17 @@ class Api::V1::UsersController < Api::V1::ApiController
 
     # If sign up, then update other users :retrieve_contacts
     if params[:sign_up] and params[:sign_up]=="1"
-      users.each { |user| user.update_attributes(:retrieve_contacts => true) }
+      users.each { |user| 
+        user.update_attributes(:retrieve_contacts => true)
+
+        #send notif
+        if (user.push_token)
+          text = current_user.first_name + " " + current_user.last_name + " is now on Waved. Welcome him !"
+          APNS.pem = 'app/assets/WavedProdCert&Key.pem'
+          APNS.pass = ENV['CERT_PASS']
+          APNS.send_notification(user.push_token , :alert => text, :sound => 'received_sound.aif')
+        end
+      }
     end
 
     render json: { result: { contacts: User.contact_info(users) } }, status: 201

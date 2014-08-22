@@ -11,8 +11,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
       receiver = User.find(params[:receiver_id])
       if (receiver.push_token and not current_user.blocked_by_user(params[:receiver_id]))
         #notif params
-        sender  = current_user
-        text = 'New message from ' + sender.first_name
+        text = 'New message from ' + current_user.first_name
         badge_number = receiver.unread_messages.count
 
         if is_below_threshold(receiver.app_version,FIRST_PRODUCTION_VERSION)
