@@ -12,6 +12,7 @@ launchnamespace :text_beta_testers do
           )
         rescue Twilio::REST::RequestError => e
         end
+      end
     }
   end
 end
