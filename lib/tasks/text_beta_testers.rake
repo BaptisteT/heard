@@ -1,4 +1,4 @@
-launchnamespace :text_beta_testers do
+namespace :launch_namespace do
   desc "Text all beta testers which did not download last version"
   task text_beta_testers: :environment do
     User.all.each { |user|
