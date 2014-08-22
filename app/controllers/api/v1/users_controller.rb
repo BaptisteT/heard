@@ -89,7 +89,7 @@ class Api::V1::UsersController < Api::V1::ApiController
 
         #send notif
         if (user.push_token)
-          text = current_user.first_name + " " + current_user.last_name + " is now on Waved. Welcome him !"
+          text = current_user.first_name + " " + current_user.last_name + " is now on Waved!"
           APNS.pem = 'app/assets/WavedProdCert&Key.pem'
           APNS.pass = ENV['CERT_PASS']
           APNS.send_notification(user.push_token , :alert => text, :sound => 'received_sound.aif')
