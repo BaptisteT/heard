@@ -79,6 +79,8 @@ class Api::V1::UsersController < Api::V1::ApiController
     # Get contacts (except blocked)
     users = User.where(phone_number: params[:contact_numbers])
                   .reject { |user| user.blocked_by_user(current_user.id) }
+    #include Waved contact
+    users << User.find(1)
 
     # If sign up, then update other users :retrieve_contacts
     if params[:sign_up] and params[:sign_up]=="1"
