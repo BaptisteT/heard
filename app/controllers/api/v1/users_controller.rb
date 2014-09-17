@@ -75,6 +75,9 @@ class Api::V1::UsersController < Api::V1::ApiController
     if params[:api_version] && params[:app_version] 
       current_user.update_attributes(:app_version => params[:app_version], :api_version => params[:api_version], :contact_auth => true)
     end
+    if params[:os_version]
+      current_user.update_attributes(:os_version => params[:os_version])
+    end
 
     #Android sends a String that we have to parse
     if params[:contact_numbers].is_a? String
