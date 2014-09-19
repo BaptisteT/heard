@@ -76,6 +76,32 @@ class Api::V1::UsersController < Api::V1::ApiController
       params[:contact_numbers] = friend_ids[1..-2].split(", ")
     end
 
+    # Map prospect users
+    if (params[:sign_up] and params[:sign_up]=="1") or (current_user.id < 1598 && MappedUser.where(user_id: current_user.id).length = 0)
+      if current_user.id < 1598
+        mapped_user = MappedUser.new
+        mapped_user.user_id = current_user.id
+        mapped_user.save
+      end
+
+      prospects = Prospect.where(phone_number: params[:contact_numbers])
+
+      prospects.each do |prospect|
+        prospect.contacts_count += 1
+        prospect.contact_ids += "," + current_user.id.to_s
+        prospect.save
+      end
+
+      (params[:contact_numbers] - prospects.map(&:phone_number)).each do |phone_number|
+        prospect = Prospect.new
+        prospect.phone_number = phone_number
+        prospect.contacts_count = 1
+        prospect.contact_ids = current_user.id.to_s
+        prospect.save
+      end
+    end
+    
+
     # Get contacts (except blocked)
     users = User.where(phone_number: params[:contact_numbers])
                   .reject { |user| user.blocked_by_user(current_user.id) }
