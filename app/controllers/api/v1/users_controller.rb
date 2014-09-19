@@ -98,27 +98,11 @@ class Api::V1::UsersController < Api::V1::ApiController
         mapped_contact.save!
       end
 
-      prospects = Prospect.where(phone_number: params[:contact_numbers]) - users.map(&:phone_number)
-
-      prospects.each do |prospect|
-        prospect.contacts_count += 1
-        prospect.contact_ids += "," + current_user.id.to_s
-        prospect.save!
+      begin
+        MapContactsWorker.perform_async(params[:contact_numbers], current_user.id)
+      rescue
       end
-
-      new_prospect_numbers = params[:contact_numbers]
-
-      if prospects.length > 0
-        new_prospect_numbers -= prospects.map(&:phone_number)
-      end
-
-      new_prospect_numbers.each do |phone_number|
-        prospect = Prospect.new
-        prospect.phone_number = phone_number
-        prospect.contacts_count = 1
-        prospect.contact_ids = current_user.id.to_s
-        prospect.save!
-      end
+    
     end
 
     # If sign up, then update other users :retrieve_contacts
