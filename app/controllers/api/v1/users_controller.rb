@@ -65,10 +65,18 @@ class Api::V1::UsersController < Api::V1::ApiController
     render json: { result: { user: current_user.contact_info } }, status: 201
   end
 
+  def update_micro_auth
+    current_user.update_attributes(:micro_auth => params[:micro_auth])
+    render json: { result: { user: current_user.contact_info } }, status: 201
+  end
+
   def get_my_contact
     # update app / api version
     if params[:api_version] && params[:app_version] 
-      current_user.update_attributes(:app_version => params[:app_version], :api_version => params[:api_version])
+      current_user.update_attributes(:app_version => params[:app_version], :api_version => params[:api_version], :contact_auth => true)
+    end
+    if params[:os_version]
+      current_user.update_attributes(:os_version => params[:os_version])
     end
 
     #Android sends a String that we have to parse
