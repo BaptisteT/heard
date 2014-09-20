@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140814154811) do
+ActiveRecord::Schema.define(version: 20140919200126) do
 
   create_table "blockades", force: true do |t|
     t.integer  "blocker_id"
@@ -33,6 +33,12 @@ ActiveRecord::Schema.define(version: 20140814154811) do
     t.datetime "updated_at"
   end
 
+  create_table "mapped_contacts", force: true do |t|
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "messages", force: true do |t|
     t.integer  "sender_id"
     t.integer  "receiver_id"
@@ -41,6 +47,17 @@ ActiveRecord::Schema.define(version: 20140814154811) do
     t.string   "record_content_type"
     t.integer  "record_file_size"
     t.datetime "record_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "prospects", force: true do |t|
+    t.string   "phone_number"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.integer  "contacts_count"
+    t.string   "contact_ids"
+    t.string   "facebook_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -60,6 +77,9 @@ ActiveRecord::Schema.define(version: 20140814154811) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "retrieve_contacts",            default: false
+    t.boolean  "contact_auth",                 default: false
+    t.boolean  "micro_auth"
+    t.string   "os_version"
   end
 
 end
