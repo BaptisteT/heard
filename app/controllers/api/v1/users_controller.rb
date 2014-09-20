@@ -71,7 +71,8 @@ class Api::V1::UsersController < Api::V1::ApiController
   end
 
   def get_my_contact
-    # update app / api version
+    # to remove in the future
+    # Now in update_app_info
     if params[:api_version] && params[:app_version] 
       current_user.update_attributes(:app_version => params[:app_version], :api_version => params[:api_version], :contact_auth => true)
     end
@@ -125,5 +126,13 @@ class Api::V1::UsersController < Api::V1::ApiController
     active_contacts_id += user.messages_sent.pluck(:receiver_id)
     active_contacts = User.where(id:active_contacts_id)
     render json: { result: { active_contacts: User.contact_info(active_contacts) } }, status: 201
+  end
+
+  def update_app_info
+    current_user.app_version = params[:app_version]
+    current_user.api_version = params[:api_version]
+    current_user.os_version = params[:os_version]
+    current_user.save
+    render json: { result: { user: current_user.contact_info } }, status: 201
   end
 end
