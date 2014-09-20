@@ -79,31 +79,11 @@ class Api::V1::UsersController < Api::V1::ApiController
       current_user.update_attributes(:os_version => params[:os_version])
     end
 
-    #Android sends a String that we have to parse
-    if params[:contact_numbers].is_a? String
-      params[:contact_numbers] = friend_ids[1..-2].split(", ")
-    end
-
     # Get contacts (except blocked)
     users = User.where(phone_number: params[:contact_numbers])
                   .reject { |user| user.blocked_by_user(current_user.id) }
     #include Waved contact
     users << User.find(1)
-
-    # Map prospect users
-    if (params[:sign_up] and params[:sign_up] == "1") or (current_user.id < 1598 and MappedContact.where(user_id: current_user.id).length == 0)
-      if current_user.id < 1598
-        mapped_contact = MappedContact.new
-        mapped_contact.user_id = current_user.id
-        mapped_contact.save!
-      end
-
-      begin
-        MapContactsWorker.perform_async(params[:contact_numbers], current_user.id)
-      rescue
-      end
-    
-    end
 
     # If sign up, then update other users :retrieve_contacts
     if params[:sign_up] and params[:sign_up]=="1"
