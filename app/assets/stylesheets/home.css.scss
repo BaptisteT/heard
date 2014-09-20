@@ -178,3 +178,53 @@ a.beta_button{display:block}
 .header {background-size:100% 646px}
 
 }
+
+
+.container {
+  width: 1000px;
+  margin: 0 auto;
+  position: relative; }
+
+/* STANDARD-TEXT
+-------------------------------------*/
+
+#standard-text {
+  position: relative;}
+  #standard-text .container {
+    position: relative;
+    -ms-overflow-style: none;
+    overflow: hidden;
+    max-width: 600px; 
+    padding: 10px;
+    color: #000; 
+    border-top: 2px solid #2052A2;}
+    #standard-text .container h1 {
+      font-weight: 800;
+      font-size: 24px; 
+      margin-bottom: 20px; 
+      margin-top: 15px;
+      line-height:200%;
+      color: #2052A2;}
+    #standard-text .container h2 {
+      font-weight: 800;
+      font-size: 18px; 
+      margin-bottom: 10px; 
+      margin-top: 20px;
+      line-height:150%;
+      color: #2052A2; }
+    #standard-text .container h3 {
+      font-weight:bold; 
+      margin-top: 10px;
+      margin-bottom: 5px; }
+    #standard-text .container p {
+      font-weight: 400; 
+      margin-bottom: 5px; }
+    #standard-text .container ul li {
+      margin-left: 20px;
+      font-weight: 400; 
+      margin-bottom: 5px; }
+
+
+.spacer-fix, .spacer-variable {
+  clear: both;
+  height: 85px;}

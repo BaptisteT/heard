@@ -29,4 +29,7 @@ class HomeController < ApplicationController
 
     render :index
   end
+
+  def privacy
+  end
 end
