@@ -162,7 +162,8 @@ class Api::V1::UsersController < Api::V1::ApiController
     contact_numbers = []
     # dict = JSON.parse(params[:contact_infos])
     dict = params[:contact_infos]
-    dict.keys.each { |number|
+    render json: { result: { contacts: dict } }, status: 201
+    dict.each { |number, contact_info|
       render json: { result: { contacts: number } }, status: 201
       contact_numbers += number
     }
