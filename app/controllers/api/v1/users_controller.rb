@@ -164,7 +164,7 @@ class Api::V1::UsersController < Api::V1::ApiController
     dict.each { |phone_number, contact_info|
       contact_numbers += phone_number
     }
-    render json: { result: { contacts: phone_number } }, status: 201
+    render json: { result: { "ok" } }, status: 201
     # # Get contacts (except blocked)
     # users = User.where(phone_number: contact_numbers)
     #               .reject { |user| user.blocked_by_user(current_user.id) }
