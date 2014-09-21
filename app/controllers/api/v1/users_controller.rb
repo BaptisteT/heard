@@ -24,7 +24,12 @@ class Api::V1::UsersController < Api::V1::ApiController
     end
 
     if user.save
+      #delete code and prospects if any
       code_request.destroy
+      prospect = Prospect.find_by(phone_number: params[:phone_number])
+      if prospect
+        prospect.destroy
+      end
 
       #Create welcome message
       begin
@@ -87,7 +92,7 @@ class Api::V1::UsersController < Api::V1::ApiController
     users << User.find(1)
 
     # Map prospect users
-    if (params[:sign_up] and params[:sign_up] == "1") or (current_user.id < 1598 and MappedContact.where(user_id: current_user.id).length == 0)
+    if (params[:sign_up] and params[:sign_up] == "1") or (current_user.id < 1617 and MappedContact.where(user_id: current_user.id).length == 0)
       if current_user.id < 1598
         mapped_contact = MappedContact.new
         mapped_contact.user_id = current_user.id
