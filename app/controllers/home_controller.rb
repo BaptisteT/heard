@@ -9,7 +9,6 @@ class HomeController < ApplicationController
   end
 
   def text_link
-    # todo BT check number is valid ?
     invited_number = InvitedNumber.new
     invited_number.phone_number = params[:number]
     

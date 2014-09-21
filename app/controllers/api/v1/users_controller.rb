@@ -24,12 +24,15 @@ class Api::V1::UsersController < Api::V1::ApiController
     end
 
     if user.save
-      #delete code and prospects if any
+      #delete code
       code_request.destroy
+      #delete prospects
       prospect = Prospect.find_by(phone_number: params[:phone_number])
       if prospect
         prospect.destroy
       end
+      #todo BT
+      # future message -> real message
 
       #Create welcome message
       begin
@@ -157,8 +160,8 @@ class Api::V1::UsersController < Api::V1::ApiController
 
   def get_contacts_and_futures
     contact_numbers = []
-    dict = JSON.parse(params[:contact_infos])
-    dict.each { |number, contact_info|
+    # dict = JSON.parse(params[:contact_infos])
+    params[:contact_infos].each { |number, contact_info|
       contact_numbers += number
     }
     # Get contacts (except blocked)
