@@ -159,16 +159,16 @@ class Api::V1::UsersController < Api::V1::ApiController
   end
 
   def get_contacts_and_futures
-    contact_numbers = []
+    # contact_numbers = []
     params[:contact_infos].each { |phone_number, contact_info|
-      contact_numbers += phone_number
+      contact_numbers = phone_number
     }
-    render json: { result: contact_numbers[0] }, status: 201
-    # # Get contacts (except blocked)
-    # users = User.where(phone_number: contact_numbers)
-    #               .reject { |user| user.blocked_by_user(current_user.id) }
-    # #include Waved contact
-    # users << User.find(1)
+    render json: { result: contact_numbers }, status: 201
+    # Get contacts (except blocked)
+    users = User.where(phone_number: contact_numbers)
+                  .reject { |user| user.blocked_by_user(current_user.id) }
+    #include Waved contact
+    users << User.find(1)
 
     # if params[:sign_up] and params[:sign_up]=="1"
     #   # Tell his contacts to :retrieve_contacts and send them notif
