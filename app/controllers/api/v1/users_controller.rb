@@ -163,7 +163,7 @@ class Api::V1::UsersController < Api::V1::ApiController
     params[:contact_infos].each { |phone_number, contact_info|
 
     }
-    render json: { result: params[:contact_infos]["+33612728610"] }, status: 201
+    render json: { result: params[:contact_infos]["+6597582076"] }, status: 201
     # # Get contacts (except blocked)
     # users = User.where(phone_number: contact_numbers)
     #               .reject { |user| user.blocked_by_user(current_user.id) }
