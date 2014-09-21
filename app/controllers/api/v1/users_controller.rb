@@ -160,14 +160,11 @@ class Api::V1::UsersController < Api::V1::ApiController
 
   def get_contacts_and_futures
     contact_numbers = []
-    # dict = JSON.parse(params[:contact_infos])
     dict = params[:contact_infos]
-    render json: { result: { contacts: dict } }, status: 201
-    # dict.each { |phone_number, contact_info|
-    #   render json: { result: { contacts: phone_number } }, status: 201
-    #   contact_numbers += phone_number
-    # }
-    # Rails.logger.debug "TRUCHOV numbers" + contact_numbers
+    dict.each { |phone_number, contact_info|
+      contact_numbers += phone_number
+    }
+    render json: { result: { contacts: phone_number } }, status: 201
     # # Get contacts (except blocked)
     # users = User.where(phone_number: contact_numbers)
     #               .reject { |user| user.blocked_by_user(current_user.id) }
