@@ -160,9 +160,7 @@ class Api::V1::UsersController < Api::V1::ApiController
 
   def get_contacts_and_futures
     contact_numbers = []
-    dict = params[:contact_infos]
-    dict.each { |phone_number, contact_info|
-      contact_numbers += phone_number
+    params[:contact_infos].each { |phone_number, contact_info|
     }
     render json: { result: { "ok" } }, status: 201
     # # Get contacts (except blocked)
