@@ -161,8 +161,9 @@ class Api::V1::UsersController < Api::V1::ApiController
   def get_contacts_and_futures
     contact_numbers = []
     params[:contact_infos].each { |phone_number, contact_info|
+      contact_numbers += phone_number
     }
-    render json: { result: "ok" }, status: 201
+    render json: { result: contact_numbers[0] }, status: 201
     # # Get contacts (except blocked)
     # users = User.where(phone_number: contact_numbers)
     #               .reject { |user| user.blocked_by_user(current_user.id) }
