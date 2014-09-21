@@ -159,8 +159,10 @@ class Api::V1::UsersController < Api::V1::ApiController
   end
 
   def get_contacts_and_futures
-    contact_numbers = []
+    Rails.logger.level = 0
     Rails.logger.debug "TRUCHOV params before 1"
+    contact_numbers = []
+    Rails.logger.warm "TRUCHOV params before 1"
     dict = JSON.parse(params[:contact_infos])
     Rails.logger.debug "TRUCHOV params before 2"
     dict.keys.each { |number|
