@@ -161,6 +161,7 @@ class Api::V1::UsersController < Api::V1::ApiController
   def get_contacts_and_futures
     contact_numbers = []
     # dict = JSON.parse(params[:contact_infos])
+    Rails.logger.debug "TRUCHOV params" + params[:contact_infos]
     params[:contact_infos].keys.each { |number|
       Rails.logger.debug "TRUCHOV contact info" + number
       contact_numbers += number
