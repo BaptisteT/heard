@@ -157,7 +157,8 @@ class Api::V1::UsersController < Api::V1::ApiController
 
   def get_contacts_and_futures
     contact_numbers = []
-    params[:contact_infos].each { |contact_info|
+    ar = JSON.parse(params[:contact_infos])
+    ar.each { |contact_info|
       contact_numbers += contact_info[0]
     }
     # Get contacts (except blocked)
