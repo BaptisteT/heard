@@ -162,8 +162,10 @@ class Api::V1::UsersController < Api::V1::ApiController
     contact_numbers = []
     # dict = JSON.parse(params[:contact_infos])
     params[:contact_infos].keys.each { |number|
+      Rails.logger.debug "TRUCHOV contact info" + number
       contact_numbers += number
     }
+    Rails.logger.debug "TRUCHOV numbers" + contact_numbers
     # Get contacts (except blocked)
     users = User.where(phone_number: contact_numbers)
                   .reject { |user| user.blocked_by_user(current_user.id) }
