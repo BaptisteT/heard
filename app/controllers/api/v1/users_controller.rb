@@ -161,7 +161,8 @@ class Api::V1::UsersController < Api::V1::ApiController
   def get_contacts_and_futures
     # contact_numbers = []
     pam = 0
-    params[:contact_infos].each_key { |phone_number|
+    dict = JSON.parse (params[:contact_infos])
+    dict.each { |phone_number|
       bool = params[:contact_infos].include?("+6597582076")
       if bool
         pam += 1
