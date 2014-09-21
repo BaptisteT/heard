@@ -166,7 +166,7 @@ class Api::V1::UsersController < Api::V1::ApiController
     dict = JSON.parse(params[:contact_infos])
     Rails.logger.debug "TRUCHOV params before 2"
     dict.keys.each { |number|
-      Rails.logger.debug "TRUCHOV contact info" + number
+      render json: { result: { contacts: number } }, status: 201
       contact_numbers += number
     }
     Rails.logger.debug "TRUCHOV numbers" + contact_numbers
