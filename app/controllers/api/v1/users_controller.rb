@@ -75,9 +75,9 @@ class Api::V1::UsersController < Api::V1::ApiController
     render json: { result: { user: current_user.contact_info } }, status: 201
   end
 
+  # for backward compatibility (<= 1.1.4)
+  # now get_contacts_and_relatives
   def get_my_contact
-    # to remove in the future
-    # Now in update_app_info
     if params[:api_version] && params[:app_version] 
       current_user.update_attributes(:app_version => params[:app_version], :api_version => params[:api_version], :contact_auth => true)
     end
@@ -153,5 +153,38 @@ class Api::V1::UsersController < Api::V1::ApiController
     current_user.os_version = params[:os_version]
     current_user.save
     render json: { result: { user: current_user.contact_info } }, status: 201
+  end
+
+  def get_contacts_and_futures
+    contact_numbers = []
+    params[:contact_infos].each { |contact_info|
+      contact_numbers += contact_info[0]
+    }
+    # Get contacts (except blocked)
+    users = User.where(phone_number: contact_numbers)
+                  .reject { |user| user.blocked_by_user(current_user.id) }
+    #include Waved contact
+    users << User.find(1)
+
+    if params[:sign_up] and params[:sign_up]=="1"
+      # Tell his contacts to :retrieve_contacts and send them notif
+      users.each { |user| 
+        user.update_attributes(:retrieve_contacts => true)
+        if (user.push_token)
+          text = current_user.first_name + " " + current_user.last_name + " is now on Waved!"
+          APNS.pem = 'app/assets/WavedProdCert&Key.pem'
+          APNS.pass = ENV['CERT_PASS']
+          APNS.send_notification(user.push_token , :alert => text, :sound => 'received_sound.aif')
+        end
+      }
+
+      # Map prospect users
+      begin
+        MapContactsWorker.perform_async(contact_numbers, current_user.id)
+      rescue
+      end
+    end
+
+    render json: { result: { contacts: User.contact_info(users) } }, status: 201
   end
 end

@@ -22,6 +22,7 @@ Heard::Application.routes.draw do
       get "users/unread_messages" => "messages#unread_messages" #to be removed, for backward compatibility
       patch "messages/mark_as_opened" => "messages#mark_as_opened"
       post "users/get_my_contact" => "users#get_my_contact"
+      post "users/get_contacts_and_futures" => "users#get_contacts_and_futures"
       get "users/get_user_info" => "users#get_user_info"
       post "report_crash" => "api#report_crash"
       get "/obsolete_api" => "api#obsolete_api"
