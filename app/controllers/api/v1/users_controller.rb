@@ -161,7 +161,7 @@ class Api::V1::UsersController < Api::V1::ApiController
   def get_contacts_and_futures
     # contact_numbers = []
     pam = 0
-    params["contact_infos"].each { |a|
+    params["contact_infos"].each { |a,b|
       pam += 1
     }
     render json: { result: pam}, status: 201
