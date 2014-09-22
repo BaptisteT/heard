@@ -182,7 +182,7 @@ class Api::V1::UsersController < Api::V1::ApiController
     params["contact_infos"].except!(*users.map(&:phone_number))
     
     # Remove blocked from users           
-    users.reject!{ |user| user.blocked_by_user(current_user.id) }
+    users = users.reject{ |user| user.blocked_by_user(current_user.id) }
 
     if params[:sign_up] and params[:sign_up]=="1" || 1 #to remove
       # Tell his contacts to :retrieve_contacts and send them notif
