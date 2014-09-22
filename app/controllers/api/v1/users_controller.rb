@@ -222,12 +222,12 @@ class Api::V1::UsersController < Api::V1::ApiController
           end
         end
       }
-      if favorite_contacts.count >= 3
-        futures = favorite_contacts.shuffle[1..3]
+      if favorite_contacts.count >= NUMBER_FUTURES_CONTACT
+        futures = favorite_contacts.shuffle[1..NUMBER_FUTURES_CONTACT]
       else
         futures = favorite_contacts
-        if picture_contacts.count + favorite_contacts.count >= 3
-          int = 3 - favorite_contacts.count
+        if picture_contacts.count + favorite_contacts.count >= NUMBER_FUTURES_CONTACT
+          int = NUMBER_FUTURES_CONTACT - favorite_contacts.count
           futures += picture_contacts.shuffle[1..int]
         else
           futures += picture_contacts
