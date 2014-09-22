@@ -1,5 +1,5 @@
 class FutureMessage < ActiveRecord::Base
-  has_one :future_record
+  belongs_to :future_record
 
   validates :sender_id, presence: true
   validates :receiver_number, presence: true

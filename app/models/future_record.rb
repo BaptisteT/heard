@@ -1,6 +1,4 @@
 class FutureRecord < ActiveRecord::Base
-  has_many :future_messages
-
   #Interpolation 
   Paperclip.interpolates :file_name do |attachment, style|
     attachment.instance.id.to_s + "_" + attachment.name.to_s
