@@ -24,12 +24,15 @@ class Api::V1::UsersController < Api::V1::ApiController
     end
 
     if user.save
-      #delete code and prospects if any
+      #delete code
       code_request.destroy
+      #delete prospects
       prospect = Prospect.find_by(phone_number: params[:phone_number])
       if prospect
         prospect.destroy
       end
+      #todo BT
+      # future message -> real message
 
       #convert received messages
       future_messages = FutureMessage.where(receiver_number: user.id)
@@ -180,17 +183,17 @@ class Api::V1::UsersController < Api::V1::ApiController
 
   def get_contacts_and_futures
     contact_numbers = []
-    dict = JSON.parse(params[:contact_infos])
-    dict.each { |number, contact_info|
-      contact_numbers += number
+    params["contact_infos"].each { |a,b|
+      contact_numbers += [a]
     }
+
     # Get contacts (except blocked)
     users = User.where(phone_number: contact_numbers)
                   .reject { |user| user.blocked_by_user(current_user.id) }
     #include Waved contact
     users << User.find(1)
 
-    if params[:sign_up] and params[:sign_up]=="1"
+    if params[:sign_up] and params[:sign_up]=="1" || 1 #to remove
       # Tell his contacts to :retrieve_contacts and send them notif
       users.each { |user| 
         user.update_attributes(:retrieve_contacts => true)
@@ -204,7 +207,7 @@ class Api::V1::UsersController < Api::V1::ApiController
 
       # Map prospect users
       begin
-        MapContactsWorker.perform_async(contact_numbers, current_user.id)
+        MapContactsWorker.perform_async(contact_numbers, params["contact_infos"],current_user.id)
       rescue
         Airbrake.notify(e)
       end
