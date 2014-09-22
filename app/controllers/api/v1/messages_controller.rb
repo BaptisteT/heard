@@ -67,7 +67,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
       params[:future_contact_phones].each do |future_contact_phone|
         future_message = FutureMessage.new
         future_message.sender_id = current_user.id
-        future_message.receiver_phone = future_contact_phone
+        future_message.receiver_number = future_contact_phone
         future_message.future_record_id = future_record.id 
         future_message.save
       end 
