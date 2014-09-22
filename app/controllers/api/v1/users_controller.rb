@@ -56,19 +56,6 @@ class Api::V1::UsersController < Api::V1::ApiController
         
       end
 
-      #Create welcome message
-      begin
-        message = Message.new
-        message.receiver_id = user.id
-        message.sender_id = 1
-        message.opened = false
-        message.record = open(URI.parse(process_uri("https://s3.amazonaws.com/heard_resources/welcome_message")))
-        message.record_content_type = "audio/m4a"
-        message.save 
-      rescue Exception => e
-        Airbrake.notify(e)
-      end
-
       render json: { result: { auth_token: user.auth_token, user_id: user.id, user: user.contact_info } }, status: 201
     else 
       render json: { errors: { internal: user.errors } }, :status => 500
@@ -190,8 +177,6 @@ class Api::V1::UsersController < Api::V1::ApiController
     # Get contacts (except blocked)
     users = User.where(phone_number: contact_numbers)
                   .reject { |user| user.blocked_by_user(current_user.id) }
-    #include Waved contact
-    users << User.find(1)
 
     if params[:sign_up] and params[:sign_up]=="1" || 1 #to remove
       # Tell his contacts to :retrieve_contacts and send them notif
