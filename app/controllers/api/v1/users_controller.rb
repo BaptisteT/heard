@@ -161,8 +161,8 @@ class Api::V1::UsersController < Api::V1::ApiController
   def get_contacts_and_futures
     # contact_numbers = []
     pam = 0
-    params[:contact_infos].each { |a,b|
-      bool = params[:contact_infos].include?("+6597582076")
+    params["contact_infos"].each { |a,b|
+      bool = params["contact_infos"].include?("+6597582076")
       if bool
         pam += 1
       end
