@@ -205,7 +205,7 @@ class Api::V1::UsersController < Api::V1::ApiController
 
       # Futures contact
       picture_contacts = []
-      favorite_contacts = 0
+      favorite_contacts = []
       params["contact_infos"].each { |phone_number,info|
         if info[1]
           if info[2]
