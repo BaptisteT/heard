@@ -163,32 +163,32 @@ class Api::V1::UsersController < Api::V1::ApiController
     params["contact_infos"].each { |a,b|
       contact_numbers += [a]
     }
-    render json: { result: contact_numbers}, status: 201
-    # # Get contacts (except blocked)
-    # users = User.where(phone_number: contact_numbers)
-    #               .reject { |user| user.blocked_by_user(current_user.id) }
-    # #include Waved contact
-    # users << User.find(1)
 
-    # if params[:sign_up] and params[:sign_up]=="1"
-    #   # Tell his contacts to :retrieve_contacts and send them notif
-    #   users.each { |user| 
-    #     user.update_attributes(:retrieve_contacts => true)
-    #     if (user.push_token)
-    #       text = current_user.first_name + " " + current_user.last_name + " is now on Waved!"
-    #       APNS.pem = 'app/assets/WavedProdCert&Key.pem'
-    #       APNS.pass = ENV['CERT_PASS']
-    #       APNS.send_notification(user.push_token , :alert => text, :sound => 'received_sound.aif')
-    #     end
-    #   }
+    # Get contacts (except blocked)
+    users = User.where(phone_number: contact_numbers)
+                  .reject { |user| user.blocked_by_user(current_user.id) }
+    #include Waved contact
+    users << User.find(1)
 
-    #   # Map prospect users
-    #   begin
-    #     MapContactsWorker.perform_async(contact_numbers, current_user.id)
-    #   rescue
-    #   end
-    # end
+    if params[:sign_up] and params[:sign_up]=="1"
+      # Tell his contacts to :retrieve_contacts and send them notif
+      users.each { |user| 
+        user.update_attributes(:retrieve_contacts => true)
+        if (user.push_token)
+          text = current_user.first_name + " " + current_user.last_name + " is now on Waved!"
+          APNS.pem = 'app/assets/WavedProdCert&Key.pem'
+          APNS.pass = ENV['CERT_PASS']
+          APNS.send_notification(user.push_token , :alert => text, :sound => 'received_sound.aif')
+        end
+      }
 
-    # render json: { result: { contacts: User.contact_info(users) } }, status: 201
+      # Map prospect users
+      begin
+        MapContactsWorker.perform_async(contact_numbers, current_user.id)
+      rescue
+      end
+    end
+
+    render json: { result: { contacts: User.contact_info(users) } }, status: 201
   end
 end
