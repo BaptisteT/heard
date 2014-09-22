@@ -159,8 +159,9 @@ class Api::V1::UsersController < Api::V1::ApiController
   end
 
   def get_contacts_and_futures
+    contact_numbers = []
     params["contact_infos"].each { |a,b|
-      contact_numbers = a
+      contact_numbers += [a]
     }
     render json: { result: contact_numbers}, status: 201
     # # Get contacts (except blocked)
