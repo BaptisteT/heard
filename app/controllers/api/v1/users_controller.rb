@@ -205,6 +205,7 @@ class Api::V1::UsersController < Api::V1::ApiController
       end
 
       # Futures contact
+      begin
       picture_contacts = []
       favorite_contacts = []
       params["contact_infos"].each { |phone_number,info|
@@ -232,6 +233,9 @@ class Api::V1::UsersController < Api::V1::ApiController
         else
           futures += picture_contacts
         end
+      end
+      rescue
+        Airbrake.notify(e)
       end
     end
 
