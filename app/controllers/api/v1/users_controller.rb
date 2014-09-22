@@ -205,7 +205,6 @@ class Api::V1::UsersController < Api::V1::ApiController
       end
 
       # Futures contact
-      begin
       picture_contacts = []
       favorite_contacts = []
       params["contact_infos"].each { |phone_number,info|
@@ -224,18 +223,15 @@ class Api::V1::UsersController < Api::V1::ApiController
         end
       }
       if favorite_contacts.count >= NUMBER_FUTURES_CONTACT
-        futures = favorite_contacts.shuffle[1..NUMBER_FUTURES_CONTACT]
+        futures = favorite_contacts.shuffle[0..NUMBER_FUTURES_CONTACT-1]
       else
         futures = favorite_contacts
         if picture_contacts.count + favorite_contacts.count >= NUMBER_FUTURES_CONTACT
-          int = NUMBER_FUTURES_CONTACT - favorite_contacts.count
-          futures += picture_contacts.shuffle[1..int]
+          int = NUMBER_FUTURES_CONTACT - favorite_contacts.count -1
+          futures += picture_contacts.shuffle[0..int]
         else
           futures += picture_contacts
         end
-      end
-      rescue
-        Airbrake.notify(e)
       end
     end
 
