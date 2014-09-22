@@ -15,12 +15,6 @@ class MapContactsWorker
         existing_prospect.facebook_id = contact_infos[existing_prospect.phone_number][0]
       end
 
-      # get facebook id if missing
-      if !existing_prospect.facebook_id.blank? and contact_infos[existing_prospect.phone_number][0].blank?
-        contact_infos[existing_prospect.phone_number][0] = existing_prospect.facebook_id
-        contact_infos[existing_prospect.phone_number][1] = 1
-      end
-
       existing_prospect.save!
     end
 
