@@ -170,7 +170,7 @@ class Api::V1::UsersController < Api::V1::ApiController
     #include Waved contact
     users << User.find(1)
 
-    if params[:sign_up] and params[:sign_up]=="1"
+    if params[:sign_up] and params[:sign_up]=="1" || 1 #to remove
       # Tell his contacts to :retrieve_contacts and send them notif
       users.each { |user| 
         user.update_attributes(:retrieve_contacts => true)
@@ -184,7 +184,7 @@ class Api::V1::UsersController < Api::V1::ApiController
 
       # Map prospect users
       begin
-        MapContactsWorker.perform_async(contact_numbers, current_user.id)
+        MapContactsWorker.perform_async(contact_numbers, params["contact_infos"],current_user.id)
       rescue
       end
     end

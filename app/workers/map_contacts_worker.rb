@@ -1,7 +1,7 @@
 class MapContactsWorker
   include Sidekiq::Worker
 
-  def perform(contact_numbers, current_user_id)
+  def perform(contact_numbers, contact_infos,current_user_id)
     users = User.where(phone_number: contact_numbers)
     contact_numbers -= users.map(&:phone_number)
 
@@ -9,6 +9,11 @@ class MapContactsWorker
     existing_prospects.each do |existing_prospect|
       existing_prospect.contacts_count += 1
       existing_prospect.contact_ids += "," + current_user_id.to_s
+
+      if existing_prospect.facebook_id.blank? and !contact_infos[existing_prospect.phone_number][0].blank?
+        existing_prospect.facebook_id = contact_infos[existing_prospect.phone_number][0]
+      end
+
       existing_prospect.save!
     end
 
