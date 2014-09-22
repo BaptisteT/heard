@@ -11,6 +11,7 @@ namespace :launch_namespace do
             body: "Waved is now available on the App Store! Download it at " + DOWNLOAD_LINK + "."
           )
         rescue Twilio::REST::RequestError => e
+          Airbrake.notify(e)
         end
       end
     }

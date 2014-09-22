@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140919200126) do
+ActiveRecord::Schema.define(version: 20140921202033) do
 
   create_table "blockades", force: true do |t|
     t.integer  "blocker_id"
@@ -23,6 +23,25 @@ ActiveRecord::Schema.define(version: 20140919200126) do
   create_table "code_requests", force: true do |t|
     t.string   "phone_number"
     t.integer  "code"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "future_messages", force: true do |t|
+    t.integer  "sender_id"
+    t.string   "receiver_number"
+    t.integer  "future_record_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "future_messages", ["receiver_number"], name: "index_future_messages_on_receiver_number", using: :btree
+
+  create_table "future_records", force: true do |t|
+    t.string   "recording_file_name"
+    t.string   "recording_content_type"
+    t.integer  "recording_file_size"
+    t.datetime "recording_updated_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -49,18 +68,19 @@ ActiveRecord::Schema.define(version: 20140919200126) do
     t.datetime "record_updated_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "future",              default: false
   end
 
   create_table "prospects", force: true do |t|
     t.string   "phone_number"
-    t.string   "first_name"
-    t.string   "last_name"
     t.integer  "contacts_count"
     t.string   "contact_ids"
     t.string   "facebook_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "prospects", ["phone_number"], name: "index_prospects_on_phone_number", unique: true, using: :btree
 
   create_table "users", force: true do |t|
     t.string   "phone_number"
