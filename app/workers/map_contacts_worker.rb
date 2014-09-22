@@ -11,8 +11,7 @@ class MapContactsWorker
       existing_prospect.contact_ids += "," + current_user_id.to_s
 
       # add facebook id if missing
-      if existing_prospect.facebook_id.blank? and !contact_infos[existing_prospect.phone_number][0].blank? 
-                                              and contact_infos[existing_prospect.phone_number][1]
+      if existing_prospect.facebook_id.blank? and !contact_infos[existing_prospect.phone_number][0].blank? and contact_infos[existing_prospect.phone_number][1]
         existing_prospect.facebook_id = contact_infos[existing_prospect.phone_number][0]
       end
 
