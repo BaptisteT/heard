@@ -207,9 +207,9 @@ class Api::V1::UsersController < Api::V1::ApiController
       params["contact_infos"].each { |phone_number,info|
         if info[1]
           if info[2]
-            favorite_contacts += [{facebook_id: self.info[0],phone_number: phone_number}]
+            favorite_contacts += [{facebook_id: info[0],phone_number: phone_number}]
           else
-            picture_contacts +=[{facebook_id: self.info[0],phone_number: phone_number}]
+            picture_contacts +=[{facebook_id: info[0],phone_number: phone_number}]
           end
         # for favorites without photo, check in prospects if we have one
         elsif info[2]
