@@ -213,6 +213,12 @@ class Api::V1::UsersController < Api::V1::ApiController
           else
             picture_contacts +=[phone_number,info[0]]
           end
+        # for favorites without photo, check in prospects if we have one
+        elsif info[2]
+          prospect = Prospect.where(phone_number: phone_number)
+          if prospect and prospect.facebook_id
+            favorite_contacts += [phone_number,prospect.facebook_id]
+          end
         end
       }
       if favorite_contacts.count >= 3
