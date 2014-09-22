@@ -183,8 +183,8 @@ class Api::V1::UsersController < Api::V1::ApiController
 
   def get_contacts_and_futures
     contact_numbers = []
-    params["contact_infos"].each { |a,b|
-      contact_numbers += [a]
+    params["contact_infos"].each { |phone_number,info|
+      contact_numbers += [phone_number]
     }
 
     # Get contacts (except blocked)
@@ -205,14 +205,41 @@ class Api::V1::UsersController < Api::V1::ApiController
         end
       }
 
+      # Remove users from contacts
+      params["contact_infos"].except!(*contact_numbers)
+
       # Map prospect users
       begin
         MapContactsWorker.perform_async(contact_numbers, params["contact_infos"],current_user.id)
       rescue
         Airbrake.notify(e)
       end
+
+      # Futures contact
+      picture_contacts = []
+      favorite_contacts = 0
+      params["contact_infos"].each { |phone_number,info|
+        if info[1]
+          if info[2]
+            favorite_contacts +=[phone_number,info[0]]
+          else
+            picture_contacts +=[phone_number,info[0]]
+          end
+        end
+      }
+      if favorite_contacts.count >= 3
+        futures = favorite_contacts.shuffle[1..3]
+      else
+        futures = favorite_contacts
+        if picture_contacts.count + favorite_contacts >= 3
+          int = 3 - favorite_contacts
+          futures += picture_contacts.shuffle[1..int]
+        else
+          futures += picture_contacts
+        end
+      end
     end
 
-    render json: { result: { contacts: User.contact_info(users) } }, status: 201
+    render json: { result: { contacts: User.contact_info(users) , futures: futures} }, status: 201
   end
 end

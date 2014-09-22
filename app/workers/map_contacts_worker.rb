@@ -10,8 +10,16 @@ class MapContactsWorker
       existing_prospect.contacts_count += 1
       existing_prospect.contact_ids += "," + current_user_id.to_s
 
-      if existing_prospect.facebook_id.blank? and !contact_infos[existing_prospect.phone_number][0].blank?
+      # add facebook id if missing
+      if existing_prospect.facebook_id.blank? and !contact_infos[existing_prospect.phone_number][0].blank? 
+                                              and contact_infos[existing_prospect.phone_number][1]
         existing_prospect.facebook_id = contact_infos[existing_prospect.phone_number][0]
+      end
+
+      # get facebook id if missing
+      if !existing_prospect.facebook_id.blank? and contact_infos[existing_prospect.phone_number][0].blank?
+        contact_infos[existing_prospect.phone_number][0] = existing_prospect.facebook_id
+        contact_infos[existing_prospect.phone_number][1] = 1
       end
 
       existing_prospect.save!
