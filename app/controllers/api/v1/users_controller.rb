@@ -35,7 +35,7 @@ class Api::V1::UsersController < Api::V1::ApiController
       # future message -> real message
 
       #convert received messages
-      future_messages = FutureMessage.where(receiver_number: user.id)
+      future_messages = FutureMessage.where(receiver_number: params[:phone_number])
 
       future_messages.each do |future_message|
 
