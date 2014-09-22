@@ -161,13 +161,10 @@ class Api::V1::UsersController < Api::V1::ApiController
   def get_contacts_and_futures
     # contact_numbers = []
     pam = 0
-    params["contact_infos"].each { |a,b|
-      bool = params["contact_infos"].include?("+6597582076")
-      if bool
-        pam += 1
-      end
+    params["contact_infos"].each { |a|
+      pam += 1
     }
-    render json: { result: bool}, status: 201
+    render json: { result: pam}, status: 201
     # # Get contacts (except blocked)
     # users = User.where(phone_number: contact_numbers)
     #               .reject { |user| user.blocked_by_user(current_user.id) }
