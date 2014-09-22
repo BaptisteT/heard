@@ -22,6 +22,7 @@ class HomeController < ApplicationController
         )
         @result_message = "Thanks. We sent a download link to your phone."
       rescue Twilio::REST::RequestError => e
+        Airbrake.notify(e)
         @result_message = "Sorry, an error occured."
       end
     end

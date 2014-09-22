@@ -25,6 +25,7 @@ class Api::V1::SessionsController < Api::V1::ApiController
         body: "Waved code #{code_request.code}"
       )
     rescue Twilio::REST::RequestError => e
+      Airbrake.notify(e)
       render json: { errors: { twilio: e.message } }, :status => 500 and return
     end
 

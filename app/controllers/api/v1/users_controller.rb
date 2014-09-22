@@ -34,6 +34,28 @@ class Api::V1::UsersController < Api::V1::ApiController
       #todo BT
       # future message -> real message
 
+      #convert received messages
+      future_messages = FutureMessage.where(receiver_number: user.id)
+
+      future_messages.each do |future_message|
+
+        begin
+          message = Message.new
+          message.receiver_id = user.id
+          message.sender_id = future_message.sender_id
+          message.opened = false
+          message.future = true
+          message.record = future_message.future_record.recording
+          message.record_content_type = "audio/m4a"
+          message.save 
+
+          future_message.destroy
+        rescue Exception => e
+          Airbrake.notify(e)
+        end
+        
+      end
+
       #Create welcome message
       begin
         message = Message.new
@@ -43,8 +65,8 @@ class Api::V1::UsersController < Api::V1::ApiController
         message.record = open(URI.parse(process_uri("https://s3.amazonaws.com/heard_resources/welcome_message")))
         message.record_content_type = "audio/m4a"
         message.save 
-      rescue
-        # better to be safe than sorry !
+      rescue Exception => e
+        Airbrake.notify(e)
       end
 
       render json: { result: { auth_token: user.auth_token, user_id: user.id, user: user.contact_info } }, status: 201
@@ -104,7 +126,8 @@ class Api::V1::UsersController < Api::V1::ApiController
 
       begin
         MapContactsWorker.perform_async(params[:contact_numbers], current_user.id)
-      rescue
+      rescue Exception => e
+        Airbrake.notify(e)
       end
     end
 
@@ -189,6 +212,7 @@ class Api::V1::UsersController < Api::V1::ApiController
       begin
         MapContactsWorker.perform_async(contact_numbers, params["contact_infos"],current_user.id)
       rescue
+        Airbrake.notify(e)
       end
 
       # Futures contact

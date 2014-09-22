@@ -27,8 +27,8 @@ module ApplicationHelper
                                                          :other => {:message => message.response_message})
         end
       end
-    rescue
-      
+    rescue Exception => e
+      Airbrake.notify(e)
     end
   end
 end

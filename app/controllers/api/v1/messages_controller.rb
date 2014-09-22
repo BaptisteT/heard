@@ -59,6 +59,25 @@ class Api::V1::MessagesController < Api::V1::ApiController
     end
   end
 
+  def create_future_messages
+    future_record = FutureRecord.new
+    future_record.recording = params[:record]
+
+    if future_record.save!
+      params[:future_contact_phones].each do |future_contact_phone|
+        future_message = FutureMessage.new
+        future_message.sender_id = current_user.id
+        future_message.receiver_phone = future_contact_phone
+        future_message.future_record_id = future_record.id 
+        future_message.save
+      end 
+
+      render json: { result: { message: ["Messages successfully saved"] } }, status: 201
+    else
+      render json: { errors: { internal: future_record.errors } }, :status => 500 
+    end
+  end
+
   def admin_messages
     if current_user.id != 1
       render json: { errors: { unauthorized: "Not authorized" } }, :status => 401
