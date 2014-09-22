@@ -175,16 +175,13 @@ class Api::V1::UsersController < Api::V1::ApiController
     }
 
     # Get contacts
-    users = User.where(phone_number: contact_numbers)
+    users = User.where(phone_number: contact_numbers).reject { |user| user.blocked_by_user(current_user.id) }
 
     # Remove users from contacts
     contact_numbers -= users.map(&:phone_number)
     params["contact_infos"].except!(*users.map(&:phone_number))
     
-    # Remove blocked from users           
-    users = users.reject{ |user| user.blocked_by_user(current_user.id) }
     futures = []
-
     if params[:sign_up] and params[:sign_up]=="1" || 1 #to remove
       # Tell his contacts to :retrieve_contacts and send them notif
       users.each { |user| 
