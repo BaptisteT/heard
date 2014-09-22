@@ -34,6 +34,9 @@ class MapContactsWorker
       new_prospect.phone_number = phone_number
       new_prospect.contacts_count = 1
       new_prospect.contact_ids = current_user_id.to_s
+      if !contact_infos[new_prospect.phone_number][0].blank?
+        new_prospect.facebook_id = contact_infos[new_prospect.phone_number][0]
+      end
       new_prospect.save!
     end
   end

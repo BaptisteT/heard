@@ -174,9 +174,15 @@ class Api::V1::UsersController < Api::V1::ApiController
       contact_numbers += [phone_number]
     }
 
-    # Get contacts (except blocked)
+    # Get contacts
     users = User.where(phone_number: contact_numbers)
-                  .reject { |user| user.blocked_by_user(current_user.id) }
+
+    # Remove users from contacts
+    contact_numbers -= users.map(&:phone_number)
+    params["contact_infos"].except!(*users.map(&:phone_number))
+    
+    # Remove blocked from users           
+    user.reject { |user| user.blocked_by_user(current_user.id) }
 
     if params[:sign_up] and params[:sign_up]=="1" || 1 #to remove
       # Tell his contacts to :retrieve_contacts and send them notif
@@ -190,12 +196,9 @@ class Api::V1::UsersController < Api::V1::ApiController
         end
       }
 
-      # Remove users from contacts
-      params["contact_infos"].except!(*contact_numbers)
-
       # Map prospect users
       begin
-        MapContactsWorker.perform_async(contact_numbers, params["contact_infos"],current_user.id)
+        MapContactsWorker.perform_async(contact_numbers,params["contact_infos"],current_user.id)
       rescue
         Airbrake.notify(e)
       end
