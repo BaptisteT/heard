@@ -227,7 +227,7 @@ class Api::V1::UsersController < Api::V1::ApiController
       else
         futures = favorite_contacts
         if picture_contacts.count + favorite_contacts.count >= NUMBER_FUTURES_CONTACT
-          int = NUMBER_FUTURES_CONTACT - favorite_contacts.count -1
+          int = NUMBER_FUTURES_CONTACT - favorite_contacts.count - 1
           futures += picture_contacts.shuffle[0..int]
         else
           futures += picture_contacts
