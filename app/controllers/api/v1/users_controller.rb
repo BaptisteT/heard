@@ -180,11 +180,11 @@ class Api::V1::UsersController < Api::V1::ApiController
     params["contact_infos"].except!(*users.map(&:phone_number))
     
     future_contacts = []
-    if params[:sign_up] and params[:sign_up]=="1" || 1 #todo bt remove!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    if params[:sign_up] and params[:sign_up]=="1"
       # Tell his contacts to :retrieve_contacts and send them notif
       users.each { |user| 
         user.update_attributes(:retrieve_contacts => true)
-        if (user.push_token)
+        if (user.push_token && current_user.unread_messages.where(:sender_id => user.id).blank?)
           text = current_user.first_name + " " + current_user.last_name + " is now on Waved!"
           APNS.pem = 'app/assets/WavedProdCert&Key.pem'
           APNS.pass = ENV['CERT_PASS']
