@@ -63,13 +63,37 @@ class Api::V1::MessagesController < Api::V1::ApiController
     future_record = FutureRecord.new
     future_record.recording = params[:record]
 
-    if future_record.save!
+    if future_record.save
       params[:future_contact_phones].each do |future_contact_phone|
         future_message = FutureMessage.new
         future_message.sender_id = current_user.id
         future_message.receiver_number = future_contact_phone
         future_message.future_record_id = future_record.id 
-        future_message.save
+        future_message.save!
+
+        if params[:receiver_first_name]
+          # alert receiver
+          sum = FutureMessage.where(sender_id:current_user.id and receiver_number:future_contact_phone).count
+          if sum == 1
+            message = "Hey " + params[:receiver_first_name] + ", " + current_user.first_name + " just left you a message on Waved. Go to www.waved.io to hear it!"
+          elsif sum == 2
+            message = "Hey " + params[:receiver_first_name] + ", " + current_user.first_name + " just left you multiple messages on Waved. Go to www.waved.io to hear them!"
+          else
+            return
+          end
+
+          begin
+            client = Twilio::REST::Client.new(TWILIO_SID, TWILIO_TOKEN)
+            client.account.messages.create(
+              from: TWILIO_PHONE_NUMBER,
+              to:   future_contact_phone,
+              body: message
+            )
+          rescue Twilio::REST::RequestError => e
+            Airbrake.notify(e)
+            render json: { errors: { twilio: e.message } }, :status => 500 and return
+          end
+        end
       end 
 
       render json: { result: { message: ["Messages successfully saved"] } }, status: 201

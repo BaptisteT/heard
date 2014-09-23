@@ -31,8 +31,6 @@ class Api::V1::UsersController < Api::V1::ApiController
       if prospect
         prospect.destroy
       end
-      #todo BT
-      # future message -> real message
 
       #convert received messages
       future_messages = FutureMessage.where(receiver_number: params[:phone_number])
@@ -108,7 +106,7 @@ class Api::V1::UsersController < Api::V1::ApiController
       if current_user.id < 1598
         mapped_contact = MappedContact.new
         mapped_contact.user_id = current_user.id
-        mapped_contact.save!
+        mapped_contact.save
       end
 
       begin
@@ -119,7 +117,7 @@ class Api::V1::UsersController < Api::V1::ApiController
     end
 
     # If sign up, then update other users :retrieve_contacts
-    if params[:sign_up] and params[:sign_up]=="1"
+    if params[:sign_up] and params[:sign_up]=="1" || 1 #todo bt remove!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       users.each { |user| 
         user.update_attributes(:retrieve_contacts => true)
 
@@ -182,7 +180,7 @@ class Api::V1::UsersController < Api::V1::ApiController
     params["contact_infos"].except!(*users.map(&:phone_number))
     
     future_contacts = []
-    if params[:sign_up] and params[:sign_up]=="1" || 1 #to remove
+    if params[:sign_up] and params[:sign_up]=="1"
       # Tell his contacts to :retrieve_contacts and send them notif
       users.each { |user| 
         user.update_attributes(:retrieve_contacts => true)

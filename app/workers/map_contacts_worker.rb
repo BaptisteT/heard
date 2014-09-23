@@ -15,7 +15,7 @@ class MapContactsWorker
         existing_prospect.facebook_id = contact_infos[existing_prospect.phone_number][0]
       end
 
-      existing_prospect.save!
+      existing_prospect.save
     end
 
     new_prospect_numbers = contact_numbers
@@ -31,7 +31,7 @@ class MapContactsWorker
       if !contact_infos[new_prospect.phone_number][0].blank?
         new_prospect.facebook_id = contact_infos[new_prospect.phone_number][0]
       end
-      new_prospect.save!
+      new_prospect.save
     end
   end
 end
