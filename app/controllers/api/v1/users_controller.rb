@@ -117,7 +117,7 @@ class Api::V1::UsersController < Api::V1::ApiController
     end
 
     # If sign up, then update other users :retrieve_contacts
-    if params[:sign_up] and params[:sign_up]=="1" || 1 #todo bt remove!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    if params[:sign_up] and params[:sign_up]=="1" 
       users.each { |user| 
         user.update_attributes(:retrieve_contacts => true)
 
@@ -180,7 +180,7 @@ class Api::V1::UsersController < Api::V1::ApiController
     params["contact_infos"].except!(*users.map(&:phone_number))
     
     future_contacts = []
-    if params[:sign_up] and params[:sign_up]=="1"
+    if params[:sign_up] and params[:sign_up]=="1" || 1 #todo bt remove!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       # Tell his contacts to :retrieve_contacts and send them notif
       users.each { |user| 
         user.update_attributes(:retrieve_contacts => true)
