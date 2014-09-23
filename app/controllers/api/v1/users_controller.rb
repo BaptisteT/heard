@@ -205,14 +205,14 @@ class Api::V1::UsersController < Api::V1::ApiController
       picture_contacts = []
       favorite_contacts = []
       params["contact_infos"].each { |phone_number,info|
-        if info[1]
-          if info[2]
+        if info[1] == "1"
+          if info[2] == "1"
             favorite_contacts += [{facebook_id: info[0],phone_number: phone_number}]
           else
             picture_contacts +=[{facebook_id: info[0],phone_number: phone_number}]
           end
         # for favorites without photo, check in prospects if we have one
-        elsif info[2]
+        elsif info[2] == "1"
           prospect = Prospect.where(phone_number: phone_number)
           if prospect and prospect.facebook_id
             favorite_contacts += [{facebook_id: prospect.facebook_id,phone_number: phone_number}]
