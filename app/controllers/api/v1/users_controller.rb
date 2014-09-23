@@ -181,7 +181,7 @@ class Api::V1::UsersController < Api::V1::ApiController
     contact_numbers -= users.map(&:phone_number)
     params["contact_infos"].except!(*users.map(&:phone_number))
     
-    futures = []
+    future_contacts = []
     if params[:sign_up] and params[:sign_up]=="1" || 1 #to remove
       # Tell his contacts to :retrieve_contacts and send them notif
       users.each { |user| 
@@ -201,7 +201,7 @@ class Api::V1::UsersController < Api::V1::ApiController
         Airbrake.notify(e)
       end
 
-      # Futures contact
+      # Future contacts
       picture_contacts = []
       favorite_contacts = []
       params["contact_infos"].each { |phone_number,info|
@@ -220,18 +220,18 @@ class Api::V1::UsersController < Api::V1::ApiController
         end
       }
       if favorite_contacts.count >= NUMBER_FUTURES_CONTACT
-        futures = favorite_contacts.shuffle[0..NUMBER_FUTURES_CONTACT-1]
+        future_contacts = favorite_contacts.shuffle[0..NUMBER_FUTURES_CONTACT-1]
       else
-        futures = favorite_contacts
+        future_contacts = favorite_contacts
         if picture_contacts.count + favorite_contacts.count >= NUMBER_FUTURES_CONTACT
           int = NUMBER_FUTURES_CONTACT - favorite_contacts.count - 1
-          futures += picture_contacts.shuffle[0..int]
+          future_contacts += picture_contacts.shuffle[0..int]
         else
-          futures += picture_contacts
+          future_contacts += picture_contacts
         end
       end
     end
 
-    render json: { result: { contacts: User.contact_info(users) , futures: futures} }, status: 201
+    render json: { result: { contacts: User.contact_info(users) , future_contacts: future_contacts} }, status: 201
   end
 end
