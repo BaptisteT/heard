@@ -29,9 +29,9 @@ class Api::V1::SessionsController < Api::V1::ApiController
         Airbrake.notify(e)
         render json: { errors: { twilio: e.message } }, :status => 500 and return
       end
-
-      render json: { result: { } }, status: 201
     end
+
+    render json: { result: { } }, status: 201
   end
 
   def confirm_sms_code
