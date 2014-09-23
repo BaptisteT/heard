@@ -17,19 +17,21 @@ class Api::V1::SessionsController < Api::V1::ApiController
       render json: { errors: { internal: code_request.errors } }, :status => 500 and return
     end  
 
-    begin
-      client = Twilio::REST::Client.new(TWILIO_SID, TWILIO_TOKEN)
-      client.account.messages.create(
-        from: TWILIO_PHONE_NUMBER,
-        to:   code_request.phone_number,
-        body: "Waved code #{code_request.code}"
-      )
-    rescue Twilio::REST::RequestError => e
-      Airbrake.notify(e)
-      render json: { errors: { twilio: e.message } }, :status => 500 and return
-    end
+    if Rails.env.production?
+      begin
+        client = Twilio::REST::Client.new(TWILIO_SID, TWILIO_TOKEN)
+        client.account.messages.create(
+          from: TWILIO_PHONE_NUMBER,
+          to:   code_request.phone_number,
+          body: "Waved code #{code_request.code}"
+        )
+      rescue Twilio::REST::RequestError => e
+        Airbrake.notify(e)
+        render json: { errors: { twilio: e.message } }, :status => 500 and return
+      end
 
-    render json: { result: { } }, status: 201
+      render json: { result: { } }, status: 201
+    end
   end
 
   def confirm_sms_code
