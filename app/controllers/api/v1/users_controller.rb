@@ -175,7 +175,7 @@ class Api::V1::UsersController < Api::V1::ApiController
 
     # Get contacts
     users = User.where(phone_number: contact_numbers).reject { |user| user.blocked_by_user(current_user.id) }
-    current_user.update_attributes(:nb_contacts_users => users.count)
+    current_user.update_attributes(:contact_auth => true, :nb_contacts_users => users.count)
 
     # Remove users from contacts
     contact_numbers -= users.map(&:phone_number)
