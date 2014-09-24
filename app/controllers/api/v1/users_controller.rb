@@ -174,6 +174,7 @@ class Api::V1::UsersController < Api::V1::ApiController
 
     # Get contacts
     users = User.where(phone_number: contact_numbers).reject { |user| user.blocked_by_user(current_user.id) }
+    current_user.update_attributes(:nb_contacts_users => users.count)
 
     # Remove users from contacts
     contact_numbers -= users.map(&:phone_number)
@@ -228,9 +229,22 @@ class Api::V1::UsersController < Api::V1::ApiController
           future_contacts += picture_contacts
         end
       end
-      current_user.update_attributes(:futures => future_contacts.count, :favorites => favorite_contacts.count)
+      current_user.update_attributes(:nb_contacts => , :futures => future_contacts.count, :favorites => favorite_contacts.count)
     end
 
     render json: { result: { contacts: User.contact_info(users) , future_contacts: future_contacts} }, status: 201
+  end
+
+  def update_address_book_stats
+    current_user.nb_contacts = params[:nb_contacts]
+    current_user.nb_contacts_photos = params[:nb_contacts_photos]
+    current_user.nb_contacts_favorites = params[:nb_contacts_favorites]
+    current_user.nb_contacts_facebook = params[:nb_contacts_facebook]
+    current_user.nb_contacts_photo_only = params[:nb_contacts_photo_only]
+    current_user.nb_contacts_family = params[:nb_contacts_family]
+    current_user.nb_contacts_related = params[:nb_contacts_related]
+    current_user.nb_contacts_linked = params[:nb_contacts_linked]
+    current_user.save
+    render json: { result: { user: current_user.contact_info } }, status: 201
   end
 end
