@@ -92,6 +92,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
               Airbrake.notify(e)
               render json: { errors: { twilio: e.message } }, :status => 500 and return
             end
+            future_message.update_attributes(:text_sent => true)
           end
         end
       end 
