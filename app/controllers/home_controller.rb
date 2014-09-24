@@ -34,12 +34,12 @@ class HomeController < ApplicationController
   end
 
   def stats
-    @lastDayCount = FutureMessage.where("created_at >=? and sent_text =",1.week.ago.utc,true).count
-    @lastWeekCount = FutureMessage.where("created_at >=? and sent_text =",1.day.ago.utc, true).count
+    @lastDayCount = FutureMessage.where("created_at >=? and sent_text =?",1.week.ago.utc,true).count
+    @lastWeekCount = FutureMessage.where("created_at >=? and sent_text =?",1.day.ago.utc, true).count
     @totalCount = FutureMessage.where(sent_text: true).count
 
-    @lastDayRecipientCount = FutureMessage.where("created_at >=? and sent_text =",1.week.ago.utc,true).select(:receiver_number).uniq.count
-    @lastWeekRecipientCount = FutureMessage.where("created_at >=? and sent_text =",1.day.ago.utc,true).select(:receiver_number).uniq.count
+    @lastDayRecipientCount = FutureMessage.where("created_at >=? and sent_text =?",1.week.ago.utc,true).select(:receiver_number).uniq.count
+    @lastWeekRecipientCount = FutureMessage.where("created_at >=? and sent_text =?",1.day.ago.utc,true).select(:receiver_number).uniq.count
     @totalRecipientCount = FutureMessage.where(sent_text: true).select(:receiver_number).uniq.count
   end
 end
