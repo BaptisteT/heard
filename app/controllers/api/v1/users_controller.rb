@@ -229,7 +229,7 @@ class Api::V1::UsersController < Api::V1::ApiController
           future_contacts += picture_contacts
         end
       end
-      current_user.update_attributes(:nb_contacts => , :futures => future_contacts.count, :favorites => favorite_contacts.count)
+      current_user.update_attributes(:futures => future_contacts.count, :favorites => favorite_contacts.count)
     end
 
     render json: { result: { contacts: User.contact_info(users) , future_contacts: future_contacts} }, status: 201
