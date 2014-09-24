@@ -213,7 +213,7 @@ class Api::V1::UsersController < Api::V1::ApiController
         # for favorites without photo, check in prospects if we have one
         elsif info[2] == "1"
           prospect = Prospect.where(phone_number: phone_number)
-          if prospect and prospect.facebook_id
+          if prospect and !prospect.facebook_id.blank?
             favorite_contacts += [{facebook_id: prospect.facebook_id,phone_number: phone_number}]
           end
         end
