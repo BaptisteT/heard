@@ -24,6 +24,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
 
         if receiver.unread_messages.where(:sender_id => current_user.id).count == 1
           APNS.send_notification(receiver.push_token , :alert => text, :badge => badge_number, :sound => 'received_sound.aif',
+                                                       :category => "READ_CATEGORY",
                                                        :other => {:message => message.response_message})
         else
           #no sound
