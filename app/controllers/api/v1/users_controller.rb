@@ -80,11 +80,6 @@ class Api::V1::UsersController < Api::V1::ApiController
     render json: { result: { user: current_user.contact_info } }, status: 201
   end
 
-  def update_micro_auth
-    current_user.update_attributes(:micro_auth => params[:micro_auth])
-    render json: { result: { user: current_user.contact_info } }, status: 201
-  end
-
   # for backward compatibility (<= 1.1.4)
   # now get_contacts_and_relatives
   def get_my_contact
@@ -163,6 +158,7 @@ class Api::V1::UsersController < Api::V1::ApiController
     current_user.api_version = params[:api_version]
     current_user.os_version = params[:os_version]
     current_user.push_auth = params[:push_auth]
+    current_user.micro_auth = params[:micro_auth]
     current_user.save!
     render json: { result: { user: current_user.contact_info } }, status: 201
   end
