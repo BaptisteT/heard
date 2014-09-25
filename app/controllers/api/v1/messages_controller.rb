@@ -29,6 +29,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
         else
           #no sound
           APNS.send_notification(receiver.push_token , :alert => text, :badge => badge_number, 
+                                                       :category => "READ_CATEGORY",
                                                        :other => {:message => message.response_message})
         end
       end
