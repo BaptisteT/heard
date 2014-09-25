@@ -24,13 +24,11 @@ class Api::V1::MessagesController < Api::V1::ApiController
 
         if receiver.unread_messages.where(:sender_id => current_user.id).count == 1
           APNS.send_notification(receiver.push_token , :alert => text, :badge => badge_number, :sound => 'received_sound.aif',
-                                                       :category => "READ_CATEGORY",
-                                                       :other => {:message => message.response_message})
+                                                       :other => {:message => message.response_message, :category => "READ_CATEGORY"})
         else
           #no sound
           APNS.send_notification(receiver.push_token , :alert => text, :badge => badge_number, 
-                                                       :category => "READ_CATEGORY",
-                                                       :other => {:message => message.response_message})
+                                                       :other => {:message => message.response_message, :category => "READ_CATEGORY"})
         end
       end
 
@@ -77,9 +75,9 @@ class Api::V1::MessagesController < Api::V1::ApiController
           # alert receiver
           sum = FutureMessage.where(sender_id:current_user.id, receiver_number:future_contact_phone).count
           if sum == 1
-            message = "Hey " + params[:receiver_first_name] + ", " + current_user.first_name + " just left you a message on Waved. Go to www.waved.io to hear it!"
+            message = "Hey " + params[:receiver_first_name] + ", " + current_user.first_name + " just left you a message on Telepath. Go to www.telepath.me to hear it!"
           elsif sum == 2
-            message = "Hey " + params[:receiver_first_name] + ", " + current_user.first_name + " left you multiple messages on Waved. Go to www.waved.io to hear them!"
+            message = "Hey " + params[:receiver_first_name] + ", " + current_user.first_name + " left you multiple messages on Telepath. Go to www.telepath.me to hear them!"
           end
 
           if message
