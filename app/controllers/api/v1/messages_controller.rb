@@ -22,8 +22,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
         else
           pusher = Grocer.pusher(
             certificate: 'app/assets/WavedProdCert&Key.pem'
-            passphrase:  ENV['CERT_PASS']   
-          )
+            passphrase:  ENV['CERT_PASS'])
         end
 
         if receiver.unread_messages.where(:sender_id => current_user.id).count == 1
@@ -32,10 +31,8 @@ class Api::V1::MessagesController < Api::V1::ApiController
             alert:             text,
             badge:             badge_number,
             category:          "READ_CATEGORY",       
-            sound:             'received_sound.aif'
-            custom: {
-              "message": message.response_message
-            }
+            sound:             'received_sound.aif'.
+            custom: {message: message.response_message}
           )
         else
           notification = Grocer::Notification.new(
@@ -43,9 +40,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
             alert:             text,
             badge:             badge_number,
             category:          "READ_CATEGORY",       
-            custom: {
-              "message": message.response_message
-            }
+            custom: {message: message.response_message}
           )  
         end
         pusher.push(notification)
