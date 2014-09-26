@@ -26,7 +26,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
             alert:             text,
             badge:             badge_number,
             category:          "READ_CATEGORY",       
-            sound:             'received_sound.aif'.
+            sound:             'received_sound.aif',
             custom: { message: message.response_message})
         else
           notification = Grocer::Notification.new(
