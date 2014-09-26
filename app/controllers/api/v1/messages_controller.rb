@@ -17,7 +17,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
         if is_below_threshold(receiver.app_version,FIRST_PRODUCTION_VERSION)
           pusher = Grocer.pusher(certificate: "/app/assets/cert.pem", passphrase:  "djibril")
         else
-          pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'])
+          pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
         end
 
         if receiver.unread_messages.where(:sender_id => current_user.id).count == 1
