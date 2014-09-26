@@ -15,21 +15,40 @@ class Api::V1::MessagesController < Api::V1::ApiController
         badge_number = receiver.unread_messages.count
 
         if is_below_threshold(receiver.app_version,FIRST_PRODUCTION_VERSION)
-          APNS.pem = 'app/assets/cert.pem'
-          APNS.pass = "djibril"
+          pusher = Grocer.pusher(
+            certificate: "/app/assets/cert.pem",     
+            passphrase:  "djibril"                    
+          )
         else
-          APNS.pem = 'app/assets/WavedProdCert&Key.pem'
-          APNS.pass = ENV['CERT_PASS']
+          pusher = Grocer.pusher(
+            certificate: 'app/assets/WavedProdCert&Key.pem'
+            passphrase:  ENV['CERT_PASS']   
+          )
         end
 
         if receiver.unread_messages.where(:sender_id => current_user.id).count == 1
-          APNS.send_notification(receiver.push_token , :alert => text, :badge => badge_number, :sound => 'received_sound.aif',
-                                                       :other => {:message => message.response_message, :category => "READ_CATEGORY"})
+          notification = Grocer::Notification.new(
+            device_token:      receiver.push_token,
+            alert:             text,
+            badge:             badge_number,
+            category:          "READ_CATEGORY",       
+            sound:             'received_sound.aif'
+            custom: {
+              "message": message.response_message
+            }
+          )
         else
-          #no sound
-          APNS.send_notification(receiver.push_token , :alert => text, :badge => badge_number, 
-                                                       :other => {:message => message.response_message, :category => "READ_CATEGORY"})
+          notification = Grocer::Notification.new(
+            device_token:      receiver.push_token,
+            alert:             text,
+            badge:             badge_number,
+            category:          "READ_CATEGORY",       
+            custom: {
+              "message": message.response_message
+            }
+          )  
         end
+        pusher.push(notification)
       end
 
       render json: { result: { message: ["Message successfully saved"] } }, status: 201
