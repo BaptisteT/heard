@@ -176,7 +176,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
 
   def is_recording
     receiver = User.find(params[:receiver_id])
-    if ! receiver.push_token
+    if receiver.push_token
       pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
       notification = Grocer::Notification.new(
         device_token:      receiver.push_token,
