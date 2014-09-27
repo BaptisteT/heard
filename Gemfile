@@ -24,5 +24,4 @@ gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'rails_12factor', group: :production
 
-gem 'apns'
 gem 'grocer'

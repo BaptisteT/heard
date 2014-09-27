@@ -45,8 +45,4 @@ Heard::Application.configure do
     }
   }
 
-  # APNS config
-  APNS.port = 2195
-  APNS.host = 'gateway.push.apple.com' 
-
 end

@@ -103,10 +103,13 @@ class Api::V1::UsersController < Api::V1::ApiController
 
         #send notif
         if (user.push_token)
+          pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
           text = current_user.first_name + " " + current_user.last_name + " is now on Waved!"
-          APNS.pem = 'app/assets/WavedProdCert&Key.pem'
-          APNS.pass = ENV['CERT_PASS']
-          APNS.send_notification(user.push_token , :alert => text, :sound => 'received_sound.aif')
+          notification = Grocer::Notification.new(
+            device_token:      user.push_token,
+            alert:             text,
+            sound:             'received_sound.aif')  
+          pusher.push(notification)
         end
       }
     end
@@ -168,10 +171,13 @@ class Api::V1::UsersController < Api::V1::ApiController
       users.each { |user| 
         user.update_attributes(:retrieve_contacts => true)
         if (user.push_token && current_user.unread_messages.where(:sender_id => user.id).blank?)
+          pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
           text = current_user.first_name + " " + current_user.last_name + " is now on Waved!"
-          APNS.pem = 'app/assets/WavedProdCert&Key.pem'
-          APNS.pass = ENV['CERT_PASS']
-          APNS.send_notification(user.push_token , :alert => text, :sound => 'received_sound.aif')
+          notification = Grocer::Notification.new(
+            device_token:      user.push_token,
+            alert:             text,
+            sound:             'received_sound.aif')  
+          pusher.push(notification)
         end
       }
 

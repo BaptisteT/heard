@@ -18,13 +18,16 @@ module ApplicationHelper
 
       if message.save
         if receiver.push_token
-
+            pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
             text = 'New message from Waved'
             badge_number = receiver.unread_messages.count
-            APNS.pem = 'app/assets/WavedProdCert&Key.pem'
-            APNS.pass = ENV['CERT_PASS']
-            APNS.send_notification(receiver.push_token , :alert => text, :badge => badge_number, :sound => 'default',
-                                                         :other => {:message => message.response_message})
+            notification = Grocer::Notification.new(
+              device_token:      receiver.push_token,
+              alert:             text,
+              badge:             badge_number
+              sound:             'default'
+              custom: { message: message.response_message})   
+            pusher.push(notification)
         end
       end
     rescue Exception => e
