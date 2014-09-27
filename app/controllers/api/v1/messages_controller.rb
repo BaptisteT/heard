@@ -174,6 +174,17 @@ class Api::V1::MessagesController < Api::V1::ApiController
     render json: { result: { messages: Message.response_messages(messages)} }, status: 201
   end
 
+  def is_recording
+    receiver = User.where(id: params[:receiver_id])
+    if receiver.push_token
+      pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
+      notification = Grocer::Notification.new(
+        device_token:      receiver.push_token,
+        custom: {:recorder_id => current_user.id, :is_recording => params[:is_recording]})
+      pusher.push(notification)
+    end
+  end
+
   private
 
     def message_params

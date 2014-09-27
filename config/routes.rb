@@ -40,6 +40,7 @@ Heard::Application.routes.draw do
       get "messages/retrieve_conversation" => "messages#retrieve_conversation"
       patch "users/update_app_info" => "users#update_app_info"
       post "messages/create_future_messages" => "messages#create_future_messages"
+      get "messages/is_recording" => "messages#is_recording"
     end
   end
 end
