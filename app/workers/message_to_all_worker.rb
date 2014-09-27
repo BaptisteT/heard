@@ -20,8 +20,8 @@ class MessageToAllWorker
           notification = Grocer::Notification.new(
             device_token:      receiver.push_token,
             alert:             text,
-            badge:             badge_number
-            sound:             'default'
+            badge:             badge_number,
+            sound:             'default',
             custom: { message: message.response_message})   
           pusher.push(notification)
         end
