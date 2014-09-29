@@ -183,6 +183,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
         custom:           {:recorder_id => current_user.id, :is_recording => params[:is_recording]})
       pusher.push(notification)
     end
+    render json:{ result: { message: ["Message successfully saved"]} }, status: 201
   end
 
   private
