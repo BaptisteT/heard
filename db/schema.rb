@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140921202033) do
+ActiveRecord::Schema.define(version: 20140924205556) do
 
   create_table "blockades", force: true do |t|
     t.integer  "blocker_id"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20140921202033) do
     t.integer  "future_record_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "text_sent",        default: false
   end
 
   add_index "future_messages", ["receiver_number"], name: "index_future_messages_on_receiver_number", using: :btree
@@ -99,7 +100,19 @@ ActiveRecord::Schema.define(version: 20140921202033) do
     t.boolean  "retrieve_contacts",            default: false
     t.boolean  "contact_auth",                 default: false
     t.boolean  "micro_auth"
+    t.boolean  "push_auth"
     t.string   "os_version"
+    t.integer  "futures"
+    t.integer  "favorites"
+    t.integer  "nb_contacts"
+    t.integer  "nb_contacts_users"
+    t.integer  "nb_contacts_photos"
+    t.integer  "nb_contacts_favorites"
+    t.integer  "nb_contacts_facebook"
+    t.integer  "nb_contacts_photo_only"
+    t.integer  "nb_contacts_family"
+    t.integer  "nb_contacts_related"
+    t.integer  "nb_contacts_linked"
   end
 
 end
