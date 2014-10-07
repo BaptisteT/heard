@@ -8,6 +8,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
     message.opened = false
 
     if message.save
+      begin
       receiver = User.find(params[:receiver_id])
       if (receiver.push_token and not current_user.blocked_by_user(params[:receiver_id]))
         #notif params
@@ -24,19 +25,21 @@ class Api::V1::MessagesController < Api::V1::ApiController
           notification = Grocer::Notification.new(
             device_token:      receiver.push_token,
             alert:             text,
-            badge:             badge_number,
-            category:          "READ_CATEGORY",       
+            badge:             badge_number,    
             sound:             'received_sound.aif',
             custom: { message: message.response_message})
         else
           notification = Grocer::Notification.new(
             device_token:      receiver.push_token,
             alert:             text,
-            badge:             badge_number,
-            category:          "READ_CATEGORY",       
+            badge:             badge_number,       
             custom: { message: message.response_message})  
         end
         pusher.push(notification)
+      end
+
+      rescue Exception => e
+        Airbrake.notify(e)
       end
 
       render json: { result: { message: ["Message successfully saved"] } }, status: 201
