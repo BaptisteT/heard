@@ -27,13 +27,13 @@ class Api::V1::MessagesController < Api::V1::ApiController
             alert:             text,
             badge:             badge_number,   
             sound:             'received_sound.aif',
-            custom:            { message: ''})
+            custom: { message: message.response_message})
         else
           notification = Grocer::Notification.new(
             device_token:      receiver.push_token,
             alert:             text,
             badge:             badge_number,       
-            custom:            { message: ''}) 
+            custom: { message: message.response_message})
         end
         pusher.push(notification)
       end
