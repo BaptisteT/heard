@@ -21,19 +21,25 @@ class Api::V1::MessagesController < Api::V1::ApiController
           pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
         end
 
+        if is_below_threshold(receiver.app_version,"1.1.5")
+          response_message = message.response_message
+        else
+          response_message = ""
+        end
+        
         if receiver.unread_messages.where(:sender_id => current_user.id).count == 1
           notification = Grocer::Notification.new(
             device_token:      receiver.push_token,
             alert:             text,
             badge:             badge_number,   
             sound:             'received_sound.aif',
-            custom: { message: message.response_message})
+            custom: { message: response_message})
         else
           notification = Grocer::Notification.new(
             device_token:      receiver.push_token,
             alert:             text,
             badge:             badge_number,       
-            custom: { message: message.response_message})
+            custom: { message: response_message})
         end
         pusher.push(notification)
       end
