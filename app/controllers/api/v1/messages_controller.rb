@@ -140,7 +140,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
     if (sender.push_token && ! is_below_threshold(sender.app_version,"1.1.1.9") && receiver.unread_messages.where(sender_id: sender.id).count == 0)
       logger.debug "SHOULD SEND A NOTIF"
       if is_below_threshold(sender.app_version,FIRST_PRODUCTION_VERSION)
-        pusher = Grocer.pusher(certificate: "/app/assets/cert.pem", passphrase:  "djibril")
+        pusher = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril")
       else
         pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
       end
