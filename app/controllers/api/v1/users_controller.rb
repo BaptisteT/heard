@@ -47,7 +47,7 @@ class Api::V1::UsersController < Api::V1::ApiController
           message.record_content_type = "audio/m4a"
           message.save 
 
-          future_message.destroy
+          # future_message.destroy
         rescue Exception => e
           Airbrake.notify(e)
         end
