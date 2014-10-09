@@ -137,8 +137,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
     # if this is last message unread from this user, send silent notif
     receiver = User.find(message.receiver_id)
     sender = User.find(message.sender_id)
-    if (sender.push_token && ! is_below_threshold(sender.app_version,"1.1.1.9") && receiver.unread_messages.where(sender_id: sender.id).count == 0)
-      logger.debug "SHOULD SEND A NOTIF"
+    if (sender.push_token && receiver.unread_messages.where(sender_id: sender.id).count == 0)
       if is_below_threshold(sender.app_version,FIRST_PRODUCTION_VERSION)
         pusher = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril")
       else
@@ -186,7 +185,12 @@ class Api::V1::MessagesController < Api::V1::ApiController
   def is_recording
     receiver = User.find(params[:receiver_id])
     if receiver.push_token
-      pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
+      if is_below_threshold(receiver.app_version,FIRST_PRODUCTION_VERSION)
+        pusher = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril")
+      else
+        pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
+      end
+
       notification = Grocer::Notification.new(
         device_token:     receiver.push_token,
         custom:           {:recorder_id => current_user.id, :is_recording => params[:is_recording]})

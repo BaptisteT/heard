@@ -101,7 +101,11 @@ class Api::V1::UsersController < Api::V1::ApiController
 
         #send notif
         if (user.push_token)
-          pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
+          if is_below_threshold(user.app_version,FIRST_PRODUCTION_VERSION)
+            pusher = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril")
+          else
+            pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
+          end
           text = current_user.first_name + " " + current_user.last_name + " is now on Waved!"
           notification = Grocer::Notification.new(
             device_token:      user.push_token,
@@ -169,7 +173,12 @@ class Api::V1::UsersController < Api::V1::ApiController
       users.each { |user| 
         user.update_attributes(:retrieve_contacts => true)
         if (user.push_token && current_user.unread_messages.where(:sender_id => user.id).blank?)
-          pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
+          if is_below_threshold(user.app_version,FIRST_PRODUCTION_VERSION)
+            pusher = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril")
+          else
+            pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
+          end
+          
           text = current_user.first_name + " " + current_user.last_name + " is now on Waved!"
           notification = Grocer::Notification.new(
             device_token:      user.push_token,
