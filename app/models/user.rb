@@ -52,6 +52,6 @@ class User < ActiveRecord::Base
     if self.messages_sent.count > 0
       last_sent_date = self.messages_sent.last.created_at
     end
-    max(last_sent_date,last_read_date)
+    last_exchange_date = last_read_date > last_sent_date ? last_read_date : last_sent_date
   end
 end
