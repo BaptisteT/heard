@@ -24,35 +24,40 @@ class Api::V1::UsersController < Api::V1::ApiController
     end
 
     if user.save
-      #delete code
-      code_request.destroy
-      #delete prospects
-      prospect = Prospect.find_by(phone_number: params[:phone_number])
-      if prospect
-        prospect.destroy
-      end
+      after_create_user(user, code_request)
 
-      #convert received messages
-      future_messages = FutureMessage.where(receiver_number: params[:phone_number])
+      render json: { result: { auth_token: user.auth_token, user_id: user.id, user: user.contact_info } }, status: 201
+    else 
+      render json: { errors: { internal: user.errors } }, :status => 500
+    end
+  end
 
-      future_messages.each do |future_message|
+  def fb_create
+    code_request = CodeRequest.find_by(phone_number: params[:phone_number])
 
-        begin
-          message = Message.new
-          message.receiver_id = user.id
-          message.sender_id = future_message.sender_id
-          message.opened = false
-          message.future = true
-          message.record = future_message.future_record.recording
-          message.record_content_type = "audio/m4a"
-          message.save 
+    if code_request.nil?
+      render json: { errors: { unauthorized: "No code has been sent for this phone number" } }, :status => 401 and return 
+    end
 
-          # future_message.destroy
-        rescue Exception => e
-          Airbrake.notify(e)
-        end
-        
-      end
+    if code_request.code.to_i != params[:code].to_i
+      render json: { errors: { unauthorized: "Wrong SMS code" } }, :status => 401 and return 
+    end
+
+    user = User.new
+
+    user.phone_number = params[:phone_number]
+    user.first_name = params[:fb_first_name]
+    user.last_name = params[:fb_last_name]
+    user.fb_first_name = params[:fb_first_name]
+    user.fb_last_name =  params[:fb_last_name]
+    user.fb_id = params[:fb_id]
+    user.fb_gender = params[:fb_gender] 
+    user.fb_locale = params[:fb_locale]
+
+    user.profile_picture = open(URI.parse(process_uri("http://graph.facebook.com/#{user.fb_id}/picture?type=large")))
+
+    if user.save
+      after_create_user(user, code_request)
 
       render json: { result: { auth_token: user.auth_token, user_id: user.id, user: user.contact_info } }, status: 201
     else 
@@ -242,4 +247,36 @@ class Api::V1::UsersController < Api::V1::ApiController
     current_user.save
     render json: { result: { user: current_user.contact_info } }, status: 201
   end
+
+  private
+
+    def after_create_user(user, code_request)
+      #delete code
+      code_request.destroy
+      #delete prospects
+      prospect = Prospect.find_by(phone_number: user.phone_number)
+      if prospect
+        prospect.destroy
+      end
+
+      #convert received messages
+      future_messages = FutureMessage.where(receiver_number: user.phone_number)
+
+      future_messages.each do |future_message|
+
+      begin
+        message = Message.new
+        message.receiver_id = user.id
+        message.sender_id = future_message.sender_id
+        message.opened = false
+        message.future = true
+        message.record = future_message.future_record.recording
+        message.record_content_type = "audio/m4a"
+        message.save 
+
+        # future_message.destroy
+      rescue Exception => e
+        Airbrake.notify(e)
+      end
+    end
 end

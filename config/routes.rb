@@ -41,6 +41,7 @@ Heard::Application.routes.draw do
       patch "users/update_app_info" => "users#update_app_info"
       post "messages/create_future_messages" => "messages#create_future_messages"
       get "messages/is_recording" => "messages#is_recording"
+      post "users/fb_create" => "users#fb_create"
     end
   end
 end
