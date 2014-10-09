@@ -7,10 +7,11 @@ namespace :retention do
       if user.push_token
         if user.unread_messages.count > 0 and user.last_message_date > 1.day.ago
           text = "You have new messages to listen!"
-          notifications += Grocer::Notification.new(
+          notification = Grocer::Notification.new(
                             device_token:      user.push_token,
                             alert:             text,
                             sound:             'default')
+          notifications += notification
         end
       end
     }
