@@ -91,7 +91,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
           # alert receiver
           sum = FutureMessage.where(sender_id:current_user.id, receiver_number:future_contact_phone).count
           if sum == 1
-            message = "Hey " + params[:receiver_first_name] + ", " + current_user.first_name + " " +current_user.last_name + " just left you a message on Telepath. Go to www.telepath.me to hear it!"
+            message = params[:receiver_first_name] + ", your friend " + current_user.first_name + " " + current_user.last_name + " just left you a message on Waved. Go to www.waved.io to hear it!"
           end
 
           if message
