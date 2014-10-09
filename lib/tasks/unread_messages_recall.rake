@@ -5,11 +5,12 @@ namespace :retention do
     pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
     User.all.each { |user|
       if user.push_token
-        if user.unread_messages.count > 0 && user.last_message_date > 1.day.ago
+        if user.unread_messages.count > 0 and user.last_message_date > 1.day.ago
           text = "You have new messages to listen!"
           notifications += Grocer::Notification.new(
                             device_token:      user.push_token,
-                            alert:             text)
+                            alert:             text,
+                            sound:             'default')
         end
       end
     }
