@@ -21,7 +21,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
           pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
         end
 
-        if is_below_threshold(receiver.app_version,"1.1.5")
+        if is_below_threshold(receiver.app_version,"1.1.4")
           response_message = message.response_message
         else
           response_message = ""
