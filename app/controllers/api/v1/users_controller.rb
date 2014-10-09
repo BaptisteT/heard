@@ -1,6 +1,6 @@
 class Api::V1::UsersController < Api::V1::ApiController
   include ApplicationHelper
-  skip_before_action :authenticate_user, only: :create
+  skip_before_action :authenticate_user, only: [:create, :fb_create]
 
   def create
     code_request = CodeRequest.find_by(phone_number: params[:phone_number])
@@ -263,20 +263,20 @@ class Api::V1::UsersController < Api::V1::ApiController
       future_messages = FutureMessage.where(receiver_number: user.phone_number)
 
       future_messages.each do |future_message|
+        begin
+          message = Message.new
+          message.receiver_id = user.id
+          message.sender_id = future_message.sender_id
+          message.opened = false
+          message.future = true
+          message.record = future_message.future_record.recording
+          message.record_content_type = "audio/m4a"
+          message.save 
 
-      begin
-        message = Message.new
-        message.receiver_id = user.id
-        message.sender_id = future_message.sender_id
-        message.opened = false
-        message.future = true
-        message.record = future_message.future_record.recording
-        message.record_content_type = "audio/m4a"
-        message.save 
-
-        # future_message.destroy
-      rescue Exception => e
-        Airbrake.notify(e)
+          # future_message.destroy
+        rescue Exception => e
+          Airbrake.notify(e)
+        end
       end
     end
 end
