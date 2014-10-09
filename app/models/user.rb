@@ -42,4 +42,16 @@ class User < ActiveRecord::Base
   def self.contact_info(users)
     users.map { |user| user.contact_info }
   end
+
+  def last_message_date #read or sent
+    last_read_date = 0
+    last_sent_date = 0
+    if self.messages_received.count > 0
+      last_read_date = self.messages_received.last.updated_at
+    end
+    if self.messages_sent.count > 0
+      last_sent_date = self.messages_sent.last.created_at
+    end
+    max(last_sent_date,last_read_date)
+  end
 end
