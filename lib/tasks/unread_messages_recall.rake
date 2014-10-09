@@ -11,7 +11,7 @@ namespace :retention do
                             device_token:      user.push_token,
                             alert:             text,
                             sound:             'default')
-          notifications += notification
+          notifications += [notification]
         end
       end
     }
