@@ -23,11 +23,14 @@ class Api::V1::ApiController < ApplicationController
 
   # app_version related message
   def obsolete_api
-    
+    if params[:app_version] and is_below_threshold(params[:app_version],"1")
+      render json: {result: { message: "Beta Ok"} }, status: 200
+    end
+
     if !params[:app_version] || is_below_threshold(params[:app_version],VERSION_THRESHOLD)
       render json: {result: { message_type: "Blocking alert", message_content: "The beta is over! Please download the latest version on the App Store.", redirect_url: APP_STORE_LINK } }, status: 200 
     else
-      render json: {result: { message: "Ok"} }, status: 200
+      render json: {result: { message: "Prod Ok"} }, status: 200
     end
     # if params[:app_version] == "1.1"
     #   render json: {result: { message_type: "Informative alert", message_content: "Download the new version", redirect_url: "http://itunes.apple.com/app/id734887535?mt=8" } }, status: 200
