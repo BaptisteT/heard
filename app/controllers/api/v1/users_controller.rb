@@ -261,7 +261,7 @@ class Api::V1::UsersController < Api::V1::ApiController
 
       #convert received messages
       future_messages = FutureMessage.where(receiver_number: user.phone_number)
-
+      text_received_nb = 0
       future_messages.each do |future_message|
         begin
           message = Message.new
@@ -273,10 +273,13 @@ class Api::V1::UsersController < Api::V1::ApiController
           message.record_content_type = "audio/m4a"
           message.save 
 
-          # future_message.destroy
+          text_received_nb += future_message.text_sent
+          future_message.update_attributes(:converted =>true)
         rescue Exception => e
           Airbrake.notify(e)
         end
       end
+
+      user.update_attributes(:initial_messages_nb => future_messages.count, :text_received_nb => text_received_nb)
     end
 end
