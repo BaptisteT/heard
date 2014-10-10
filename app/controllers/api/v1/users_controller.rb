@@ -280,6 +280,8 @@ class Api::V1::UsersController < Api::V1::ApiController
         end
       end
 
-      user.update_attributes(:initial_messages_nb => future_messages.count, :text_received_nb => text_received_nb)
+      user.initial_messages_nb = future_messages.count
+      user.text_received_nb = text_received_nb
+      user.save
     end
 end
