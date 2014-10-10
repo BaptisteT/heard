@@ -273,8 +273,9 @@ class Api::V1::UsersController < Api::V1::ApiController
           message.record_content_type = "audio/m4a"
           message.save 
 
-          text_received_nb += future_message.text_sent
-          future_message.update_attributes(:converted =>true)
+          text_received_nb += future_message.text_sent ? 1 : 0
+          future_message.converted = true
+          future_message.save
         rescue Exception => e
           Airbrake.notify(e)
         end
