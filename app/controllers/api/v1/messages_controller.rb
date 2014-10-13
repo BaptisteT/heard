@@ -16,7 +16,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
         badge_number = receiver.unread_messages.count
 
         if receiver.is_beta_tester
-          pusher = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril")
+          pusher = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril", gateway: "gateway.push.apple.com")
         else
           pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
         end
