@@ -14,7 +14,7 @@ namespace :retention do
                             alert:             text,
                             sound:             'default')
 
-          if is_below_threshold(user.app_version,FIRST_PRODUCTION_VERSION)
+          if user.is_beta_tester
             notifications_beta += [notification]
           else
             notifications_prod += [notification]

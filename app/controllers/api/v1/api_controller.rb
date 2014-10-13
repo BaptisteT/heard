@@ -33,26 +33,4 @@ class Api::V1::ApiController < ApplicationController
     end
     # message type : "Informative alert", "Blocking alert", "Beta request"
   end
-
-  private
-    def is_below_threshold(app_version,threshold)
-      if !app_version
-        return false
-      end
-      
-      threshold_array = threshold.split(".").map { |s| s.to_i }
-      version_array = app_version.split(".").map { |s| s.to_i }
-      (1..version_array.count).each do |i|
-        if threshold_array.count < i || threshold_array[i-1] < version_array[i-1]
-          return false
-        elsif threshold_array[i-1] > version_array[i-1]
-          return true
-        end
-      end
-      if threshold_array.count > version_array.count
-        return true
-      else
-        return false
-      end
-    end
 end

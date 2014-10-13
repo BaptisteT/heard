@@ -106,7 +106,7 @@ class Api::V1::UsersController < Api::V1::ApiController
 
         #send notif
         if (user.push_token)
-          if is_below_threshold(user.app_version,FIRST_PRODUCTION_VERSION)
+          if user.is_beta_tester
             pusher = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril")
           else
             pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
@@ -178,7 +178,7 @@ class Api::V1::UsersController < Api::V1::ApiController
       users.each { |user| 
         user.update_attributes(:retrieve_contacts => true)
         if (user.push_token && current_user.unread_messages.where(:sender_id => user.id).blank?)
-          if is_below_threshold(user.app_version,FIRST_PRODUCTION_VERSION)
+          if user.is_beta_tester
             pusher = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril")
           else
             pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")

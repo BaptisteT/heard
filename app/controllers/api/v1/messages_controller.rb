@@ -15,7 +15,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
         text = 'New message from ' + current_user.first_name
         badge_number = receiver.unread_messages.count
 
-        if is_below_threshold(receiver.app_version,FIRST_PRODUCTION_VERSION)
+        if receiver.is_beta_tester
           pusher = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril")
         else
           pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
@@ -138,7 +138,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
     receiver = User.find(message.receiver_id)
     sender = User.find(message.sender_id)
     if (sender.push_token && receiver.unread_messages.where(sender_id: sender.id).count == 0)
-      if is_below_threshold(sender.app_version,FIRST_PRODUCTION_VERSION)
+      if sender.is_beta_tester
         pusher = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril")
       else
         pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
@@ -185,7 +185,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
   def is_recording
     receiver = User.find(params[:receiver_id])
     if receiver.push_token
-      if is_below_threshold(receiver.app_version,FIRST_PRODUCTION_VERSION)
+      if receiver.is_beta_tester
         pusher = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril")
       else
         pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")

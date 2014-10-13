@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  include ApplicationHelper
   before_create :generate_token
 
   has_many :messages_received, class_name: "Message", foreign_key: "receiver_id"
@@ -53,5 +54,9 @@ class User < ActiveRecord::Base
       last_sent_date = self.messages_sent.last.created_at
     end
     last_exchange_date = last_read_date > last_sent_date ? last_read_date : last_sent_date
+  end
+
+  def is_beta_tester
+    is_below_threshold(self.app_version,FIRST_PRODUCTION_VERSION)
   end
 end
