@@ -41,7 +41,7 @@ module ApplicationHelper
     end
     
     threshold_array = threshold.split(".").map { |s| s.to_i }
-    version_array = self.app_version.split(".").map { |s| s.to_i }
+    version_array = app_version.split(".").map { |s| s.to_i }
     (1..version_array.count).each do |i|
       if threshold_array.count < i || threshold_array[i-1] < version_array[i-1]
         return false
