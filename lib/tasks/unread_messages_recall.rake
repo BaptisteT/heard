@@ -3,8 +3,8 @@ namespace :retention do
   task unread_messages_recall: :environment do
     notifications_prod = []
     notifications_beta = []
-    pusher_prod = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril", gateway: "gateway.push.apple.com")
-    pusher_beta = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
+    pusher_beta = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril", gateway: "gateway.push.apple.com")
+    pusher_prod = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
     User.all.each { |user|
       if user.push_token
         if user.unread_messages.count > 0 and user.last_message_date < 1.day.ago

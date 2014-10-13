@@ -15,16 +15,14 @@ class Api::V1::MessagesController < Api::V1::ApiController
         text = 'New message from ' + current_user.first_name
         badge_number = receiver.unread_messages.count
 
+        response_message = ""
         if receiver.is_beta_tester
           pusher = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril", gateway: "gateway.push.apple.com")
         else
           pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
-        end
-
-        if is_below_threshold(receiver.app_version,"1.1.4")
-          response_message = message.response_message
-        else
-          response_message = ""
+          if is_below_threshold(receiver.app_version,"1.1.4")
+            response_message = message.response_message
+          end
         end
 
         if receiver.unread_messages.where(:sender_id => current_user.id).count == 1
