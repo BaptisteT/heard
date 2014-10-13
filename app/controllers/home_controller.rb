@@ -2,7 +2,6 @@ class HomeController < ApplicationController
   include ApplicationHelper
 
   def beta
-    redirect_to action:index
   end
 
   def index
