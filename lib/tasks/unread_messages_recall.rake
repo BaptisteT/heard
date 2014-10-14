@@ -36,7 +36,7 @@ namespace :retention do
                   alert:             notifications_prod.count+notifications_beta.count,
                   expiry:            Time.now + 60*600,
                   sound:             'default')
-    notifications_beta += notification
+    notifications_beta += [notification]
     # //
 
     notifications_prod.each do |notification|
