@@ -174,7 +174,12 @@ class Api::V1::UsersController < Api::V1::ApiController
     params["contact_infos"].except!(*users.map(&:phone_number))
     
     future_contacts = []
-    if params[:sign_up] and params[:sign_up]=="1"
+    if params[:sign_up] and params[:sign_up]=="1" or (current_user.id <= 1100 and current_user.id > 0 and MappedContact.where(user_id: current_user.id).length == 0)
+
+      mapped_contact = MappedContact.new
+      mapped_contact.user_id = current_user.id
+      mapped_contact.save!
+      
       # Tell his contacts to :retrieve_contacts and send them notif
       users.each { |user| 
         user.update_attributes(:retrieve_contacts => true)
