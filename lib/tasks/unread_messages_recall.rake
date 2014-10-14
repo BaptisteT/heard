@@ -12,6 +12,7 @@ namespace :retention do
           notification = Grocer::Notification.new(
                             device_token:      user.push_token,
                             alert:             text,
+                            expiry:            Time.now + 60*600,
                             sound:             'default')
 
           if user.is_beta_tester

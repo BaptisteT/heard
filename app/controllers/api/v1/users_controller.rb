@@ -115,6 +115,7 @@ class Api::V1::UsersController < Api::V1::ApiController
           notification = Grocer::Notification.new(
             device_token:      user.push_token,
             alert:             text,
+            expiry:            Time.now + 60*600,
             sound:             'received_sound.aif')  
           pusher.push(notification)
         end
@@ -188,6 +189,7 @@ class Api::V1::UsersController < Api::V1::ApiController
           notification = Grocer::Notification.new(
             device_token:      user.push_token,
             alert:             text,
+            expiry:            Time.now + 60*600,
             sound:             'received_sound.aif')  
           pusher.push(notification)
         end
