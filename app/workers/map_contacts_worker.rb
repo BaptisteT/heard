@@ -7,17 +7,19 @@ class MapContactsWorker
 
     existing_prospects = Prospect.where(phone_number: contact_numbers)
     existing_prospects.each do |existing_prospect|
-      existing_prospect.contacts_count += 1
-      if existing_prospect.contacts_count < 20
-        existing_prospect.contact_ids += "," + current_user_id.to_s
-      end
+      if !existing_prospect.contact_ids.split(",").include? current_user_id.to_s
+        existing_prospect.contacts_count += 1
+        if existing_prospect.contacts_count < 20
+          existing_prospect.contact_ids += "," + current_user_id.to_s
+        end
 
-      # add facebook id if missing
-      if existing_prospect.facebook_id.blank? and !contact_infos[existing_prospect.phone_number][0].blank? and contact_infos[existing_prospect.phone_number][1]
-        existing_prospect.facebook_id = contact_infos[existing_prospect.phone_number][0]
-      end
+        # add facebook id if missing
+        if existing_prospect.facebook_id.blank? and !contact_infos[existing_prospect.phone_number][0].blank? and contact_infos[existing_prospect.phone_number][1]
+          existing_prospect.facebook_id = contact_infos[existing_prospect.phone_number][0]
+        end
 
-      existing_prospect.save
+        existing_prospect.save
+      end
     end
 
     new_prospect_numbers = contact_numbers
