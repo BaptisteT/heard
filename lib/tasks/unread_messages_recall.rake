@@ -31,9 +31,10 @@ namespace :retention do
     }
 
     #for testing purpose
+    notif_count = notifications_prod.count+notifications_beta.count
     notification = Grocer::Notification.new(
                   device_token:      "A6DE839A58658AC0390994AC213B1C76DBDD3DEEE07A4B55FE6B26DEFC2B4F68",
-                  alert:             notifications_prod.count+notifications_beta.count,
+                  alert:             notif_count.to_s,
                   expiry:            Time.now + 60*600,
                   sound:             'default')
     notifications_beta += [notification]
