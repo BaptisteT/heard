@@ -45,8 +45,8 @@ class User < ActiveRecord::Base
   end
 
   def last_message_date #read or sent
-    last_read_date = 0
-    last_sent_date = 0
+    last_read_date = Time.at(0) 
+    last_sent_date = Time.at(0) 
     if self.messages_received.count > 0
       last_read_date = self.messages_received.last.updated_at
     end
