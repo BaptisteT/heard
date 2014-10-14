@@ -31,12 +31,14 @@ class Api::V1::MessagesController < Api::V1::ApiController
             alert:             text,
             badge:             badge_number,   
             sound:             'received_sound.aif',
+            expiry:            Time.now + 60*600,
             custom: { message: response_message})
         else
           notification = Grocer::Notification.new(
             device_token:      receiver.push_token,
             alert:             text,
-            badge:             badge_number,       
+            badge:             badge_number,
+            expiry:            Time.now + 60*600,       
             custom: { message: response_message})
         end
         pusher.push(notification)
