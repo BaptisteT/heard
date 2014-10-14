@@ -8,7 +8,13 @@ namespace :retention do
     User.all.each { |user|
       if user.push_token
         if user.unread_messages.count > 0 and user.last_message_date < 1.day.ago
-          text = "You have new messages to listen!"
+          senders = User.find(user.unread_messages.uniq.pluck(:sender_id))
+          if senders.count == 1
+            names = senders[0].first_name + "!"
+          else
+            names = senders[0].first_name + " and others!"
+          end
+          text = "You have unread messages from " + names
           notification = Grocer::Notification.new(
                             device_token:      user.push_token,
                             alert:             text,
