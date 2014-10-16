@@ -12,9 +12,8 @@
 
 <div class="top_header">
 <h1 class="header_title">Waved</h1>
-<h2>Rapid-fire voice messaging.</h2>
+<h2>Start talking! Just tap to start real conversations with your friends.</h2>
 
-<h2></h2>
 <h2></h2>
 <div class="text_invite">
 <% if @result_message %>
@@ -24,7 +23,7 @@
 <% else %>
   <%= form_tag("/", method: "post") do %>
     <input id="mobile_number" type="tel" placeholder="Type your phone number" name="number">
-    <button type="submit">Text me the link</button>
+    <button type="submit"><p>Text me the link</p></button>
   <% end %>
   <script>
     $.get("http://ipinfo.io", function(response) {
@@ -46,7 +45,6 @@
 <div class="mid_header">
 
 <p>Get regular updates on the <a href="http://blog.waved.io/">Waved Blog</a>.</p>
-<p>Watch the <a href="https://vimeo.com/100004457">teaser video</a>.</p>
 
 </div>
 </div>
@@ -78,8 +76,8 @@
 <div class="iphone_section_one"></div>
 
 <div class="section_text_wrapper">
-<h2>One gesture to <strong>Record</strong></h2>
-<p>Your are one gesture away from reaching any of your friends.</p>
+<h2><strong>Sound Emojis</strong></h2>
+<p>Drag emojis to send fun & powerful sounds.</p>
 </div>
 </div>
 
@@ -102,8 +100,8 @@
 
 <div class="section_text_wrapper">
 
-<h2>One gesture to <strong>Play</strong></h2>
-<p>Voice messages are warmer than text messages, less intrusive than phone calls.</p>
+<h2><strong>Messages Disappear</strong></h2>
+<p>Speak your mind, all lips are sealed!</p>
 </div>
 <div class="iphone_section_two"></div>
 

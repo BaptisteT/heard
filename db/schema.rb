@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140924205556) do
+ActiveRecord::Schema.define(version: 20141010113538) do
 
   create_table "blockades", force: true do |t|
     t.integer  "blocker_id"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20140924205556) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "text_sent",        default: false
+    t.boolean  "converted"
   end
 
   add_index "future_messages", ["receiver_number"], name: "index_future_messages_on_receiver_number", using: :btree
@@ -113,6 +114,13 @@ ActiveRecord::Schema.define(version: 20140924205556) do
     t.integer  "nb_contacts_family"
     t.integer  "nb_contacts_related"
     t.integer  "nb_contacts_linked"
+    t.string   "fb_id"
+    t.string   "fb_first_name"
+    t.string   "fb_last_name"
+    t.string   "fb_gender"
+    t.string   "fb_locale"
+    t.integer  "initial_messages_nb"
+    t.integer  "text_received_nb"
   end
 
 end

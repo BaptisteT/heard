@@ -15,6 +15,7 @@ height: 60px;
 
 .text_invite p {
   font-family: inherit;
+  font-weight:200;
   color:#FFF;
   font-size:16px; 
   font-style: italic;
@@ -45,11 +46,11 @@ height: 60px;
 
 .text_invite button {
   color: #FFF;
-  background-color: #2655A1;
-  border: 1px solid #2655A1;}
+  background-color: #6ACCEA;
+  border: 1px solid #6ACCEA;}
   button:hover {
-    background-color: #2655A1;
-    border-color: #2655A1;
+    background-color: #ccc;
+    border-color: #ccc;
     cursor: pointer; }
 
 .intl-tel-input .flag{

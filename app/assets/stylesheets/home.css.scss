@@ -15,8 +15,8 @@ h1, h2, h3{font-family:"Helvetica Neue",Helvetica,Arial,Lucida Grande,sans-serif
 body{-webkit-font-smoothing:antialiased;color:#2D2D2D;font-family:"Helvetica Neue",Helvetica,Arial,Lucida Grande,sans-serif;line-height:1;word-wrap:break-word;overflow-x:hidden;background-image:none;background-color:#FFF;margin:0;padding:0;overflow-x:hidden}
 .inner_wrapper{width:1000px;margin-right:auto;margin-left:auto}
 .waypoint{height:0;width:0;margin-top:-200px;position:absolute}
-.header_left .top_header h1{color:#FFF;font-size:70px;line-height:54px;font-weight:200;margin:0;padding:0 0 20px}
-.header_left .top_header h2{color:#FFF;font-size:30px;line-height:54px;font-weight:200;margin:0;padding:0 0 20px}
+.header_left .top_header h1{color:#FFF;font-size:70px;line-height:54px;font-weight:200;margin:0;padding:0 0 20px;text-shadow: 0.03em 0.03em #000000}
+.header_left .top_header h2{color:#FFF;font-size:30px;line-height:54px;font-weight:200;margin:0;padding:0 0 20px;text-shadow: 0.03em 0.03em #000000}
 .divide{background-color:#E3E3E3;clear:both;float:left;height:1px;width:100%;margin:0;padding:0}
 .inner_section{width:770px;margin-right:auto;margin-left:auto;height:699px;padding-top:90px;display:none}
 
@@ -43,9 +43,9 @@ body{-webkit-font-smoothing:antialiased;color:#2D2D2D;font-family:"Helvetica Neu
 .top_header h2{text-align: center;}
 .header .inner_wrapper .header_left .mid_header{float:left;width:100%;padding-top:30px;padding-left:25px;font-size:16px;color:#AAA;line-height:24px}
 .header .inner_wrapper .header_left .mid_header p{padding-top:34px} 
-.header .inner_wrapper .header_left .mid_header a:link{color:#1E51A3;}
-.header .inner_wrapper .header_left .mid_header a:link{color:#1E51A3;}
-.header .inner_wrapper .header_left .mid_header a:visited{color:#1E51A3;}
+.header .inner_wrapper .header_left .mid_header a:link{color:#6ACCEA;}
+.header .inner_wrapper .header_left .mid_header a:link{color:#6ACCEA;}
+.header .inner_wrapper .header_left .mid_header a:visited{color:#6ACCEA;}
 
 
 /* Beta Button */
@@ -67,8 +67,8 @@ a.google_play_button{background-image:image_url('store_buttons.png');background-
 /* Section one */
 .section_one{height:882px;width:100%;float:left;display:none;margin:0;padding:0}
 .section_one .iphone_section_one{background-image:image_url('iphone-screen2.png');height:699px;width:361px;float:left}
-.section_one .inner_section h2{float:left;margin-left:40px;font-size:28px;color:#1E51A3;font-weight:200;padding-top:280px;margin-bottom:10px;}
-.section_one .inner_section p{float:left;margin-left:40px;font-size:21px;line-height:36px;color:#8D8D8D;font-weight:400;width:400px}
+.section_one .inner_section h2{float:left;margin-left:40px;font-size:28px;color:#6ACCEA;font-weight:200;padding-top:280px;margin-bottom:10px;}
+.section_one .inner_section p{float:left;margin-left:40px;font-size:21px;line-height:36px;color:#6ACCEA;font-weight:400;width:400px}
 .section_one .inner_section .section_text_wrapper{float:left;width:400px}
 
 
@@ -76,7 +76,7 @@ a.google_play_button{background-image:image_url('store_buttons.png');background-
 .section_two{background-image:image_url('blue_background.png');background-repeat:repeat;height:882px;width:100%;float:left;display:none}
 .section_two .iphone_section_two{background-image:image_url('iphone-screen3.png');height:699px;width:361px;float:right}
 .section_two .inner_section .section_text_wrapper h2{float:left;margin-left:0;font-size:28px;color:#FFF;font-weight:400;padding-top:280px;text-align:right;width:400px;margin-bottom:10px;}
-.section_two .inner_section .section_text_wrapper p{float:left;margin-left:0;font-size:21px;line-height:36px;color:#A5A5A5;font-weight:300;width:400px;text-align:right}
+.section_two .inner_section .section_text_wrapper p{float:left;margin-left:0;font-size:21px;line-height:36px;color:#FFFFFF;font-weight:300;width:400px;text-align:right}
 .section_two .inner_section .section_text_wrapper{float:left;width:400px}
 
 

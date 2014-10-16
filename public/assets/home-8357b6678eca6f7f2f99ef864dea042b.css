@@ -221,13 +221,13 @@ body {
   padding-top: 34px; }
 
 .header .inner_wrapper .header_left .mid_header a:link {
-  color: #1E51A3; }
+  color: #6ACCEA; }
 
 .header .inner_wrapper .header_left .mid_header a:link {
-  color: #1E51A3; }
+  color: #6ACCEA; }
 
 .header .inner_wrapper .header_left .mid_header a:visited {
-  color: #1E51A3; }
+  color: #6ACCEA; }
 
 /* Beta Button */
 a.beta_button {
@@ -294,7 +294,7 @@ a.google_play_button {
   float: left;
   margin-left: 40px;
   font-size: 28px;
-  color: #1E51A3;
+  color: #6ACCEA;
   font-weight: 200;
   padding-top: 280px;
   margin-bottom: 10px; }
