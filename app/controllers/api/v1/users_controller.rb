@@ -181,24 +181,26 @@ class Api::V1::UsersController < Api::V1::ApiController
       mapped_contact.save!
       
       # Tell his contacts to :retrieve_contacts and send them notif
-      users.each { |user| 
-        user.update_attributes(:retrieve_contacts => true)
-        if (user.push_token && current_user.unread_messages.where(:sender_id => user.id).blank?)
-          if user.is_beta_tester
-            pusher = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril")
-          else
-            pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
+      if params[:sign_up] and params[:sign_up]=="1"
+        users.each { |user| 
+          user.update_attributes(:retrieve_contacts => true)
+          if (user.push_token && current_user.unread_messages.where(:sender_id => user.id).blank?)
+            if user.is_beta_tester
+              pusher = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril")
+            else
+              pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
+            end
+            
+            text = current_user.first_name + " " + current_user.last_name + " is now on Waved!"
+            notification = Grocer::Notification.new(
+              device_token:      user.push_token,
+              alert:             text,
+              expiry:            Time.now + 60*600,
+              sound:             'received_sound.aif')  
+            pusher.push(notification)
           end
-          
-          text = current_user.first_name + " " + current_user.last_name + " is now on Waved!"
-          notification = Grocer::Notification.new(
-            device_token:      user.push_token,
-            alert:             text,
-            expiry:            Time.now + 60*600,
-            sound:             'received_sound.aif')  
-          pusher.push(notification)
-        end
-      }
+        }
+      end
 
       # Map prospect users
       begin
