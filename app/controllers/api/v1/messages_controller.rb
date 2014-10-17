@@ -93,6 +93,9 @@ class Api::V1::MessagesController < Api::V1::ApiController
           if sum == 1
             message = params[:receiver_first_name] + ", your friend " + current_user.first_name + " " + current_user.last_name + " just left you a message on Waved. Go to www.waved.io to hear it!"
           end
+          if sum == 2
+            message = params[:receiver_first_name] + ", your friend " + current_user.first_name + " " + current_user.last_name + " sent you multiple messages on Waved. Download the app at www.waved.io to listen to them!"
+          end
 
           if message
             begin
