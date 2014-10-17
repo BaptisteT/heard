@@ -6,7 +6,7 @@ namespace :retention do
     pusher_beta = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril", gateway: "gateway.push.apple.com")
     pusher_prod = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
     User.all.each { |user|
-      if ! user.push_token.blank? and user.id <= 1100 and user.id > 1000 #for testing purpose
+      if ! user.push_token.blank? 
         if user.unread_messages.count > 0 and user.last_message_date < 1.day.ago
           senders = User.find(user.unread_messages.uniq.pluck(:sender_id))
           if senders.count == 1
@@ -14,7 +14,7 @@ namespace :retention do
           else
             names = senders[0].first_name + " and other friends!"
           end
-          text = "You have unread messages from " + names
+          text = "Hey " + user.first_name + ", you have unread messages from " + names
           notification = Grocer::Notification.new(
                             device_token:      user.push_token,
                             alert:             text,
