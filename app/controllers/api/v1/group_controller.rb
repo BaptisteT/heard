@@ -1,7 +1,6 @@
 class Api::V1::GroupsController < Api::V1::ApiController
 
   def create
-    begin
     group = Group.new
     group.name = params[:group_name]
     group.members_number = params[:members].count
@@ -11,15 +10,11 @@ class Api::V1::GroupsController < Api::V1::ApiController
         membership.user_id = user_id
         membership.group_id = group.id
         membership.save!
-
         #todo BT send notif to other members
-        render json: { result: { message: ["Group successfully saved"] } }, status: 201
       }
+      render json: { result: { message: ["Group successfully saved"] } }, status: 201
     else 
       render json: { errors: { internal: group.errors } }, :status => 500
-    end
-    rescue Exception => e
-        Airbrake.notify(e)
     end
   end
  
