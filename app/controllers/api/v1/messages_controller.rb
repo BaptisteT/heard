@@ -92,15 +92,15 @@ class Api::V1::MessagesController < Api::V1::ApiController
           sum = FutureMessage.where(sender_id:current_user.id, receiver_number:future_contact_phone).count
           if sum == 1
             if future_message.receiver_number[0,3]="+33"
-              message = params[:receiver_first_name] + ", vous venez de recevoir un message vocal de " + current_user.first_name + " " + current_user.last_name + " sur Waved. Téléchargez l'appli depuis www.waved.io pour l'écouter!"
+              message = params[:receiver_first_name] + ", vous venez de recevoir un message vocal de " + current_user.first_name + " " + current_user.last_name + " sur Waved! Téléchargez l'appli depuis www.waved.io pour l'écouter."
             else
-              message = "Hey " + params[:receiver_first_name] + ", your friend " + current_user.first_name + " " + current_user.last_name + " just left you a voice message on Waved. Download the app at www.waved.io to hear it!"
+              message = "Hey " + params[:receiver_first_name] + ", your friend " + current_user.first_name + " " + current_user.last_name + " just left you a voice message on Waved! Download the app at www.waved.io to hear it."
             end
           elsif sum == 2
             if future_message.receiver_number[0,3]="+33"
-              message = current_user.first_name + " " + current_user.last_name + " vous a envoyé plusieurs messages sur Waved. Téléchargez l'appli depuis www.waved.io pour les écouter!"
+              message = current_user.first_name + " " + current_user.last_name + " vous a envoyé plusieurs messages sur Waved! Téléchargez l'appli depuis www.waved.io pour les écouter."
             else
-              message = params[:receiver_first_name] + ", your friend " + current_user.first_name + " " + current_user.last_name + " sent you multiple messages on Waved. Download the app at www.waved.io to listen to them!"
+              message = params[:receiver_first_name] + ", your friend " + current_user.first_name + " " + current_user.last_name + " sent you multiple messages on Waved! Download the app at www.waved.io to listen to them."
             end
           end
 
