@@ -12,10 +12,9 @@ class Api::V1::GroupsController < Api::V1::ApiController
         membership.save!
         #todo BT send notif to other members
       }
-      render json: { result: { message: ["Group successfully saved"] } }, status: 201
+      render json: { result: { group_id: group.id } }, status: 201
     else 
       render json: { errors: { internal: group.errors } }, :status => 500
     end
   end
- 
 end
