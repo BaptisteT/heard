@@ -16,6 +16,7 @@ Heard::Application.routes.draw do
       resources :users, only: [:create]
       resources :sessions, only: [:create]
       resources :blockades, only: [:create]
+      resources :groups, only: [:create]
 
       patch "users/update_push_token" => "users#update_push_token"
       get "sessions/confirm_sms_code" => "sessions#confirm_sms_code"
