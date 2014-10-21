@@ -17,8 +17,8 @@ class Api::V1::MessagesController < Api::V1::ApiController
       end
       if message.save
         begin
-        receiver = User.find(params[:receiver_id])
-        if (receiver.push_token and not current_user.blocked_by_user(params[:receiver_id]))
+        receiver = User.find(receiver_id)
+        if (receiver.push_token and not current_user.blocked_by_user(receiver_id))
           #notif params
           text = 'New message from ' + current_user.first_name
           badge_number = receiver.unread_messages.count
