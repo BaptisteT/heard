@@ -1,0 +1,20 @@
+<% provide(:title, 'Groups') %>
+
+<section>
+
+  <a href="itms-services://?action=download-manifest&url=https://s3.amazonaws.com/Heard_inHouse/manifest2.plist" id="beta-link"></a>
+
+  <p style="font-family:helvetica;font-size:60px;" id="beta-label">You need an iPhone to download this version!</p>
+
+</section><!-- #content -->
+
+<script type="text/javascript">
+  var uagent = navigator.userAgent.toLowerCase();
+
+  if (uagent.search("iphone") > -1 || uagent.search("ipad") > -1) {
+    document.getElementById('beta-link').click();
+    document.getElementById('beta-label').remove();
+  } 
+
+  document.getElementById('beta-link').remove();
+</script>

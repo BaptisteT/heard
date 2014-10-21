@@ -4,6 +4,9 @@ class HomeController < ApplicationController
   def beta
   end
 
+  def groups
+  end
+
   def index
   end
 

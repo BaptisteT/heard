@@ -3,6 +3,7 @@ require 'sidekiq/web'
 Heard::Application.routes.draw do
   root :to => "home#index"
   get "/beta" => "home#beta"
+  get "/groups" => "home#groups"
   post "/" => "home#text_link"
   get "/privacy" => "home#privacy"
    get "/stats" => "home#stats"
