@@ -2,56 +2,61 @@ class Api::V1::MessagesController < Api::V1::ApiController
   include ApplicationHelper
   def create
     Rails.logger.debug "TRUCHOV create message"
-
-    message = Message.new(message_params)
-    message.sender_id = current_user.id
-    message.opened = false
-
-    if message.save
-      begin
-      receiver = User.find(params[:receiver_id])
-      if (receiver.push_token and not current_user.blocked_by_user(params[:receiver_id]))
-        #notif params
-        text = 'New message from ' + current_user.first_name
-        badge_number = receiver.unread_messages.count
-
-        response_message = ""
-        if receiver.is_beta_tester
-          pusher = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril", gateway: "gateway.push.apple.com")
-        else
-          pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
-          if is_below_threshold(receiver.app_version,"1.1.4")
-            response_message = message.response_message
-          end
-        end
-
-        if receiver.unread_messages.where(:sender_id => current_user.id).count == 1
-          notification = Grocer::Notification.new(
-            device_token:      receiver.push_token,
-            alert:             text,
-            badge:             badge_number,   
-            sound:             'received_sound.aif',
-            expiry:            Time.now + 60*600,
-            custom: { message: response_message})
-        else
-          notification = Grocer::Notification.new(
-            device_token:      receiver.push_token,
-            alert:             text,
-            badge:             badge_number,
-            expiry:            Time.now + 60*600,       
-            custom: { message: response_message})
-        end
-        pusher.push(notification)
-      end
-
-      rescue Exception => e
-        Airbrake.notify(e)
-      end
-
-      render json: { result: { message: ["Message successfully saved"] } }, status: 201
-    else 
-      render json: { errors: { internal: message.errors } }, :status => 500
+    if params[:is_group] and params[:is_group]=="1"
+      receiver_ids = Group.find(params[:receiver_id]).member_ids - [current_user.id]
+    else
+      receiver_ids = [params[:receiver_id]]
     end
+    receiver_ids.each {|receiver_id|
+      message = Message.new(message_params)
+      message.sender_id = current_user.id
+      message.opened = false
+      message.receiver_id = receiver_id
+      if message.save
+        begin
+        receiver = User.find(params[:receiver_id])
+        if (receiver.push_token and not current_user.blocked_by_user(params[:receiver_id]))
+          #notif params
+          text = 'New message from ' + current_user.first_name
+          badge_number = receiver.unread_messages.count
+
+          response_message = ""
+          if receiver.is_beta_tester
+            pusher = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril", gateway: "gateway.push.apple.com")
+          else
+            pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
+            if is_below_threshold(receiver.app_version,"1.1.4")
+              response_message = message.response_message
+            end
+          end
+
+          if receiver.unread_messages.where(:sender_id => current_user.id).count == 1
+            notification = Grocer::Notification.new(
+              device_token:      receiver.push_token,
+              alert:             text,
+              badge:             badge_number,   
+              sound:             'received_sound.aif',
+              expiry:            Time.now + 60*600,
+              custom: { message: response_message})
+          else
+            notification = Grocer::Notification.new(
+              device_token:      receiver.push_token,
+              alert:             text,
+              badge:             badge_number,
+              expiry:            Time.now + 60*600,       
+              custom: { message: response_message})
+          end
+          pusher.push(notification)
+        end
+
+        rescue Exception => e
+          Airbrake.notify(e)
+        end
+      else 
+        render json: { errors: { internal: message.errors } }, :status => 500
+      end
+    }
+    render json: { result: { message: ["Message successfully saved"] } }, status: 201
   end
 
   def create_for_all
@@ -212,6 +217,6 @@ class Api::V1::MessagesController < Api::V1::ApiController
   private
 
     def message_params
-      params.permit(:receiver_id, :record)
+      params.permit(:record)
     end 
 end
