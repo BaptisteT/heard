@@ -6,6 +6,8 @@ class Api::V1::GroupsController < Api::V1::ApiController
     group.members_number = params[:members].count
     pusher_beta = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril", gateway: "gateway.push.apple.com")
     pusher_prod = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
+    notifications_beta = []
+    notifications_prod = []
     text = current_user.first_name + " just added you to the group " + group.name
     if group.members_number > 2 and group.save
       params[:members].each { |user_id|
