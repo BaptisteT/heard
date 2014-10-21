@@ -181,7 +181,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
     end
 
     # Get contacts who did not read his messages
-    unread_users = Message.where(sender_id:current_user.id, opened:false).pluck(:receiver_id).uniq
+    unread_users = Message.where(sender_id:current_user.id, opened:false, group_id:nil).pluck(:receiver_id).uniq
 
     render json: { result: { messages: Message.response_messages(current_user.unread_messages), 
                                 retrieve_contacts:retrieve,
@@ -190,7 +190,6 @@ class Api::V1::MessagesController < Api::V1::ApiController
 
   def last_message
     last_message = Message.where(sender_id: params[:sender_id], receiver_id: current_user.id).order('id DESC').limit(1)
-
     render json: { result: { message: Message.response_message(last_message)} }, status: 201
   end
 
