@@ -43,6 +43,7 @@ Heard::Application.routes.draw do
       post "messages/create_future_messages" => "messages#create_future_messages"
       get "messages/is_recording" => "messages#is_recording"
       post "users/fb_create" => "users#fb_create"
+      get "groups/get_group_info" => "groups#get_group_info"
     end
   end
 end

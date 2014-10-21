@@ -6,4 +6,10 @@ class Group < ActiveRecord::Base
   def member_ids
     self.users.pluck(:id)
   end
+
+  def group_info
+    { id: self.id,
+      group_name: self.name,
+      member_ids: self.member_ids }
+  end
 end

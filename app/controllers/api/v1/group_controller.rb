@@ -17,4 +17,9 @@ class Api::V1::GroupsController < Api::V1::ApiController
       render json: { errors: { internal: group.errors } }, :status => 500
     end
   end
+
+  def get_group_info
+    group = Group.find(params[:group_id])
+    render json: { result: { group: group.group_info } }, status: 201
+  end
 end
