@@ -12,6 +12,9 @@ class Api::V1::MessagesController < Api::V1::ApiController
       message.sender_id = current_user.id
       message.opened = false
       message.receiver_id = receiver_id
+      if params[:is_group] and params[:is_group]=="1"
+        message.group_id = params[:receiver_id]
+      end
       if message.save
         begin
         receiver = User.find(params[:receiver_id])
