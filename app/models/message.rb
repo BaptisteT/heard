@@ -18,6 +18,7 @@ class Message < ActiveRecord::Base
     { id: self.id,
       receiver_id: self.receiver_id,
       sender_id: self.sender_id,
+      group_id: self.group_id,
       date: self.created_at.to_time.to_i,
       opened: self.opened }
   end
