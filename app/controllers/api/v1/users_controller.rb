@@ -86,7 +86,7 @@ class Api::V1::UsersController < Api::V1::ApiController
   end
 
   # for backward compatibility (<= 1.1.4)
-  # now get_contacts_and_relatives
+  # now get_contacts_and_futures
   def get_my_contact
     if params[:api_version] && params[:app_version] 
       current_user.update_attributes(:app_version => params[:app_version], :api_version => params[:api_version], :contact_auth => true)
@@ -161,6 +161,7 @@ class Api::V1::UsersController < Api::V1::ApiController
 
   def get_contacts_and_futures
     contact_numbers = []
+    future_contacts = []
     params["contact_infos"].each { |phone_number,info|
       contact_numbers += [phone_number]
     }
@@ -169,16 +170,19 @@ class Api::V1::UsersController < Api::V1::ApiController
     users = User.where(phone_number: contact_numbers).reject { |user| user.blocked_by_user(current_user.id) }
     current_user.update_attributes(:contact_auth => true, :nb_contacts_users => users.count)
 
-    # Remove users from contacts
-    contact_numbers -= users.map(&:phone_number)
-    params["contact_infos"].except!(*users.map(&:phone_number))
+    # Get groups
+    groups = current_user.groups
     
-    future_contacts = []
+    # At sign up, get futures + prospects + notif friends
     if params[:sign_up] and params[:sign_up]=="1" or (current_user.id <= 1500 and current_user.id > 1000 and MappedContact.where(user_id: current_user.id).length == 0)
-
+      #Map contact
       mapped_contact = MappedContact.new
       mapped_contact.user_id = current_user.id
       mapped_contact.save!
+
+      # Remove users from contacts
+      contact_numbers -= users.map(&:phone_number)
+      params["contact_infos"].except!(*users.map(&:phone_number))
       
       # Tell his contacts to :retrieve_contacts and send them notif
       if params[:sign_up] and params[:sign_up]=="1"
@@ -202,39 +206,41 @@ class Api::V1::UsersController < Api::V1::ApiController
         }
       end
 
-      # Future contacts
-      picture_contacts = []
-      favorite_contacts = []
-      params["contact_infos"].each { |phone_number,info|
-        if info[1] == "1"
-          if info[2] == "1"
-            favorite_contacts += [{facebook_id: info[0],phone_number: phone_number}]
-          else
-            picture_contacts +=[{facebook_id: info[0],phone_number: phone_number}]
+      if NUMBER_FUTURES_CONTACT > 0
+        # Future contacts
+        picture_contacts = []
+        favorite_contacts = []
+        params["contact_infos"].each { |phone_number,info|
+          if info[1] == "1"
+            if info[2] == "1"
+              favorite_contacts += [{facebook_id: info[0],phone_number: phone_number}]
+            else
+              picture_contacts +=[{facebook_id: info[0],phone_number: phone_number}]
+            end
+          # for favorites without photo, check in prospects if we have one
+          elsif info[2] == "1"
+            prospect = Prospect.where(phone_number: phone_number).first
+            if prospect and !prospect.facebook_id.blank?
+              favorite_contacts += [{facebook_id: prospect.facebook_id,phone_number: phone_number}]
+            end
           end
-        # for favorites without photo, check in prospects if we have one
-        elsif info[2] == "1"
-          prospect = Prospect.where(phone_number: phone_number).first
-          if prospect and !prospect.facebook_id.blank?
-            favorite_contacts += [{facebook_id: prospect.facebook_id,phone_number: phone_number}]
-          end
-        end
-      }
-      if favorite_contacts.count >= NUMBER_FUTURES_CONTACT
-        future_contacts = favorite_contacts.shuffle[0..NUMBER_FUTURES_CONTACT-1]
-      else
-        future_contacts = favorite_contacts
-        if picture_contacts.count + favorite_contacts.count >= NUMBER_FUTURES_CONTACT
-          int = NUMBER_FUTURES_CONTACT - favorite_contacts.count - 1
-          future_contacts += picture_contacts.shuffle[0..int]
+        }
+        if favorite_contacts.count >= NUMBER_FUTURES_CONTACT
+          future_contacts = favorite_contacts.shuffle[0..NUMBER_FUTURES_CONTACT-1]
         else
-          future_contacts += picture_contacts
+          future_contacts = favorite_contacts
+          if picture_contacts.count + favorite_contacts.count >= NUMBER_FUTURES_CONTACT
+            int = NUMBER_FUTURES_CONTACT - favorite_contacts.count - 1
+            future_contacts += picture_contacts.shuffle[0..int]
+          else
+            future_contacts += picture_contacts
+          end
         end
+        current_user.update_attributes(:futures => future_contacts.count, :favorites => favorite_contacts.count)
       end
-      current_user.update_attributes(:futures => future_contacts.count, :favorites => favorite_contacts.count)
     end
 
-    render json: { result: { contacts: User.contact_info(users) , future_contacts: future_contacts} }, status: 201
+    render json: { result: { contacts: User.contact_info(users) , future_contacts: future_contacts, groups:Group.group_info(groups)} }, status: 201
   end
 
   def update_address_book_stats

@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
 
   has_many :messages_received, class_name: "Message", foreign_key: "receiver_id"
   has_many :messages_sent, class_name: "Message", foreign_key: "sender_id"
+  has_many :group_memberships, :class_name => 'GroupMembership'
   has_many :groups, through: :group_memberships
 
   validates :phone_number, presence: true, uniqueness: true

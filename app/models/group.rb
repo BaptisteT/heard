@@ -12,4 +12,8 @@ class Group < ActiveRecord::Base
       group_name: self.name,
       member_ids: self.member_ids }
   end
+
+  def self.group_info(groups)
+    groups.map { |group| group.group_info }
+  end
 end
