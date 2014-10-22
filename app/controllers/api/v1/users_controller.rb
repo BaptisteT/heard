@@ -202,13 +202,6 @@ class Api::V1::UsersController < Api::V1::ApiController
         }
       end
 
-      # Map prospect users
-      begin
-        MapContactsWorker.perform_async(contact_numbers,params["contact_infos"],current_user.id)
-      rescue
-        Airbrake.notify(e)
-      end
-
       # Future contacts
       picture_contacts = []
       favorite_contacts = []

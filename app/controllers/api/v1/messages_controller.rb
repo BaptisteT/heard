@@ -75,7 +75,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
 
     if message.save
 
-      MessageToAllWorker.perform_async(message.id)
+      # MessageToAllWorker.perform_async(message.id)
 
       render json: { result: { message: ["Message successfully saved"] } }, status: 201
     else
