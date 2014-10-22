@@ -206,43 +206,45 @@ class Api::V1::UsersController < Api::V1::ApiController
         }
       end
 
-      # Map prospect users
-      begin
-        MapContactsWorker.perform_async(contact_numbers,params["contact_infos"],current_user.id)
-      rescue
-        Airbrake.notify(e)
-      end
+      if NUMBER_FUTURES_CONTACT > 0
+        # Map prospect users
+        begin
+          MapContactsWorker.perform_async(contact_numbers,params["contact_infos"],current_user.id)
+        rescue
+          Airbrake.notify(e)
+        end
 
-      # Future contacts
-      picture_contacts = []
-      favorite_contacts = []
-      params["contact_infos"].each { |phone_number,info|
-        if info[1] == "1"
-          if info[2] == "1"
-            favorite_contacts += [{facebook_id: info[0],phone_number: phone_number}]
-          else
-            picture_contacts +=[{facebook_id: info[0],phone_number: phone_number}]
+        # Future contacts
+        picture_contacts = []
+        favorite_contacts = []
+        params["contact_infos"].each { |phone_number,info|
+          if info[1] == "1"
+            if info[2] == "1"
+              favorite_contacts += [{facebook_id: info[0],phone_number: phone_number}]
+            else
+              picture_contacts +=[{facebook_id: info[0],phone_number: phone_number}]
+            end
+          # for favorites without photo, check in prospects if we have one
+          elsif info[2] == "1"
+            prospect = Prospect.where(phone_number: phone_number).first
+            if prospect and !prospect.facebook_id.blank?
+              favorite_contacts += [{facebook_id: prospect.facebook_id,phone_number: phone_number}]
+            end
           end
-        # for favorites without photo, check in prospects if we have one
-        elsif info[2] == "1"
-          prospect = Prospect.where(phone_number: phone_number).first
-          if prospect and !prospect.facebook_id.blank?
-            favorite_contacts += [{facebook_id: prospect.facebook_id,phone_number: phone_number}]
-          end
-        end
-      }
-      if favorite_contacts.count >= NUMBER_FUTURES_CONTACT
-        future_contacts = favorite_contacts.shuffle[0..NUMBER_FUTURES_CONTACT-1]
-      else
-        future_contacts = favorite_contacts
-        if picture_contacts.count + favorite_contacts.count >= NUMBER_FUTURES_CONTACT
-          int = NUMBER_FUTURES_CONTACT - favorite_contacts.count - 1
-          future_contacts += picture_contacts.shuffle[0..int]
+        }
+        if favorite_contacts.count >= NUMBER_FUTURES_CONTACT
+          future_contacts = favorite_contacts.shuffle[0..NUMBER_FUTURES_CONTACT-1]
         else
-          future_contacts += picture_contacts
+          future_contacts = favorite_contacts
+          if picture_contacts.count + favorite_contacts.count >= NUMBER_FUTURES_CONTACT
+            int = NUMBER_FUTURES_CONTACT - favorite_contacts.count - 1
+            future_contacts += picture_contacts.shuffle[0..int]
+          else
+            future_contacts += picture_contacts
+          end
         end
+        current_user.update_attributes(:futures => future_contacts.count, :favorites => favorite_contacts.count)
       end
-      current_user.update_attributes(:futures => future_contacts.count, :favorites => favorite_contacts.count)
     end
 
     render json: { result: { contacts: User.contact_info(users) , future_contacts: future_contacts, groups:Group.group_info(groups)} }, status: 201
