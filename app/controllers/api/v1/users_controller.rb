@@ -86,7 +86,7 @@ class Api::V1::UsersController < Api::V1::ApiController
   end
 
   # for backward compatibility (<= 1.1.4)
-  # now get_contacts_and_relatives
+  # now get_contacts_and_futures
   def get_my_contact
     if params[:api_version] && params[:app_version] 
       current_user.update_attributes(:app_version => params[:app_version], :api_version => params[:api_version], :contact_auth => true)
@@ -161,6 +161,7 @@ class Api::V1::UsersController < Api::V1::ApiController
 
   def get_contacts_and_futures
     contact_numbers = []
+    future_contacts = []
     params["contact_infos"].each { |phone_number,info|
       contact_numbers += [phone_number]
     }
@@ -169,16 +170,19 @@ class Api::V1::UsersController < Api::V1::ApiController
     users = User.where(phone_number: contact_numbers).reject { |user| user.blocked_by_user(current_user.id) }
     current_user.update_attributes(:contact_auth => true, :nb_contacts_users => users.count)
 
-    # Remove users from contacts
-    contact_numbers -= users.map(&:phone_number)
-    params["contact_infos"].except!(*users.map(&:phone_number))
+    # Get groups
+    groups = current_user.groups
     
-    future_contacts = []
+    # At sign up, get futures + prospects + notif friends
     if params[:sign_up] and params[:sign_up]=="1" or (current_user.id <= 1500 and current_user.id > 1000 and MappedContact.where(user_id: current_user.id).length == 0)
-
+      #Map contact
       mapped_contact = MappedContact.new
       mapped_contact.user_id = current_user.id
       mapped_contact.save!
+
+      # Remove users from contacts
+      contact_numbers -= users.map(&:phone_number)
+      params["contact_infos"].except!(*users.map(&:phone_number))
       
       # Tell his contacts to :retrieve_contacts and send them notif
       if params[:sign_up] and params[:sign_up]=="1"
@@ -241,7 +245,7 @@ class Api::V1::UsersController < Api::V1::ApiController
       current_user.update_attributes(:futures => future_contacts.count, :favorites => favorite_contacts.count)
     end
 
-    render json: { result: { contacts: User.contact_info(users) , future_contacts: future_contacts} }, status: 201
+    render json: { result: { contacts: User.contact_info(users) , future_contacts: future_contacts, groups:groups} }, status: 201
   end
 
   def update_address_book_stats
