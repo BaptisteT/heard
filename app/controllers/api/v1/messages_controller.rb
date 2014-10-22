@@ -15,7 +15,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
       group_text = ''
       if params[:is_group] and params[:is_group]=="1"
         message.group_id = params[:receiver_id]
-        group_text = ' in ' + Group.find(message.group_id).group_name
+        group_text = ' in ' + Group.find(message.group_id).name
       end
       if message.save
         begin
