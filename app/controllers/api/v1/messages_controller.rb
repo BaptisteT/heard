@@ -12,15 +12,17 @@ class Api::V1::MessagesController < Api::V1::ApiController
       message.sender_id = current_user.id
       message.opened = false
       message.receiver_id = receiver_id
+      group_text = ''
       if params[:is_group] and params[:is_group]=="1"
         message.group_id = params[:receiver_id]
+        group_text = ' in ' + Group.find(message.group_id).group_name
       end
       if message.save
         begin
         receiver = User.find(receiver_id)
         if (receiver.push_token and not current_user.blocked_by_user(receiver_id))
           #notif params
-          text = 'New message from ' + current_user.first_name
+          text = 'New message from ' + current_user.first_name + group_text
           badge_number = receiver.unread_messages.count
 
           response_message = ""
