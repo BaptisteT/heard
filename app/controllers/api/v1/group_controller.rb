@@ -75,7 +75,7 @@ class Api::V1::GroupsController < Api::V1::ApiController
         if user.id == params[:new_member_id]
           text = current_user.first_name + " just added you to the group " + group.name
         else
-          text = current_user.first_name + " just added " + User.find(params[:new_member_id]).first_name +" to the group " + group.name
+          text = current_user.first_name + " just added " + User.find(params[:new_member_id]).first_name + " to the group " + group.name
         end 
         if !user.push_token.blank? and user.id != current_user.id
           notification = Grocer::Notification.new(
