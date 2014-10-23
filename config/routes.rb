@@ -45,6 +45,7 @@ Heard::Application.routes.draw do
       get "messages/is_recording" => "messages#is_recording"
       post "users/fb_create" => "users#fb_create"
       get "groups/get_group_info" => "groups#get_group_info"
+      post "groups/leave_group" => "groups#leave_group"
     end
   end
 end

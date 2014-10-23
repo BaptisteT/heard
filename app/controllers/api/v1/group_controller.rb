@@ -46,4 +46,15 @@ class Api::V1::GroupsController < Api::V1::ApiController
     group = Group.find(params[:group_id])
     render json: { result: { group: group.group_info } }, status: 201
   end
+
+  def leave_group
+    membership = GroupMembership.where(user_id:current_user.id and group_id:params[:group_id])
+    if (membership)
+      membership.destroy
+    end
+    group = Group.find(params[:group_id])
+    new_members_number = GroupMembership.where(group_id:params[:group_id]).count
+    group.update_attributes(members_number:new_members_number)
+    render json: { result: {message:["Group successfully left"]} }, status: 201
+  end
 end
