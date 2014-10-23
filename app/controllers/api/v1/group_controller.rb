@@ -73,7 +73,7 @@ class Api::V1::GroupsController < Api::V1::ApiController
       notifications_prod = []
 
       group.users(true).each { |user|
-        if user.id == params[:new_member_id]
+        if user.id == membership.user_id
           text = current_user.first_name + " just added you to the group " + group.name
         else
           text = current_user.first_name + " just added " + User.find(params[:new_member_id]).first_name + " to the group " + group.name
