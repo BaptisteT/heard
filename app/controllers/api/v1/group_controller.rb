@@ -58,13 +58,14 @@ class Api::V1::GroupsController < Api::V1::ApiController
   def add_member
     group = Group.find(params[:group_id])
     if group.group_memberships.count >= MAX_GROUP_MEMBERS
-      render json: { result: {message:["Group already full"], group:group.group_info} }, status: 201
+      render json: { result: {is_full:true, group:group.group_info} }, status: 201
     else
       membership = GroupMembership.new
       membership.user_id = params[:new_member_id]
       membership.group_id = params[:group_id]
       membership.save!
-
+      new_members_number = GroupMembership.where(group_id:group.id).count
+      group.update_attributes(members_number:new_members_number)
       #send notification
       pusher_beta = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril", gateway: "gateway.push.apple.com")
       pusher_prod = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
@@ -96,7 +97,7 @@ class Api::V1::GroupsController < Api::V1::ApiController
       notifications_beta.each do |notification|
         pusher_beta.push(notification)
       end
-      render json: { result: {message:["Member successfully added"]} }, status: 201
+      render json: { result: {is_full:false, group:group.group_info} }, status: 201
     end
   end
 end
