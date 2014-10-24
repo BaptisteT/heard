@@ -18,6 +18,7 @@ class Group < ActiveRecord::Base
   def group_info
     { id: self.id,
       group_name: self.name,
+      date: self.created_at.to_time.to_i,
       member_ids: self.member_ids,
       member_first_names: self.member_first_names,
       member_last_names: self.member_last_names}

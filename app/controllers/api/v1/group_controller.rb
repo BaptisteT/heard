@@ -76,11 +76,11 @@ class Api::V1::GroupsController < Api::V1::ApiController
       group.users(true).each { |user|
         if user.id == membership.user_id
           text = current_user.first_name + " just added you to the group " + group.name
-          user.update_attributes(:retrieve_contacts => true)
         else
           text = current_user.first_name + " just added " + User.find(params[:new_member_id]).first_name + " to the group " + group.name
         end 
         if !user.push_token.blank? and user.id != current_user.id
+          user.update_attributes(:retrieve_contacts => true)
           notification = Grocer::Notification.new(
                             device_token:      user.push_token,
                             alert:             text,
