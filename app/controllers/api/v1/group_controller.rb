@@ -17,6 +17,7 @@ class Api::V1::GroupsController < Api::V1::ApiController
         membership.save!
         #todo BT send notif to other members
         user = User.find(user_id)
+        user.update_attributes(:retrieve_contacts => true)
         if !user.push_token.blank? and user_id != current_user.id
           notification = Grocer::Notification.new(
                             device_token:      user.push_token,
@@ -75,6 +76,7 @@ class Api::V1::GroupsController < Api::V1::ApiController
       group.users(true).each { |user|
         if user.id == membership.user_id
           text = current_user.first_name + " just added you to the group " + group.name
+          user.update_attributes(:retrieve_contacts => true)
         else
           text = current_user.first_name + " just added " + User.find(params[:new_member_id]).first_name + " to the group " + group.name
         end 
