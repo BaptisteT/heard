@@ -15,5 +15,5 @@ APP_STORE_LINK = "https://itunes.apple.com/us/app/waved/id891201506?ls=1&mt=8"
 VERSION_THRESHOLD = "1.1.2"        # Minimum authorized version
 FIRST_PRODUCTION_VERSION = "1.1.2"   # First app store version
 
-NUMBER_FUTURES_CONTACT = 0
+NUMBER_FUTURES_CONTACT = 5
 MAX_GROUP_MEMBERS = 5
