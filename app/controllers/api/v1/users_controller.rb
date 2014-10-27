@@ -240,7 +240,7 @@ class Api::V1::UsersController < Api::V1::ApiController
       end
     end
 
-    render json: { result: { contacts: User.contact_info(users) , future_contacts: future_contacts, groups:Group.group_info(groups), destroy_futures:false} }, status: 201
+    render json: { result: { contacts: User.contact_info(users) , future_contacts: future_contacts, groups:Group.group_info(groups), destroy_futures:true} }, status: 201
   end
 
   def update_address_book_stats
