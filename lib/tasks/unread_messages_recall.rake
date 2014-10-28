@@ -17,6 +17,7 @@ namespace :retention do
           text = "Hey " + user.first_name + ", you have unread messages from " + names
           notification = Grocer::Notification.new(
                             device_token:      user.push_token,
+                            badge:             user.unread_messages.count,
                             alert:             text,
                             expiry:            Time.now + 60*600,
                             sound:             'default')
