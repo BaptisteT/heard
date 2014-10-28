@@ -39,7 +39,7 @@ task unread_messages_recall: :environment do
       client.account.messages.create(
         from: TWILIO_PHONE_NUMBER,
         to:   "+33651270873",
-        body: "Just sent unread messages notif to " + notif_count + " people"
+        body: "Just sent unread messages notif to " + notif_count.to_s + " people"
       )
     rescue Twilio::REST::RequestError => e
       Airbrake.notify(e)
