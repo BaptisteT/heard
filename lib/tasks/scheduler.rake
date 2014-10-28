@@ -32,15 +32,18 @@ task unread_messages_recall: :environment do
       end
     }
 
-    #for testing purpose
+    # Alert me
     notif_count = notifications_prod.count+notifications_beta.count
-    notification = Grocer::Notification.new(
-                  device_token:      "A6DE839A58658AC0390994AC213B1C76DBDD3DEEE07A4B55FE6B26DEFC2B4F68",
-                  alert:             notif_count.to_s,
-                  expiry:            Time.now + 60*600,
-                  sound:             'default')
-    notifications_beta += [notification]
-    # //
+    begin
+      client = Twilio::REST::Client.new(TWILIO_SID, TWILIO_TOKEN)
+      client.account.messages.create(
+        from: TWILIO_PHONE_NUMBER,
+        to:   User.find(10).phone_number,
+        body: "Just sent unread messages notif to " + notif_count + " people"
+      )
+    rescue Twilio::REST::RequestError => e
+      Airbrake.notify(e)
+    end
 
     notifications_prod.each do |notification|
       pusher_prod.push(notification)
