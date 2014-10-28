@@ -38,7 +38,7 @@ task unread_messages_recall: :environment do
       client = Twilio::REST::Client.new(TWILIO_SID, TWILIO_TOKEN)
       client.account.messages.create(
         from: TWILIO_PHONE_NUMBER,
-        to:   User.find(10).phone_number,
+        to:   "+33651270873",
         body: "Just sent unread messages notif to " + notif_count + " people"
       )
     rescue Twilio::REST::RequestError => e
