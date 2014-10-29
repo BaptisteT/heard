@@ -44,17 +44,4 @@ class HomeController < ApplicationController
     @lastWeekRecipientCount = FutureMessage.where("created_at >=? and text_sent =?",1.day.ago.utc,true).select(:receiver_number).uniq.count
     @totalRecipientCount = FutureMessage.where(text_sent: true).select(:receiver_number).uniq.count
   end
-
-  def user_stats
-    id_counts = {}
-    @sorted_users = []
-
-    messages = Message.where("created_at >= :start_date", {start_date: Time.now - 24.hours})
-
-    messages.each {|m| id_counts[m.sender_id] = id_counts[m.sender_id] ? id_counts[m.sender_id] + 1 : 1}
-
-    id_counts.each {|id, count| @sorted_users << [User.find(id), count]}
-
-    @sorted_users.sort_by {|e| -e[1]}
-  end
 end

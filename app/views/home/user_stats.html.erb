@@ -1,5 +1,0 @@
-<h1> Daily unique senders: <%= @sorted_users.count %></h1>
-
-<% @sorted_users.each do |sorted_user| %>
-    <p> <%= sorted_user[0].id %>. <%= sorted_user[0].first_name %> <%= sorted_user[0].last_name %> (<%= sorted_user[1] %>)</p>
-<% end %>
