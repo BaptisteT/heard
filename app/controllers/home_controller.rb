@@ -55,6 +55,6 @@ class HomeController < ApplicationController
 
     id_counts.each {|id, count| @sorted_users << [User.find(id), count]}
 
-    @sorted_users.sort_by {|e| -e[1]}
+    @sorted_users = @sorted_users.sort_by {|e| -e[1]}
   end
 end
