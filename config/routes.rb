@@ -6,7 +6,8 @@ Heard::Application.routes.draw do
   get "/groups" => "home#groups"
   post "/" => "home#text_link"
   get "/privacy" => "home#privacy"
-   get "/stats" => "home#stats"
+  get "/stats" => "home#stats"
+  get "/user_stats" => "home#user_stats"
 
   #Sinatra app to monitor queues provided by sidekiq/web
   mount Sidekiq::Web, at: '/sidekiq'
