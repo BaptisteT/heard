@@ -16,4 +16,3 @@ VERSION_THRESHOLD = "1.1.2"        # Minimum authorized version
 FIRST_PRODUCTION_VERSION = "1.1.2"   # First app store version
 
 NUMBER_FUTURES_CONTACT = 0
-MAX_GROUP_MEMBERS = 5
