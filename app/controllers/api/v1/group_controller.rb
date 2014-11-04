@@ -50,6 +50,7 @@ class Api::V1::GroupsController < Api::V1::ApiController
 
   def leave_group
     GroupMembership.destroy_all(user_id:current_user.id, group_id:params[:group_id])
+    # destroy messages
     group = Group.find(params[:group_id])
     new_members_number = GroupMembership.where(group_id:params[:group_id]).count
     group.update_attributes(members_number:new_members_number)
@@ -60,8 +61,8 @@ class Api::V1::GroupsController < Api::V1::ApiController
     group = Group.find(params[:group_id])
 
     # check not already a member
-    if group.members_id.include?(params[:new_member_id])
-      render json: { result: {message:["Already a member"]} }, status: 500
+    if group.member_ids.include?(params[:new_member_id])
+      render json: { errors: {message:["Already a member"]} }, status: 500
     end
     membership = GroupMembership.new
     membership.user_id = params[:new_member_id]
