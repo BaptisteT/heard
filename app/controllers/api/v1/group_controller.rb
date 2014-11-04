@@ -58,6 +58,11 @@ class Api::V1::GroupsController < Api::V1::ApiController
 
   def add_member
     group = Group.find(params[:group_id])
+
+    # check not already a member
+    if group.members_id.include?(params[:new_member_id])
+      render json: { result: {message:["Already a member"]} }, status: 500
+    end
     membership = GroupMembership.new
     membership.user_id = params[:new_member_id]
     membership.group_id = params[:group_id]
