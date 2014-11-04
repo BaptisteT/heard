@@ -52,7 +52,7 @@ class Api::V1::GroupsController < Api::V1::ApiController
     #destroy membership
     GroupMembership.destroy_all(user_id:current_user.id, group_id:params[:group_id])
     # destroy messages
-    Messages.destroy_all(group_id:params[:group_id], receiver_id:current_user.id, opened:false)
+    Message.destroy_all(group_id:params[:group_id], receiver_id:current_user.id, opened:false)
     #update members number
     group = Group.find(params[:group_id])
     new_members_number = GroupMembership.where(group_id:params[:group_id]).count
