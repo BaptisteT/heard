@@ -62,6 +62,7 @@ class HomeController < ApplicationController
 
     if (period < 1.hour)
       period = 24.hours
+      params[:h] = 24
     end
 
     id_counts = {}
