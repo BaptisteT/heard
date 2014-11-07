@@ -45,7 +45,7 @@ class HomeController < ApplicationController
     @totalRecipientCount = FutureMessage.where(text_sent: true).select(:receiver_number).uniq.count
   end
 
-  def user_stats
+  def sender_stats
     period = 0.hours
 
     if (params[:m])
@@ -81,5 +81,34 @@ class HomeController < ApplicationController
     end
 
     @sorted_users = @sorted_users.sort_by {|e| -e[1]}
+  end
+
+  def active_users
+    period = 0.hours
+
+    if (params[:m])
+      period += params[:m].to_i.months
+    end
+
+    if (params[:d])
+      period += params[:d].to_i.days
+    end
+
+    if (params[:h])
+      period += params[:h].to_i.hours
+    end
+
+    if (period < 1.hour)
+      period = 24.hours
+      params[:h] = 24
+    end
+
+    messages = Message.where("created_at >= :start_date", {start_date: Time.now - period})
+
+    @message_count = messages.count
+
+    @users = Set.new
+
+    messages.each {|m| @users.merge([m.sender_id, m.receiver_id].to_set)}
   end
 end
