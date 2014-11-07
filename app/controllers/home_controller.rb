@@ -74,8 +74,12 @@ class HomeController < ApplicationController
 
     messages.each {|m| id_counts[m.sender_id] = id_counts[m.sender_id] ? id_counts[m.sender_id] + 1 : 1}
 
-    id_counts.each {|id, count| @sorted_users << [User.find(id), count]}
+    id_counts.each do |id, count| 
+      if (User.where(id: id).count > 0)
+        @sorted_users << [User.find(id), count]
+      end
+    end
 
-    @sorted_users = @sorted_users.sort_by {|e| -e[1]}[0,30]
+    @sorted_users = @sorted_users.sort_by {|e| -e[1]}
   end
 end
