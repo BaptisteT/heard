@@ -46,10 +46,30 @@ class HomeController < ApplicationController
   end
 
   def user_stats
+    period = 0.hours
+
+    if (params[:m])
+      period += params[:m].to_i.months
+    end
+
+    if (params[:d])
+      period += params[:d].to_i.days
+    end
+
+    if (params[:h])
+      period += params[:h].to_i.hours
+    end
+
+    if (period < 1.hour)
+      period = 24.hours
+    end
+
     id_counts = {}
     @sorted_users = []
 
-    messages = Message.where("created_at >= :start_date", {start_date: Time.now - 24.hours})
+    messages = Message.where("created_at >= :start_date", {start_date: Time.now - period})
+
+    @message_count = messages.count
 
     messages.each {|m| id_counts[m.sender_id] = id_counts[m.sender_id] ? id_counts[m.sender_id] + 1 : 1}
 

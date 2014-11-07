@@ -1,4 +1,4 @@
-<h1> Daily unique senders: <%= @sorted_users.count %></h1>
+<h1> <%= @sorted_users.count %> senders sent <%= @message_count %> messages in <%= params[:m] %> month(s) <%= params[:d] %> day(s) <%= params[:h] %> hour(s) </h1>
 
 <% @sorted_users.each do |sorted_user| %>
     <p> <%= sorted_user[0].id %>. <%= sorted_user[0].first_name %> <%= sorted_user[0].last_name %> <%= sorted_user[0].phone_number %> (<%= sorted_user[1] %>)</p>
