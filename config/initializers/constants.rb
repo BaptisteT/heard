@@ -12,7 +12,9 @@ TWILIO_PHONE_NUMBER = "+14159443667"
 SENDER_EMAIL = SENDER_EMAIL_
 DOWNLOAD_LINK = "http://bit.ly/1mnNZ0g"
 APP_STORE_LINK = "https://itunes.apple.com/us/app/waved/id891201506?ls=1&mt=8"
+BETA_LINK = "http://www.waved.io/beta"
 VERSION_THRESHOLD = "1.1.2"        # Minimum authorized version
+GROUP_VERSION = "1.1.8"        
 FIRST_PRODUCTION_VERSION = "1.1.2"   # First app store version
 
 NUMBER_FUTURES_CONTACT = 0
