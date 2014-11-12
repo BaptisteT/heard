@@ -113,8 +113,8 @@ class Api::V1::GroupsController < Api::V1::ApiController
     # imperfect implementation (goal: avoid n times the same messages)
     creator_id = Group.find(params[:group_id]).member_ids[0]
     first_added_id = Group.find(params[:group_id]).member_ids[1]
-    messages = Message.where("group_id = ? and ((sender_id = ? and receiver_id = ?) or (sender_id = ? and receiver_id = ?))", 
-      params[:group_id],creator_id,first_added_id,first_added_id,creator_id)
+    messages = Message.where("group_id = ? and ((sender_id = ? and receiver_id = ?) or receiver_id = ?)", 
+      params[:group_id],creator_id,first_added_id,creator_id)
     render json: { result: { messages: Message.response_messages(messages)} }, status: 201
   end
 end
