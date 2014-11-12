@@ -108,4 +108,10 @@ class Api::V1::GroupsController < Api::V1::ApiController
       render json: { result: {is_full:false, group:group.group_info} }, status: 201
     end
   end
+
+  def retrieve_group_conversation
+    # imperfect implementation (goal: avoid n times the same messages)
+    messages = Message.where(group_id: params[:group_id]).select(:record_file_size).distinct
+    render json: { result: { messages: Message.response_messages(messages)} }, status: 201
+  end
 end

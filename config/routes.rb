@@ -49,6 +49,7 @@ Heard::Application.routes.draw do
       get "groups/get_group_info" => "groups#get_group_info"
       post "groups/leave_group" => "groups#leave_group"
       post "groups/add_member" => "groups#add_member"
+      get "groups/retrieve_group_conversation" => "groups#retrieve_group_conversation"
     end
   end
 end
