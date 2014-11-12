@@ -38,8 +38,8 @@ class Api::V1::MessagesController < Api::V1::ApiController
             end
           end
 
-          if (params[:is_group] and receiver.unread_messages.where(:group_id => current_user.id).count <= 3)
-            or receiver.unread_messages.where(:sender_id => current_user.id).count <= 3
+          if (params[:is_group] and params[:is_group]=="1" and receiver.unread_messages.where(:group_id => params[:receiver_id]).count <= 3) or 
+            receiver.unread_messages.where(:sender_id => current_user.id).count <= 3
             notification = Grocer::Notification.new(
               device_token:      receiver.push_token,
               alert:             text,
