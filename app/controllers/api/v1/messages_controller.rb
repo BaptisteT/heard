@@ -192,7 +192,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
   end
 
   def retrieve_conversation
-    messages = Message.where("(sender_id = ? and receiver_id = ?) or (sender_id = ? and receiver_id = ?)",
+    messages = Message.where("((sender_id = ? and receiver_id = ?) or (sender_id = ? and receiver_id = ?)) and group_id IS NULL",
       params[:first_user_id],params[:second_user_id],params[:second_user_id],params[:first_user_id])
     render json: { result: { messages: Message.response_messages(messages)} }, status: 201
   end
