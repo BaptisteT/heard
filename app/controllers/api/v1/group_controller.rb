@@ -111,7 +111,8 @@ class Api::V1::GroupsController < Api::V1::ApiController
 
   def retrieve_group_conversation
     # imperfect implementation (goal: avoid n times the same messages)
-    messages = Message.where(group_id: params[:group_id]).select(:record_file_size).distinct
+    creator_id = Group.find(params[:group_id]).member_ids[0]
+    messages = Message.where("group_id = ? and (sender_id = ? or receiver_id = ?)", params[:group_id],creator_id,creator_id)
     render json: { result: { messages: Message.response_messages(messages)} }, status: 201
   end
 end
