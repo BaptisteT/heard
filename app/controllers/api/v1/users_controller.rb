@@ -53,6 +53,9 @@ class Api::V1::UsersController < Api::V1::ApiController
     user.fb_id = params[:fb_id]
     user.fb_gender = params[:fb_gender] 
     user.fb_locale = params[:fb_locale]
+    if params[:email]
+      user.email = params[:email]
+    end
 
     user.profile_picture = open(URI.parse(process_uri("http://graph.facebook.com/#{user.fb_id}/picture?type=large")))
 
