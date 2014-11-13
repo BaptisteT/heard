@@ -163,87 +163,91 @@ class Api::V1::UsersController < Api::V1::ApiController
   end
 
   def get_contacts_and_futures
-    contact_numbers = []
-    future_contacts = []
-    params["contact_infos"].each { |phone_number,info|
-      contact_numbers += [phone_number]
-    }
+    if !params["contact_infos"]
+      render json: { result: { message: "No contact"} }, status: 201
+    else 
+      contact_numbers = []
+      future_contacts = []
+      params["contact_infos"].each { |phone_number,info|
+        contact_numbers += [phone_number]
+      }
 
-    # Get contacts
-    users = User.where(phone_number: contact_numbers).reject { |user| user.blocked_by_user(current_user.id) }
-    current_user.update_attributes(:contact_auth => true, :nb_contacts_users => users.count)
+      # Get contacts
+      users = User.where(phone_number: contact_numbers).reject { |user| user.blocked_by_user(current_user.id) }
+      current_user.update_attributes(:contact_auth => true, :nb_contacts_users => users.count)
 
-    # Get groups
-    groups = current_user.groups
-    
-    # At sign up, get futures + prospects + notif friends
-    if params[:sign_up] and params[:sign_up]=="1" or (current_user.id <= 1500 and current_user.id > 1000 and MappedContact.where(user_id: current_user.id).length == 0)
-      #Map contact
-      mapped_contact = MappedContact.new
-      mapped_contact.user_id = current_user.id
-      mapped_contact.save!
-
-      # Remove users from contacts
-      contact_numbers -= users.map(&:phone_number)
-      params["contact_infos"].except!(*users.map(&:phone_number))
+      # Get groups
+      groups = current_user.groups
       
-      # Tell his contacts to :retrieve_contacts and send them notif
-      if params[:sign_up] and params[:sign_up]=="1"
-        users.each { |user| 
-          user.update_attributes(:retrieve_contacts => true)
-          if (user.push_token && current_user.unread_messages.where(:sender_id => user.id).blank?)
-            if user.is_beta_tester
-              pusher = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril")
-            else
-              pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
-            end
-            
-            text = current_user.first_name + " " + current_user.last_name + " is now on Waved!"
-            notification = Grocer::Notification.new(
-              device_token:      user.push_token,
-              alert:             text,
-              expiry:            Time.now + 60*600,
-              sound:             'received_sound.aif')  
-            pusher.push(notification)
-          end
-        }
-      end
+      # At sign up, get futures + prospects + notif friends
+      if params[:sign_up] and params[:sign_up]=="1" or (current_user.id <= 1500 and current_user.id > 1000 and MappedContact.where(user_id: current_user.id).length == 0)
+        #Map contact
+        mapped_contact = MappedContact.new
+        mapped_contact.user_id = current_user.id
+        mapped_contact.save!
 
-      if NUMBER_FUTURES_CONTACT > 0
-        # Future contacts
-        picture_contacts = []
-        favorite_contacts = []
-        params["contact_infos"].each { |phone_number,info|
-          if info[1] == "1"
-            if info[2] == "1"
-              favorite_contacts += [{facebook_id: info[0],phone_number: phone_number}]
-            else
-              picture_contacts +=[{facebook_id: info[0],phone_number: phone_number}]
+        # Remove users from contacts
+        contact_numbers -= users.map(&:phone_number)
+        params["contact_infos"].except!(*users.map(&:phone_number))
+        
+        # Tell his contacts to :retrieve_contacts and send them notif
+        if params[:sign_up] and params[:sign_up]=="1"
+          users.each { |user| 
+            user.update_attributes(:retrieve_contacts => true)
+            if (user.push_token && current_user.unread_messages.where(:sender_id => user.id).blank?)
+              if user.is_beta_tester
+                pusher = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril")
+              else
+                pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
+              end
+              
+              text = current_user.first_name + " " + current_user.last_name + " is now on Waved!"
+              notification = Grocer::Notification.new(
+                device_token:      user.push_token,
+                alert:             text,
+                expiry:            Time.now + 60*600,
+                sound:             'received_sound.aif')  
+              pusher.push(notification)
             end
-          # for favorites without photo, check in prospects if we have one
-          elsif info[2] == "1"
-            prospect = Prospect.where(phone_number: phone_number).first
-            if prospect and !prospect.facebook_id.blank?
-              favorite_contacts += [{facebook_id: prospect.facebook_id,phone_number: phone_number}]
-            end
-          end
-        }
-        if favorite_contacts.count >= NUMBER_FUTURES_CONTACT
-          future_contacts = favorite_contacts.shuffle[0..NUMBER_FUTURES_CONTACT-1]
-        else
-          future_contacts = favorite_contacts
-          if picture_contacts.count + favorite_contacts.count >= NUMBER_FUTURES_CONTACT
-            int = NUMBER_FUTURES_CONTACT - favorite_contacts.count - 1
-            future_contacts += picture_contacts.shuffle[0..int]
-          else
-            future_contacts += picture_contacts
-          end
+          }
         end
-        current_user.update_attributes(:futures => future_contacts.count, :favorites => favorite_contacts.count)
-      end
-    end
 
-    render json: { result: { contacts: User.contact_info(users) , future_contacts: future_contacts, groups:Group.group_info(groups), destroy_futures:false} }, status: 201
+        if NUMBER_FUTURES_CONTACT > 0
+          # Future contacts
+          picture_contacts = []
+          favorite_contacts = []
+          params["contact_infos"].each { |phone_number,info|
+            if info[1] == "1"
+              if info[2] == "1"
+                favorite_contacts += [{facebook_id: info[0],phone_number: phone_number}]
+              else
+                picture_contacts +=[{facebook_id: info[0],phone_number: phone_number}]
+              end
+            # for favorites without photo, check in prospects if we have one
+            elsif info[2] == "1"
+              prospect = Prospect.where(phone_number: phone_number).first
+              if prospect and !prospect.facebook_id.blank?
+                favorite_contacts += [{facebook_id: prospect.facebook_id,phone_number: phone_number}]
+              end
+            end
+          }
+          if favorite_contacts.count >= NUMBER_FUTURES_CONTACT
+            future_contacts = favorite_contacts.shuffle[0..NUMBER_FUTURES_CONTACT-1]
+          else
+            future_contacts = favorite_contacts
+            if picture_contacts.count + favorite_contacts.count >= NUMBER_FUTURES_CONTACT
+              int = NUMBER_FUTURES_CONTACT - favorite_contacts.count - 1
+              future_contacts += picture_contacts.shuffle[0..int]
+            else
+              future_contacts += picture_contacts
+            end
+          end
+          current_user.update_attributes(:futures => future_contacts.count, :favorites => favorite_contacts.count)
+        end
+      end
+
+      render json: { result: { contacts: User.contact_info(users) , future_contacts: future_contacts, groups:Group.group_info(groups), destroy_futures:false} }, status: 201
+    end
   end
 
   def update_address_book_stats
