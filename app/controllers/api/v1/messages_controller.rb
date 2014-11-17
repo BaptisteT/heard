@@ -17,9 +17,6 @@ class Api::V1::MessagesController < Api::V1::ApiController
         message.group_id = params[:receiver_id]
         group_text = ' in ' + Group.find(message.group_id).name
       end
-      if params[:creation_date]
-        message.creation_date = params[:creation_date]
-      end
       if message.save
         begin
         receiver = User.find(receiver_id)
@@ -228,6 +225,6 @@ class Api::V1::MessagesController < Api::V1::ApiController
   private
 
     def message_params
-      params.permit(:record)
+      params.permit(:record, :creation_date, :message_type)
     end 
 end
