@@ -22,7 +22,8 @@ class Api::V1::MessagesController < Api::V1::ApiController
         receiver = User.find(receiver_id)
         if (receiver.push_token and not current_user.blocked_by_user(receiver_id))
           #notif params
-          text = 'New message from ' + current_user.first_name + group_text
+          message_type = message.record_file_name == 'Picture' ? 'photo ' : 'message '
+          text = 'New ' + message_type +'from ' + current_user.first_name + group_text
           badge_number = receiver.unread_messages.count
 
           response_message = ""
