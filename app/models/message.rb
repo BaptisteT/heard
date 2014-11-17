@@ -19,6 +19,7 @@ class Message < ActiveRecord::Base
       receiver_id: self.receiver_id,
       sender_id: self.sender_id,
       group_id: self.group_id,
+      message_type: self.record_name,
       date: self.creation_date == 0 ? self.created_at.to_time.to_i : self.creation_date,
       opened: self.opened }
   end
