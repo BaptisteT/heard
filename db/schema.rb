@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141010113538) do
+ActiveRecord::Schema.define(version: 20141117152913) do
 
   create_table "blockades", force: true do |t|
     t.integer  "blocker_id"
@@ -48,6 +48,18 @@ ActiveRecord::Schema.define(version: 20141010113538) do
     t.datetime "updated_at"
   end
 
+  create_table "group_memberships", force: true do |t|
+    t.integer "user_id"
+    t.integer "group_id"
+  end
+
+  create_table "groups", force: true do |t|
+    t.string   "name"
+    t.integer  "members_number"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "invited_numbers", force: true do |t|
     t.string   "phone_number"
     t.datetime "created_at"
@@ -63,6 +75,7 @@ ActiveRecord::Schema.define(version: 20141010113538) do
   create_table "messages", force: true do |t|
     t.integer  "sender_id"
     t.integer  "receiver_id"
+    t.integer  "group_id"
     t.boolean  "opened"
     t.string   "record_file_name"
     t.string   "record_content_type"
@@ -71,6 +84,7 @@ ActiveRecord::Schema.define(version: 20141010113538) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "future",              default: false
+    t.integer  "creation_date",       default: 0
   end
 
   create_table "prospects", force: true do |t|
@@ -119,6 +133,7 @@ ActiveRecord::Schema.define(version: 20141010113538) do
     t.string   "fb_last_name"
     t.string   "fb_gender"
     t.string   "fb_locale"
+    t.string   "email"
     t.integer  "initial_messages_nb"
     t.integer  "text_received_nb"
   end
