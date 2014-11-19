@@ -164,7 +164,9 @@ class Api::V1::UsersController < Api::V1::ApiController
 
   def get_contacts_and_futures
     if !params["contact_infos"]
-      render json: { result: { message: "No contact"} }, status: 201
+      # Get groups
+      groups = current_user.groups
+      render json: { result: { groups:Group.group_info(groups)} }, status: 201
     else 
       contact_numbers = []
       future_contacts = []
