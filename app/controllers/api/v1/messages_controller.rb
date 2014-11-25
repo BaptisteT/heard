@@ -226,6 +226,6 @@ class Api::V1::MessagesController < Api::V1::ApiController
   private
 
     def message_params
-      params.permit(:record, :creation_date, :text)
+      params.permit(:record, :creation_date, :text, :text_position)
     end 
 end

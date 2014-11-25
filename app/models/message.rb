@@ -21,6 +21,7 @@ class Message < ActiveRecord::Base
       group_id: self.group_id,
       message_type: self.record_file_name,
       text: self.text,
+      text_position: self.text_position,
       date: self.creation_date == 0 ? self.created_at.to_time.to_i : self.creation_date,
       opened: self.opened }
   end
