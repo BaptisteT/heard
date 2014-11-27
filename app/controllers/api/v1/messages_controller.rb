@@ -22,12 +22,12 @@ class Api::V1::MessagesController < Api::V1::ApiController
         receiver = User.find(receiver_id)
         if (receiver.push_token and not current_user.blocked_by_user(receiver_id))
           #notif params
-          text = ''
+          text = ""
 
           if message.record_file_name == 'Picture'
             text = "New \u{1f4f7} from " + current_user.first_name + group_text
           elsif message.record_file_name == 'Audio_Emoji'
-            text = current_user.first_name + group_text + ": \u{1f4f7}"
+            text = current_user.first_name + group_text + ": " + [message.text.to_i(16)].pack("U*")
           else
             text = "New \u{1f50a} from " + current_user.first_name + group_text
           end 
