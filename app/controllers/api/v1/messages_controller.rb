@@ -22,8 +22,16 @@ class Api::V1::MessagesController < Api::V1::ApiController
         receiver = User.find(receiver_id)
         if (receiver.push_token and not current_user.blocked_by_user(receiver_id))
           #notif params
-          message_type = message.record_file_name == 'Picture' ? 'photo ' : 'message '
-          text = 'New ' + message_type +'from ' + current_user.first_name + group_text
+          text = ''
+
+          if message.record_file_name == 'Picture'
+            text = 'New /u{1f4f7} from ' + current_user.first_name + group_text
+          elsif message.record_file_name == 'Audio_Emoji'
+            text = current_user.first_name + group_text + ": /u{#{message.text}}"
+          else
+            text = 'New /u{1f50a} from ' + current_user.first_name + group_text
+          end 
+
           badge_number = receiver.unread_messages.count
 
           response_message = ""
@@ -37,7 +45,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
           end
 
           if (params[:is_group] and params[:is_group]=="1" and receiver.unread_messages.where(:group_id => params[:receiver_id]).count <= 3) or 
-            receiver.unread_messages.where(:sender_id => current_user.id).count <= 3
+            receiver.unread_messages.where(:sender_id => current_user.id).count <= 3 or message.record_file_name == 'Picture'
             notification = Grocer::Notification.new(
               device_token:      receiver.push_token,
               alert:             text,
