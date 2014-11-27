@@ -25,3 +25,4 @@ gem 'jquery-rails'
 gem 'rails_12factor', group: :production
 
 gem 'grocer'
+gem 'emojimmy' #to support utf8mb4

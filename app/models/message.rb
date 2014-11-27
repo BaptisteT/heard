@@ -5,6 +5,8 @@ class Message < ActiveRecord::Base
   validates :sender_id, presence: true
   validates :receiver_id, presence: true
 
+  stores_emoji_characters :text
+
   #Interpolation 
   Paperclip.interpolates :file_name do |attachment, style|
     attachment.instance.id.to_s + "_" + attachment.name.to_s

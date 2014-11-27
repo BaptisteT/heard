@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true
   validates :last_name, presence: true
 
+  stores_emoji_characters :first_name, :last_name
+
   #Interpolation 
   Paperclip.interpolates :file_name do |attachment, style|
     attachment.instance.id.to_s + "_" + attachment.name.to_s
