@@ -27,7 +27,7 @@ class Api::V1::MessagesController < Api::V1::ApiController
           if message.record_file_name == 'Picture'
             text = "New \u{1f4f7} from " + current_user.first_name + group_text
           elsif message.record_file_name == 'Audio_Emoji'
-            text = current_user.first_name + group_text + ": \u{#{message.text}}"
+            text = current_user.first_name + group_text + ": \u{1f4f7}"
           else
             text = "New \u{1f50a} from " + current_user.first_name + group_text
           end 
