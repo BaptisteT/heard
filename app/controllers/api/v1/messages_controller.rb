@@ -25,11 +25,11 @@ class Api::V1::MessagesController < Api::V1::ApiController
           text = ''
 
           if message.record_file_name == 'Picture'
-            text = "New \u{1f4f7} from " + current_user.first_name + group_text
+            text = 'New /u{1f4f7} from ' + current_user.first_name + group_text
           elsif message.record_file_name == 'Audio_Emoji'
-            text = current_user.first_name + group_text + ": \u{#{message.text}}"
+            text = current_user.first_name + group_text + ": /u{#{message.text}}"
           else
-            text = "New \u{1f50a} from " + current_user.first_name + group_text
+            text = 'New /u{1f50a} from ' + current_user.first_name + group_text
           end 
 
           badge_number = receiver.unread_messages.count
