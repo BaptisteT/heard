@@ -9,9 +9,9 @@ namespace :notification do
           pusher = nil
 
           if user.phone_number.include?"+33"
-            text = 'Les groupes d\'amis sont disponibles sur Waved!'
-          else
-            text = 'Group chat is now available on Waved!'
+            text = "\u{1f4f7} Tu peux maintenant envoyer des photos sur Waved! \u{1f4f7}"
+          else\u{1f4f7}
+            text = "\u{1f4f7} You can now send photos on Waved! \u{1f4f7}"
           end
 
           if user.is_beta_tester
