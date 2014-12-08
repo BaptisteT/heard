@@ -163,27 +163,28 @@ class Api::V1::MessagesController < Api::V1::ApiController
 
   def mark_as_opened
     message = Message.find(params[:message_id])
-    message.update_attributes(:opened => true)
+    if !message.opened
+      message.update_attributes(:opened => true)
 
-    if !message.group_id or message.group_id == 0
-      # if this is last message unread from this user, send silent notif
-      receiver = User.find(message.receiver_id)
-      sender = User.find(message.sender_id)
-      if (sender.push_token && receiver.unread_messages.where(sender_id: sender.id).count == 0)
-        if sender.is_beta_tester
-          pusher = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril")
+      if !message.group_id or message.group_id == 0
+        # if this is last message unread from this user, send silent notif
+        receiver = User.find(message.receiver_id)
+        sender = User.find(message.sender_id)
+        if (sender.push_token && receiver.unread_messages.where(sender_id: sender.id).count == 0)
+          if sender.is_beta_tester
+            pusher = Grocer.pusher(certificate: 'app/assets/cert.pem', passphrase:  "djibril")
+          else
+            pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
+          end
+          notification = Grocer::Notification.new(
+                device_token:      sender.push_token,
+                custom: {:message_id => message.id, :receiver_id => receiver.id})
+          pusher.push(notification)
         else
-          pusher = Grocer.pusher(certificate: 'app/assets/WavedProdCert&Key.pem', passphrase: ENV['CERT_PASS'], gateway: "gateway.push.apple.com")
+          logger.debug "DID NOT SEND A NOTIF" 
         end
-        notification = Grocer::Notification.new(
-              device_token:      sender.push_token,
-              custom: {:message_id => message.id, :receiver_id => receiver.id})
-        pusher.push(notification)
-      else
-        logger.debug "DID NOT SEND A NOTIF" 
       end
     end
-
     render json: { result: { message: ["Message successfully updated"] } }, status: 201
   end
 
