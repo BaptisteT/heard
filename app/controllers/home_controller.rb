@@ -10,6 +10,9 @@ class HomeController < ApplicationController
   def index
   end
 
+  def affiz
+  end
+
   def text_link
     invited_number = InvitedNumber.new
     invited_number.phone_number = params[:number]

@@ -9,6 +9,7 @@ Heard::Application.routes.draw do
   get "/stats" => "home#stats"
   get "/sender_stats" => "home#sender_stats"
   get "/active_users" => "home#active_users"
+  get "/affiz" => "home#affiz"
 
   #Sinatra app to monitor queues provided by sidekiq/web
   mount Sidekiq::Web, at: '/sidekiq'
